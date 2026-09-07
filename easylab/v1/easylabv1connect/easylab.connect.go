@@ -11,7 +11,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	v1 "forgejo.develop.10.199.64.20.nip.io/easylab/easylab-proto/easylab/v1"
+	v1 "github.com/easylab-platform/easylab-proto/easylab/v1"
 	http "net/http"
 	strings "strings"
 )
@@ -82,6 +82,14 @@ const (
 	LabServiceCreateBranchProcedure = "/easylab.v1.LabService/CreateBranch"
 	// LabServiceFileHistoryProcedure is the fully-qualified name of the LabService's FileHistory RPC.
 	LabServiceFileHistoryProcedure = "/easylab.v1.LabService/FileHistory"
+	// LabServiceSearchProcedure is the fully-qualified name of the LabService's Search RPC.
+	LabServiceSearchProcedure = "/easylab.v1.LabService/Search"
+	// LabServiceGraphProcedure is the fully-qualified name of the LabService's Graph RPC.
+	LabServiceGraphProcedure = "/easylab.v1.LabService/Graph"
+	// LabServiceCompareProcedure is the fully-qualified name of the LabService's Compare RPC.
+	LabServiceCompareProcedure = "/easylab.v1.LabService/Compare"
+	// LabServiceRebaseProcedure is the fully-qualified name of the LabService's Rebase RPC.
+	LabServiceRebaseProcedure = "/easylab.v1.LabService/Rebase"
 	// OpsServiceOpsStatusProcedure is the fully-qualified name of the OpsService's OpsStatus RPC.
 	OpsServiceOpsStatusProcedure = "/easylab.v1.OpsService/OpsStatus"
 	// OpsServiceListNamespacesProcedure is the fully-qualified name of the OpsService's ListNamespaces
@@ -118,6 +126,8 @@ const (
 	OpsServiceRunProcedure = "/easylab.v1.OpsService/Run"
 	// OpsServiceTaskLogProcedure is the fully-qualified name of the OpsService's TaskLog RPC.
 	OpsServiceTaskLogProcedure = "/easylab.v1.OpsService/TaskLog"
+	// OpsServiceSyncProcedure is the fully-qualified name of the OpsService's Sync RPC.
+	OpsServiceSyncProcedure = "/easylab.v1.OpsService/Sync"
 	// RegistryServiceListPackageTypesProcedure is the fully-qualified name of the RegistryService's
 	// ListPackageTypes RPC.
 	RegistryServiceListPackageTypesProcedure = "/easylab.v1.RegistryService/ListPackageTypes"
@@ -161,6 +171,10 @@ type LabServiceClient interface {
 	DeleteBranch(context.Context, *connect.Request[v1.DeleteBranchRequest]) (*connect.Response[v1.DeleteBranchResponse], error)
 	CreateBranch(context.Context, *connect.Request[v1.CreateBranchRequest]) (*connect.Response[v1.CreateBranchResponse], error)
 	FileHistory(context.Context, *connect.Request[v1.FileHistoryRequest]) (*connect.Response[v1.FileHistoryResponse], error)
+	Search(context.Context, *connect.Request[v1.SearchRequest]) (*connect.Response[v1.SearchResponse], error)
+	Graph(context.Context, *connect.Request[v1.GraphRequest]) (*connect.Response[v1.GraphResponse], error)
+	Compare(context.Context, *connect.Request[v1.CompareRequest]) (*connect.Response[v1.CompareResponse], error)
+	Rebase(context.Context, *connect.Request[v1.RebaseRequest]) (*connect.Response[v1.RebaseResponse], error)
 }
 
 // NewLabServiceClient constructs a client for the easylab.v1.LabService service. By default, it
@@ -300,6 +314,30 @@ func NewLabServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(labServiceMethods.ByName("FileHistory")),
 			connect.WithClientOptions(opts...),
 		),
+		search: connect.NewClient[v1.SearchRequest, v1.SearchResponse](
+			httpClient,
+			baseURL+LabServiceSearchProcedure,
+			connect.WithSchema(labServiceMethods.ByName("Search")),
+			connect.WithClientOptions(opts...),
+		),
+		graph: connect.NewClient[v1.GraphRequest, v1.GraphResponse](
+			httpClient,
+			baseURL+LabServiceGraphProcedure,
+			connect.WithSchema(labServiceMethods.ByName("Graph")),
+			connect.WithClientOptions(opts...),
+		),
+		compare: connect.NewClient[v1.CompareRequest, v1.CompareResponse](
+			httpClient,
+			baseURL+LabServiceCompareProcedure,
+			connect.WithSchema(labServiceMethods.ByName("Compare")),
+			connect.WithClientOptions(opts...),
+		),
+		rebase: connect.NewClient[v1.RebaseRequest, v1.RebaseResponse](
+			httpClient,
+			baseURL+LabServiceRebaseProcedure,
+			connect.WithSchema(labServiceMethods.ByName("Rebase")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -326,6 +364,10 @@ type labServiceClient struct {
 	deleteBranch *connect.Client[v1.DeleteBranchRequest, v1.DeleteBranchResponse]
 	createBranch *connect.Client[v1.CreateBranchRequest, v1.CreateBranchResponse]
 	fileHistory  *connect.Client[v1.FileHistoryRequest, v1.FileHistoryResponse]
+	search       *connect.Client[v1.SearchRequest, v1.SearchResponse]
+	graph        *connect.Client[v1.GraphRequest, v1.GraphResponse]
+	compare      *connect.Client[v1.CompareRequest, v1.CompareResponse]
+	rebase       *connect.Client[v1.RebaseRequest, v1.RebaseResponse]
 }
 
 // Health calls easylab.v1.LabService.Health.
@@ -433,6 +475,26 @@ func (c *labServiceClient) FileHistory(ctx context.Context, req *connect.Request
 	return c.fileHistory.CallUnary(ctx, req)
 }
 
+// Search calls easylab.v1.LabService.Search.
+func (c *labServiceClient) Search(ctx context.Context, req *connect.Request[v1.SearchRequest]) (*connect.Response[v1.SearchResponse], error) {
+	return c.search.CallUnary(ctx, req)
+}
+
+// Graph calls easylab.v1.LabService.Graph.
+func (c *labServiceClient) Graph(ctx context.Context, req *connect.Request[v1.GraphRequest]) (*connect.Response[v1.GraphResponse], error) {
+	return c.graph.CallUnary(ctx, req)
+}
+
+// Compare calls easylab.v1.LabService.Compare.
+func (c *labServiceClient) Compare(ctx context.Context, req *connect.Request[v1.CompareRequest]) (*connect.Response[v1.CompareResponse], error) {
+	return c.compare.CallUnary(ctx, req)
+}
+
+// Rebase calls easylab.v1.LabService.Rebase.
+func (c *labServiceClient) Rebase(ctx context.Context, req *connect.Request[v1.RebaseRequest]) (*connect.Response[v1.RebaseResponse], error) {
+	return c.rebase.CallUnary(ctx, req)
+}
+
 // LabServiceHandler is an implementation of the easylab.v1.LabService service.
 type LabServiceHandler interface {
 	Health(context.Context, *connect.Request[v1.HealthRequest]) (*connect.Response[v1.HealthResponse], error)
@@ -456,6 +518,10 @@ type LabServiceHandler interface {
 	DeleteBranch(context.Context, *connect.Request[v1.DeleteBranchRequest]) (*connect.Response[v1.DeleteBranchResponse], error)
 	CreateBranch(context.Context, *connect.Request[v1.CreateBranchRequest]) (*connect.Response[v1.CreateBranchResponse], error)
 	FileHistory(context.Context, *connect.Request[v1.FileHistoryRequest]) (*connect.Response[v1.FileHistoryResponse], error)
+	Search(context.Context, *connect.Request[v1.SearchRequest]) (*connect.Response[v1.SearchResponse], error)
+	Graph(context.Context, *connect.Request[v1.GraphRequest]) (*connect.Response[v1.GraphResponse], error)
+	Compare(context.Context, *connect.Request[v1.CompareRequest]) (*connect.Response[v1.CompareResponse], error)
+	Rebase(context.Context, *connect.Request[v1.RebaseRequest]) (*connect.Response[v1.RebaseResponse], error)
 }
 
 // NewLabServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -591,6 +657,30 @@ func NewLabServiceHandler(svc LabServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(labServiceMethods.ByName("FileHistory")),
 		connect.WithHandlerOptions(opts...),
 	)
+	labServiceSearchHandler := connect.NewUnaryHandler(
+		LabServiceSearchProcedure,
+		svc.Search,
+		connect.WithSchema(labServiceMethods.ByName("Search")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceGraphHandler := connect.NewUnaryHandler(
+		LabServiceGraphProcedure,
+		svc.Graph,
+		connect.WithSchema(labServiceMethods.ByName("Graph")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceCompareHandler := connect.NewUnaryHandler(
+		LabServiceCompareProcedure,
+		svc.Compare,
+		connect.WithSchema(labServiceMethods.ByName("Compare")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceRebaseHandler := connect.NewUnaryHandler(
+		LabServiceRebaseProcedure,
+		svc.Rebase,
+		connect.WithSchema(labServiceMethods.ByName("Rebase")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/easylab.v1.LabService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case LabServiceHealthProcedure:
@@ -635,6 +725,14 @@ func NewLabServiceHandler(svc LabServiceHandler, opts ...connect.HandlerOption) 
 			labServiceCreateBranchHandler.ServeHTTP(w, r)
 		case LabServiceFileHistoryProcedure:
 			labServiceFileHistoryHandler.ServeHTTP(w, r)
+		case LabServiceSearchProcedure:
+			labServiceSearchHandler.ServeHTTP(w, r)
+		case LabServiceGraphProcedure:
+			labServiceGraphHandler.ServeHTTP(w, r)
+		case LabServiceCompareProcedure:
+			labServiceCompareHandler.ServeHTTP(w, r)
+		case LabServiceRebaseProcedure:
+			labServiceRebaseHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -728,6 +826,22 @@ func (UnimplementedLabServiceHandler) FileHistory(context.Context, *connect.Requ
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.FileHistory is not implemented"))
 }
 
+func (UnimplementedLabServiceHandler) Search(context.Context, *connect.Request[v1.SearchRequest]) (*connect.Response[v1.SearchResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.Search is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) Graph(context.Context, *connect.Request[v1.GraphRequest]) (*connect.Response[v1.GraphResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.Graph is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) Compare(context.Context, *connect.Request[v1.CompareRequest]) (*connect.Response[v1.CompareResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.Compare is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) Rebase(context.Context, *connect.Request[v1.RebaseRequest]) (*connect.Response[v1.RebaseResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.Rebase is not implemented"))
+}
+
 // OpsServiceClient is a client for the easylab.v1.OpsService service.
 type OpsServiceClient interface {
 	OpsStatus(context.Context, *connect.Request[v1.OpsStatusRequest]) (*connect.Response[v1.OpsStatusResponse], error)
@@ -746,6 +860,7 @@ type OpsServiceClient interface {
 	Build(context.Context, *connect.Request[v1.BuildRequest]) (*connect.Response[v1.BuildResponse], error)
 	Run(context.Context, *connect.Request[v1.RunRequest]) (*connect.Response[v1.RunResponse], error)
 	TaskLog(context.Context, *connect.Request[v1.TaskLogRequest]) (*connect.ServerStreamForClient[v1.TaskLogResponse], error)
+	Sync(context.Context, *connect.Request[v1.SyncRequest]) (*connect.Response[v1.SyncResponse], error)
 }
 
 // NewOpsServiceClient constructs a client for the easylab.v1.OpsService service. By default, it
@@ -855,6 +970,12 @@ func NewOpsServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(opsServiceMethods.ByName("TaskLog")),
 			connect.WithClientOptions(opts...),
 		),
+		sync: connect.NewClient[v1.SyncRequest, v1.SyncResponse](
+			httpClient,
+			baseURL+OpsServiceSyncProcedure,
+			connect.WithSchema(opsServiceMethods.ByName("Sync")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -876,6 +997,7 @@ type opsServiceClient struct {
 	build          *connect.Client[v1.BuildRequest, v1.BuildResponse]
 	run            *connect.Client[v1.RunRequest, v1.RunResponse]
 	taskLog        *connect.Client[v1.TaskLogRequest, v1.TaskLogResponse]
+	sync           *connect.Client[v1.SyncRequest, v1.SyncResponse]
 }
 
 // OpsStatus calls easylab.v1.OpsService.OpsStatus.
@@ -958,6 +1080,11 @@ func (c *opsServiceClient) TaskLog(ctx context.Context, req *connect.Request[v1.
 	return c.taskLog.CallServerStream(ctx, req)
 }
 
+// Sync calls easylab.v1.OpsService.Sync.
+func (c *opsServiceClient) Sync(ctx context.Context, req *connect.Request[v1.SyncRequest]) (*connect.Response[v1.SyncResponse], error) {
+	return c.sync.CallUnary(ctx, req)
+}
+
 // OpsServiceHandler is an implementation of the easylab.v1.OpsService service.
 type OpsServiceHandler interface {
 	OpsStatus(context.Context, *connect.Request[v1.OpsStatusRequest]) (*connect.Response[v1.OpsStatusResponse], error)
@@ -976,6 +1103,7 @@ type OpsServiceHandler interface {
 	Build(context.Context, *connect.Request[v1.BuildRequest]) (*connect.Response[v1.BuildResponse], error)
 	Run(context.Context, *connect.Request[v1.RunRequest]) (*connect.Response[v1.RunResponse], error)
 	TaskLog(context.Context, *connect.Request[v1.TaskLogRequest], *connect.ServerStream[v1.TaskLogResponse]) error
+	Sync(context.Context, *connect.Request[v1.SyncRequest]) (*connect.Response[v1.SyncResponse], error)
 }
 
 // NewOpsServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -1081,6 +1209,12 @@ func NewOpsServiceHandler(svc OpsServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(opsServiceMethods.ByName("TaskLog")),
 		connect.WithHandlerOptions(opts...),
 	)
+	opsServiceSyncHandler := connect.NewUnaryHandler(
+		OpsServiceSyncProcedure,
+		svc.Sync,
+		connect.WithSchema(opsServiceMethods.ByName("Sync")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/easylab.v1.OpsService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case OpsServiceOpsStatusProcedure:
@@ -1115,6 +1249,8 @@ func NewOpsServiceHandler(svc OpsServiceHandler, opts ...connect.HandlerOption) 
 			opsServiceRunHandler.ServeHTTP(w, r)
 		case OpsServiceTaskLogProcedure:
 			opsServiceTaskLogHandler.ServeHTTP(w, r)
+		case OpsServiceSyncProcedure:
+			opsServiceSyncHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -1186,6 +1322,10 @@ func (UnimplementedOpsServiceHandler) Run(context.Context, *connect.Request[v1.R
 
 func (UnimplementedOpsServiceHandler) TaskLog(context.Context, *connect.Request[v1.TaskLogRequest], *connect.ServerStream[v1.TaskLogResponse]) error {
 	return connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.OpsService.TaskLog is not implemented"))
+}
+
+func (UnimplementedOpsServiceHandler) Sync(context.Context, *connect.Request[v1.SyncRequest]) (*connect.Response[v1.SyncResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.OpsService.Sync is not implemented"))
 }
 
 // RegistryServiceClient is a client for the easylab.v1.RegistryService service.

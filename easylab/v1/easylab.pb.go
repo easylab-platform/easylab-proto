@@ -13,7 +13,6 @@ package easylabv1
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	structpb "google.golang.org/protobuf/types/known/structpb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -3287,24 +3286,84 @@ func (x *GetServiceResponse) GetPods() []*ServicePod {
 	return nil
 }
 
+// PortSpec maps a container port to a published service port.
+type PortSpec struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Container     int32                  `protobuf:"varint,1,opt,name=container,proto3" json:"container,omitempty"`
+	Service       int32                  `protobuf:"varint,2,opt,name=service,proto3" json:"service,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PortSpec) Reset() {
+	*x = PortSpec{}
+	mi := &file_easylab_v1_easylab_proto_msgTypes[55]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PortSpec) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PortSpec) ProtoMessage() {}
+
+func (x *PortSpec) ProtoReflect() protoreflect.Message {
+	mi := &file_easylab_v1_easylab_proto_msgTypes[55]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PortSpec.ProtoReflect.Descriptor instead.
+func (*PortSpec) Descriptor() ([]byte, []int) {
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{55}
+}
+
+func (x *PortSpec) GetContainer() int32 {
+	if x != nil {
+		return x.Container
+	}
+	return 0
+}
+
+func (x *PortSpec) GetService() int32 {
+	if x != nil {
+		return x.Service
+	}
+	return 0
+}
+
 type LaunchServiceRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Image         string                 `protobuf:"bytes,1,opt,name=image,proto3" json:"image,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Session       string                 `protobuf:"bytes,3,opt,name=session,proto3" json:"session,omitempty"`
-	Org           string                 `protobuf:"bytes,4,opt,name=org,proto3" json:"org,omitempty"`
-	Repo          string                 `protobuf:"bytes,5,opt,name=repo,proto3" json:"repo,omitempty"`
-	Namespace     string                 `protobuf:"bytes,6,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	Resources     *structpb.Struct       `protobuf:"bytes,7,opt,name=resources,proto3" json:"resources,omitempty"`
-	Ports         []int32                `protobuf:"varint,8,rep,packed,name=ports,proto3" json:"ports,omitempty"`
-	Bare          bool                   `protobuf:"varint,9,opt,name=bare,proto3" json:"bare,omitempty"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Image         string                 `protobuf:"bytes,2,opt,name=image,proto3" json:"image,omitempty"`
+	Kind          string                 `protobuf:"bytes,3,opt,name=kind,proto3" json:"kind,omitempty"` // "bare" (sandbox/worker pod) | "deployment"
+	Command       string                 `protobuf:"bytes,4,opt,name=command,proto3" json:"command,omitempty"`
+	Ports         []*PortSpec            `protobuf:"bytes,5,rep,name=ports,proto3" json:"ports,omitempty"`
+	Env           map[string]string      `protobuf:"bytes,6,rep,name=env,proto3" json:"env,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Replicas      int32                  `protobuf:"varint,7,opt,name=replicas,proto3" json:"replicas,omitempty"`
+	Group         string                 `protobuf:"bytes,8,opt,name=group,proto3" json:"group,omitempty"`
+	Network       string                 `protobuf:"bytes,9,opt,name=network,proto3" json:"network,omitempty"`
+	Namespace     string                 `protobuf:"bytes,10,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Cpus          string                 `protobuf:"bytes,11,opt,name=cpus,proto3" json:"cpus,omitempty"`
+	MemoryBytes   uint64                 `protobuf:"varint,12,opt,name=memory_bytes,json=memoryBytes,proto3" json:"memory_bytes,omitempty"`
+	Annotations   map[string]string      `protobuf:"bytes,13,rep,name=annotations,proto3" json:"annotations,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Session       string                 `protobuf:"bytes,14,opt,name=session,proto3" json:"session,omitempty"`
+	Org           string                 `protobuf:"bytes,15,opt,name=org,proto3" json:"org,omitempty"`
+	Repo          string                 `protobuf:"bytes,16,opt,name=repo,proto3" json:"repo,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *LaunchServiceRequest) Reset() {
 	*x = LaunchServiceRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[55]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[56]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3316,7 +3375,7 @@ func (x *LaunchServiceRequest) String() string {
 func (*LaunchServiceRequest) ProtoMessage() {}
 
 func (x *LaunchServiceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[55]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[56]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3329,7 +3388,14 @@ func (x *LaunchServiceRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LaunchServiceRequest.ProtoReflect.Descriptor instead.
 func (*LaunchServiceRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{55}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{56}
+}
+
+func (x *LaunchServiceRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
 }
 
 func (x *LaunchServiceRequest) GetImage() string {
@@ -3339,11 +3405,81 @@ func (x *LaunchServiceRequest) GetImage() string {
 	return ""
 }
 
-func (x *LaunchServiceRequest) GetName() string {
+func (x *LaunchServiceRequest) GetKind() string {
 	if x != nil {
-		return x.Name
+		return x.Kind
 	}
 	return ""
+}
+
+func (x *LaunchServiceRequest) GetCommand() string {
+	if x != nil {
+		return x.Command
+	}
+	return ""
+}
+
+func (x *LaunchServiceRequest) GetPorts() []*PortSpec {
+	if x != nil {
+		return x.Ports
+	}
+	return nil
+}
+
+func (x *LaunchServiceRequest) GetEnv() map[string]string {
+	if x != nil {
+		return x.Env
+	}
+	return nil
+}
+
+func (x *LaunchServiceRequest) GetReplicas() int32 {
+	if x != nil {
+		return x.Replicas
+	}
+	return 0
+}
+
+func (x *LaunchServiceRequest) GetGroup() string {
+	if x != nil {
+		return x.Group
+	}
+	return ""
+}
+
+func (x *LaunchServiceRequest) GetNetwork() string {
+	if x != nil {
+		return x.Network
+	}
+	return ""
+}
+
+func (x *LaunchServiceRequest) GetNamespace() string {
+	if x != nil {
+		return x.Namespace
+	}
+	return ""
+}
+
+func (x *LaunchServiceRequest) GetCpus() string {
+	if x != nil {
+		return x.Cpus
+	}
+	return ""
+}
+
+func (x *LaunchServiceRequest) GetMemoryBytes() uint64 {
+	if x != nil {
+		return x.MemoryBytes
+	}
+	return 0
+}
+
+func (x *LaunchServiceRequest) GetAnnotations() map[string]string {
+	if x != nil {
+		return x.Annotations
+	}
+	return nil
 }
 
 func (x *LaunchServiceRequest) GetSession() string {
@@ -3367,34 +3503,6 @@ func (x *LaunchServiceRequest) GetRepo() string {
 	return ""
 }
 
-func (x *LaunchServiceRequest) GetNamespace() string {
-	if x != nil {
-		return x.Namespace
-	}
-	return ""
-}
-
-func (x *LaunchServiceRequest) GetResources() *structpb.Struct {
-	if x != nil {
-		return x.Resources
-	}
-	return nil
-}
-
-func (x *LaunchServiceRequest) GetPorts() []int32 {
-	if x != nil {
-		return x.Ports
-	}
-	return nil
-}
-
-func (x *LaunchServiceRequest) GetBare() bool {
-	if x != nil {
-		return x.Bare
-	}
-	return false
-}
-
 type LaunchServiceResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Ok            bool                   `protobuf:"varint,1,opt,name=ok,proto3" json:"ok,omitempty"`
@@ -3407,7 +3515,7 @@ type LaunchServiceResponse struct {
 
 func (x *LaunchServiceResponse) Reset() {
 	*x = LaunchServiceResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[56]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[57]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3419,7 +3527,7 @@ func (x *LaunchServiceResponse) String() string {
 func (*LaunchServiceResponse) ProtoMessage() {}
 
 func (x *LaunchServiceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[56]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[57]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3432,7 +3540,7 @@ func (x *LaunchServiceResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LaunchServiceResponse.ProtoReflect.Descriptor instead.
 func (*LaunchServiceResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{56}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{57}
 }
 
 func (x *LaunchServiceResponse) GetOk() bool {
@@ -3472,7 +3580,7 @@ type DeleteServiceRequest struct {
 
 func (x *DeleteServiceRequest) Reset() {
 	*x = DeleteServiceRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[57]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[58]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3484,7 +3592,7 @@ func (x *DeleteServiceRequest) String() string {
 func (*DeleteServiceRequest) ProtoMessage() {}
 
 func (x *DeleteServiceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[57]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[58]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3497,7 +3605,7 @@ func (x *DeleteServiceRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteServiceRequest.ProtoReflect.Descriptor instead.
 func (*DeleteServiceRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{57}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{58}
 }
 
 func (x *DeleteServiceRequest) GetName() string {
@@ -3517,7 +3625,7 @@ type DeleteServiceResponse struct {
 
 func (x *DeleteServiceResponse) Reset() {
 	*x = DeleteServiceResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[58]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[59]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3529,7 +3637,7 @@ func (x *DeleteServiceResponse) String() string {
 func (*DeleteServiceResponse) ProtoMessage() {}
 
 func (x *DeleteServiceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[58]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[59]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3542,7 +3650,7 @@ func (x *DeleteServiceResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteServiceResponse.ProtoReflect.Descriptor instead.
 func (*DeleteServiceResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{58}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{59}
 }
 
 func (x *DeleteServiceResponse) GetOk() bool {
@@ -3569,7 +3677,7 @@ type ScaleServiceRequest struct {
 
 func (x *ScaleServiceRequest) Reset() {
 	*x = ScaleServiceRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[59]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[60]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3581,7 +3689,7 @@ func (x *ScaleServiceRequest) String() string {
 func (*ScaleServiceRequest) ProtoMessage() {}
 
 func (x *ScaleServiceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[59]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[60]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3594,7 +3702,7 @@ func (x *ScaleServiceRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScaleServiceRequest.ProtoReflect.Descriptor instead.
 func (*ScaleServiceRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{59}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{60}
 }
 
 func (x *ScaleServiceRequest) GetName() string {
@@ -3621,7 +3729,7 @@ type ScaleServiceResponse struct {
 
 func (x *ScaleServiceResponse) Reset() {
 	*x = ScaleServiceResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[60]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[61]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3633,7 +3741,7 @@ func (x *ScaleServiceResponse) String() string {
 func (*ScaleServiceResponse) ProtoMessage() {}
 
 func (x *ScaleServiceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[60]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[61]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3646,7 +3754,7 @@ func (x *ScaleServiceResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScaleServiceResponse.ProtoReflect.Descriptor instead.
 func (*ScaleServiceResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{60}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{61}
 }
 
 func (x *ScaleServiceResponse) GetOk() bool {
@@ -3675,7 +3783,7 @@ type SandboxExecRequest struct {
 
 func (x *SandboxExecRequest) Reset() {
 	*x = SandboxExecRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[61]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[62]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3687,7 +3795,7 @@ func (x *SandboxExecRequest) String() string {
 func (*SandboxExecRequest) ProtoMessage() {}
 
 func (x *SandboxExecRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[61]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[62]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3700,7 +3808,7 @@ func (x *SandboxExecRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SandboxExecRequest.ProtoReflect.Descriptor instead.
 func (*SandboxExecRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{61}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{62}
 }
 
 func (x *SandboxExecRequest) GetName() string {
@@ -3745,7 +3853,7 @@ type SandboxExecResponse struct {
 
 func (x *SandboxExecResponse) Reset() {
 	*x = SandboxExecResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[62]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[63]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3757,7 +3865,7 @@ func (x *SandboxExecResponse) String() string {
 func (*SandboxExecResponse) ProtoMessage() {}
 
 func (x *SandboxExecResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[62]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[63]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3770,7 +3878,7 @@ func (x *SandboxExecResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SandboxExecResponse.ProtoReflect.Descriptor instead.
 func (*SandboxExecResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{62}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{63}
 }
 
 func (x *SandboxExecResponse) GetExitCode() int32 {
@@ -3825,7 +3933,7 @@ type SandboxReadRequest struct {
 
 func (x *SandboxReadRequest) Reset() {
 	*x = SandboxReadRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[63]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[64]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3837,7 +3945,7 @@ func (x *SandboxReadRequest) String() string {
 func (*SandboxReadRequest) ProtoMessage() {}
 
 func (x *SandboxReadRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[63]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[64]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3850,7 +3958,7 @@ func (x *SandboxReadRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SandboxReadRequest.ProtoReflect.Descriptor instead.
 func (*SandboxReadRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{63}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{64}
 }
 
 func (x *SandboxReadRequest) GetName() string {
@@ -3877,7 +3985,7 @@ type SandboxReadResponse struct {
 
 func (x *SandboxReadResponse) Reset() {
 	*x = SandboxReadResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[64]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[65]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3889,7 +3997,7 @@ func (x *SandboxReadResponse) String() string {
 func (*SandboxReadResponse) ProtoMessage() {}
 
 func (x *SandboxReadResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[64]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[65]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3902,7 +4010,7 @@ func (x *SandboxReadResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SandboxReadResponse.ProtoReflect.Descriptor instead.
 func (*SandboxReadResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{64}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{65}
 }
 
 func (x *SandboxReadResponse) GetContent() string {
@@ -3930,7 +4038,7 @@ type SandboxWriteRequest struct {
 
 func (x *SandboxWriteRequest) Reset() {
 	*x = SandboxWriteRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[65]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[66]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3942,7 +4050,7 @@ func (x *SandboxWriteRequest) String() string {
 func (*SandboxWriteRequest) ProtoMessage() {}
 
 func (x *SandboxWriteRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[65]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[66]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3955,7 +4063,7 @@ func (x *SandboxWriteRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SandboxWriteRequest.ProtoReflect.Descriptor instead.
 func (*SandboxWriteRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{65}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{66}
 }
 
 func (x *SandboxWriteRequest) GetName() string {
@@ -3989,7 +4097,7 @@ type SandboxWriteResponse struct {
 
 func (x *SandboxWriteResponse) Reset() {
 	*x = SandboxWriteResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[66]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[67]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4001,7 +4109,7 @@ func (x *SandboxWriteResponse) String() string {
 func (*SandboxWriteResponse) ProtoMessage() {}
 
 func (x *SandboxWriteResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[66]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[67]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4014,7 +4122,7 @@ func (x *SandboxWriteResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SandboxWriteResponse.ProtoReflect.Descriptor instead.
 func (*SandboxWriteResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{66}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{67}
 }
 
 func (x *SandboxWriteResponse) GetOk() bool {
@@ -4041,7 +4149,7 @@ type SandboxJobKillRequest struct {
 
 func (x *SandboxJobKillRequest) Reset() {
 	*x = SandboxJobKillRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[67]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[68]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4053,7 +4161,7 @@ func (x *SandboxJobKillRequest) String() string {
 func (*SandboxJobKillRequest) ProtoMessage() {}
 
 func (x *SandboxJobKillRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[67]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[68]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4066,7 +4174,7 @@ func (x *SandboxJobKillRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SandboxJobKillRequest.ProtoReflect.Descriptor instead.
 func (*SandboxJobKillRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{67}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{68}
 }
 
 func (x *SandboxJobKillRequest) GetName() string {
@@ -4093,7 +4201,7 @@ type SandboxJobKillResponse struct {
 
 func (x *SandboxJobKillResponse) Reset() {
 	*x = SandboxJobKillResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[68]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[69]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4105,7 +4213,7 @@ func (x *SandboxJobKillResponse) String() string {
 func (*SandboxJobKillResponse) ProtoMessage() {}
 
 func (x *SandboxJobKillResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[68]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[69]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4118,7 +4226,7 @@ func (x *SandboxJobKillResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SandboxJobKillResponse.ProtoReflect.Descriptor instead.
 func (*SandboxJobKillResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{68}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{69}
 }
 
 func (x *SandboxJobKillResponse) GetOk() bool {
@@ -4144,7 +4252,7 @@ type TaskLogRequest struct {
 
 func (x *TaskLogRequest) Reset() {
 	*x = TaskLogRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[69]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[70]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4156,7 +4264,7 @@ func (x *TaskLogRequest) String() string {
 func (*TaskLogRequest) ProtoMessage() {}
 
 func (x *TaskLogRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[69]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[70]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4169,7 +4277,7 @@ func (x *TaskLogRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TaskLogRequest.ProtoReflect.Descriptor instead.
 func (*TaskLogRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{69}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{70}
 }
 
 func (x *TaskLogRequest) GetId() string {
@@ -4187,7 +4295,7 @@ type ListTasksRequest struct {
 
 func (x *ListTasksRequest) Reset() {
 	*x = ListTasksRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[70]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[71]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4199,7 +4307,7 @@ func (x *ListTasksRequest) String() string {
 func (*ListTasksRequest) ProtoMessage() {}
 
 func (x *ListTasksRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[70]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[71]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4212,7 +4320,7 @@ func (x *ListTasksRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListTasksRequest.ProtoReflect.Descriptor instead.
 func (*ListTasksRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{70}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{71}
 }
 
 type TaskEntry struct {
@@ -4229,7 +4337,7 @@ type TaskEntry struct {
 
 func (x *TaskEntry) Reset() {
 	*x = TaskEntry{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[71]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[72]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4241,7 +4349,7 @@ func (x *TaskEntry) String() string {
 func (*TaskEntry) ProtoMessage() {}
 
 func (x *TaskEntry) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[71]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[72]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4254,7 +4362,7 @@ func (x *TaskEntry) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TaskEntry.ProtoReflect.Descriptor instead.
 func (*TaskEntry) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{71}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{72}
 }
 
 func (x *TaskEntry) GetId() string {
@@ -4308,7 +4416,7 @@ type ListTasksResponse struct {
 
 func (x *ListTasksResponse) Reset() {
 	*x = ListTasksResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[72]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[73]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4320,7 +4428,7 @@ func (x *ListTasksResponse) String() string {
 func (*ListTasksResponse) ProtoMessage() {}
 
 func (x *ListTasksResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[72]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[73]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4333,7 +4441,7 @@ func (x *ListTasksResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListTasksResponse.ProtoReflect.Descriptor instead.
 func (*ListTasksResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{72}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{73}
 }
 
 func (x *ListTasksResponse) GetTasks() []*TaskEntry {
@@ -4352,7 +4460,7 @@ type GetTaskRequest struct {
 
 func (x *GetTaskRequest) Reset() {
 	*x = GetTaskRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[73]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[74]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4364,7 +4472,7 @@ func (x *GetTaskRequest) String() string {
 func (*GetTaskRequest) ProtoMessage() {}
 
 func (x *GetTaskRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[73]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[74]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4377,7 +4485,7 @@ func (x *GetTaskRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTaskRequest.ProtoReflect.Descriptor instead.
 func (*GetTaskRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{73}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{74}
 }
 
 func (x *GetTaskRequest) GetId() string {
@@ -4396,7 +4504,7 @@ type GetTaskResponse struct {
 
 func (x *GetTaskResponse) Reset() {
 	*x = GetTaskResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[74]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[75]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4408,7 +4516,7 @@ func (x *GetTaskResponse) String() string {
 func (*GetTaskResponse) ProtoMessage() {}
 
 func (x *GetTaskResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[74]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[75]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4421,7 +4529,7 @@ func (x *GetTaskResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTaskResponse.ProtoReflect.Descriptor instead.
 func (*GetTaskResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{74}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{75}
 }
 
 func (x *GetTaskResponse) GetTask() *TaskEntry {
@@ -4446,7 +4554,7 @@ type BuildRequest struct {
 
 func (x *BuildRequest) Reset() {
 	*x = BuildRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[75]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[76]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4458,7 +4566,7 @@ func (x *BuildRequest) String() string {
 func (*BuildRequest) ProtoMessage() {}
 
 func (x *BuildRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[75]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[76]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4471,7 +4579,7 @@ func (x *BuildRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BuildRequest.ProtoReflect.Descriptor instead.
 func (*BuildRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{75}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{76}
 }
 
 func (x *BuildRequest) GetOrg() string {
@@ -4535,7 +4643,7 @@ type BuildResponse struct {
 
 func (x *BuildResponse) Reset() {
 	*x = BuildResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[76]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[77]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4547,7 +4655,7 @@ func (x *BuildResponse) String() string {
 func (*BuildResponse) ProtoMessage() {}
 
 func (x *BuildResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[76]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[77]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4560,7 +4668,7 @@ func (x *BuildResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BuildResponse.ProtoReflect.Descriptor instead.
 func (*BuildResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{76}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{77}
 }
 
 func (x *BuildResponse) GetOk() bool {
@@ -4607,7 +4715,7 @@ type RunRequest struct {
 
 func (x *RunRequest) Reset() {
 	*x = RunRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[77]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[78]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4619,7 +4727,7 @@ func (x *RunRequest) String() string {
 func (*RunRequest) ProtoMessage() {}
 
 func (x *RunRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[77]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[78]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4632,7 +4740,7 @@ func (x *RunRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RunRequest.ProtoReflect.Descriptor instead.
 func (*RunRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{77}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{78}
 }
 
 func (x *RunRequest) GetProtocol() string {
@@ -4702,7 +4810,7 @@ type RunResponse struct {
 
 func (x *RunResponse) Reset() {
 	*x = RunResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[78]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[79]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4714,7 +4822,7 @@ func (x *RunResponse) String() string {
 func (*RunResponse) ProtoMessage() {}
 
 func (x *RunResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[78]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[79]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4727,7 +4835,7 @@ func (x *RunResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RunResponse.ProtoReflect.Descriptor instead.
 func (*RunResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{78}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{79}
 }
 
 func (x *RunResponse) GetOk() bool {
@@ -4759,7 +4867,7 @@ type OpsStatusRequest struct {
 
 func (x *OpsStatusRequest) Reset() {
 	*x = OpsStatusRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[79]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[80]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4771,7 +4879,7 @@ func (x *OpsStatusRequest) String() string {
 func (*OpsStatusRequest) ProtoMessage() {}
 
 func (x *OpsStatusRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[79]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[80]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4784,7 +4892,7 @@ func (x *OpsStatusRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OpsStatusRequest.ProtoReflect.Descriptor instead.
 func (*OpsStatusRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{79}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{80}
 }
 
 type OpsStatusResponse struct {
@@ -4798,7 +4906,7 @@ type OpsStatusResponse struct {
 
 func (x *OpsStatusResponse) Reset() {
 	*x = OpsStatusResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[80]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[81]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4810,7 +4918,7 @@ func (x *OpsStatusResponse) String() string {
 func (*OpsStatusResponse) ProtoMessage() {}
 
 func (x *OpsStatusResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[80]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[81]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4823,7 +4931,7 @@ func (x *OpsStatusResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OpsStatusResponse.ProtoReflect.Descriptor instead.
 func (*OpsStatusResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{80}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{81}
 }
 
 func (x *OpsStatusResponse) GetOk() bool {
@@ -4855,7 +4963,7 @@ type ListNamespacesRequest struct {
 
 func (x *ListNamespacesRequest) Reset() {
 	*x = ListNamespacesRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[81]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[82]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4867,7 +4975,7 @@ func (x *ListNamespacesRequest) String() string {
 func (*ListNamespacesRequest) ProtoMessage() {}
 
 func (x *ListNamespacesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[81]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[82]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4880,7 +4988,7 @@ func (x *ListNamespacesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListNamespacesRequest.ProtoReflect.Descriptor instead.
 func (*ListNamespacesRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{81}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{82}
 }
 
 type NamespaceInfo struct {
@@ -4892,7 +5000,7 @@ type NamespaceInfo struct {
 
 func (x *NamespaceInfo) Reset() {
 	*x = NamespaceInfo{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[82]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[83]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4904,7 +5012,7 @@ func (x *NamespaceInfo) String() string {
 func (*NamespaceInfo) ProtoMessage() {}
 
 func (x *NamespaceInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[82]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[83]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4917,7 +5025,7 @@ func (x *NamespaceInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NamespaceInfo.ProtoReflect.Descriptor instead.
 func (*NamespaceInfo) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{82}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{83}
 }
 
 func (x *NamespaceInfo) GetName() string {
@@ -4936,7 +5044,7 @@ type ListNamespacesResponse struct {
 
 func (x *ListNamespacesResponse) Reset() {
 	*x = ListNamespacesResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[83]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[84]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4948,7 +5056,7 @@ func (x *ListNamespacesResponse) String() string {
 func (*ListNamespacesResponse) ProtoMessage() {}
 
 func (x *ListNamespacesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[83]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[84]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4961,7 +5069,7 @@ func (x *ListNamespacesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListNamespacesResponse.ProtoReflect.Descriptor instead.
 func (*ListNamespacesResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{83}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{84}
 }
 
 func (x *ListNamespacesResponse) GetNamespaces() []*NamespaceInfo {
@@ -4982,7 +5090,7 @@ type PackageTypeEntry struct {
 
 func (x *PackageTypeEntry) Reset() {
 	*x = PackageTypeEntry{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[84]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[85]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4994,7 +5102,7 @@ func (x *PackageTypeEntry) String() string {
 func (*PackageTypeEntry) ProtoMessage() {}
 
 func (x *PackageTypeEntry) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[84]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[85]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5007,7 +5115,7 @@ func (x *PackageTypeEntry) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PackageTypeEntry.ProtoReflect.Descriptor instead.
 func (*PackageTypeEntry) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{84}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{85}
 }
 
 func (x *PackageTypeEntry) GetType() string {
@@ -5039,7 +5147,7 @@ type ListPackageTypesRequest struct {
 
 func (x *ListPackageTypesRequest) Reset() {
 	*x = ListPackageTypesRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[85]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[86]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5051,7 +5159,7 @@ func (x *ListPackageTypesRequest) String() string {
 func (*ListPackageTypesRequest) ProtoMessage() {}
 
 func (x *ListPackageTypesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[85]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[86]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5064,7 +5172,7 @@ func (x *ListPackageTypesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListPackageTypesRequest.ProtoReflect.Descriptor instead.
 func (*ListPackageTypesRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{85}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{86}
 }
 
 type ListPackageTypesResponse struct {
@@ -5076,7 +5184,7 @@ type ListPackageTypesResponse struct {
 
 func (x *ListPackageTypesResponse) Reset() {
 	*x = ListPackageTypesResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[86]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[87]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5088,7 +5196,7 @@ func (x *ListPackageTypesResponse) String() string {
 func (*ListPackageTypesResponse) ProtoMessage() {}
 
 func (x *ListPackageTypesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[86]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[87]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5101,7 +5209,7 @@ func (x *ListPackageTypesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListPackageTypesResponse.ProtoReflect.Descriptor instead.
 func (*ListPackageTypesResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{86}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{87}
 }
 
 func (x *ListPackageTypesResponse) GetPackages() []*PackageTypeEntry {
@@ -5123,7 +5231,7 @@ type PackageVersion struct {
 
 func (x *PackageVersion) Reset() {
 	*x = PackageVersion{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[87]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[88]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5135,7 +5243,7 @@ func (x *PackageVersion) String() string {
 func (*PackageVersion) ProtoMessage() {}
 
 func (x *PackageVersion) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[87]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[88]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5148,7 +5256,7 @@ func (x *PackageVersion) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PackageVersion.ProtoReflect.Descriptor instead.
 func (*PackageVersion) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{87}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{88}
 }
 
 func (x *PackageVersion) GetVersion() string {
@@ -5191,7 +5299,7 @@ type PackageVersionFile struct {
 
 func (x *PackageVersionFile) Reset() {
 	*x = PackageVersionFile{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[88]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[89]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5203,7 +5311,7 @@ func (x *PackageVersionFile) String() string {
 func (*PackageVersionFile) ProtoMessage() {}
 
 func (x *PackageVersionFile) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[88]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[89]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5216,7 +5324,7 @@ func (x *PackageVersionFile) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PackageVersionFile.ProtoReflect.Descriptor instead.
 func (*PackageVersionFile) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{88}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{89}
 }
 
 func (x *PackageVersionFile) GetId() string {
@@ -5258,7 +5366,7 @@ type PackageInfo struct {
 
 func (x *PackageInfo) Reset() {
 	*x = PackageInfo{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[89]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[90]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5270,7 +5378,7 @@ func (x *PackageInfo) String() string {
 func (*PackageInfo) ProtoMessage() {}
 
 func (x *PackageInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[89]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[90]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5283,7 +5391,7 @@ func (x *PackageInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PackageInfo.ProtoReflect.Descriptor instead.
 func (*PackageInfo) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{89}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{90}
 }
 
 func (x *PackageInfo) GetType() string {
@@ -5321,7 +5429,7 @@ type ListPackagesRequest struct {
 
 func (x *ListPackagesRequest) Reset() {
 	*x = ListPackagesRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[90]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[91]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5333,7 +5441,7 @@ func (x *ListPackagesRequest) String() string {
 func (*ListPackagesRequest) ProtoMessage() {}
 
 func (x *ListPackagesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[90]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[91]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5346,7 +5454,7 @@ func (x *ListPackagesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListPackagesRequest.ProtoReflect.Descriptor instead.
 func (*ListPackagesRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{90}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{91}
 }
 
 func (x *ListPackagesRequest) GetType() string {
@@ -5400,7 +5508,7 @@ type ListPackagesResponse struct {
 
 func (x *ListPackagesResponse) Reset() {
 	*x = ListPackagesResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[91]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[92]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5412,7 +5520,7 @@ func (x *ListPackagesResponse) String() string {
 func (*ListPackagesResponse) ProtoMessage() {}
 
 func (x *ListPackagesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[91]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[92]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5425,7 +5533,7 @@ func (x *ListPackagesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListPackagesResponse.ProtoReflect.Descriptor instead.
 func (*ListPackagesResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{91}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{92}
 }
 
 func (x *ListPackagesResponse) GetPackages() []*PackageInfo {
@@ -5445,7 +5553,7 @@ type PackageVersionsRequest struct {
 
 func (x *PackageVersionsRequest) Reset() {
 	*x = PackageVersionsRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[92]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[93]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5457,7 +5565,7 @@ func (x *PackageVersionsRequest) String() string {
 func (*PackageVersionsRequest) ProtoMessage() {}
 
 func (x *PackageVersionsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[92]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[93]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5470,7 +5578,7 @@ func (x *PackageVersionsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PackageVersionsRequest.ProtoReflect.Descriptor instead.
 func (*PackageVersionsRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{92}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{93}
 }
 
 func (x *PackageVersionsRequest) GetType() string {
@@ -5496,7 +5604,7 @@ type PackageVersionsResponse struct {
 
 func (x *PackageVersionsResponse) Reset() {
 	*x = PackageVersionsResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[93]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[94]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5508,7 +5616,7 @@ func (x *PackageVersionsResponse) String() string {
 func (*PackageVersionsResponse) ProtoMessage() {}
 
 func (x *PackageVersionsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[93]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[94]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5521,7 +5629,7 @@ func (x *PackageVersionsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PackageVersionsResponse.ProtoReflect.Descriptor instead.
 func (*PackageVersionsResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{93}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{94}
 }
 
 func (x *PackageVersionsResponse) GetVersions() []*PackageVersion {
@@ -5541,7 +5649,7 @@ type DeletePackageRequest struct {
 
 func (x *DeletePackageRequest) Reset() {
 	*x = DeletePackageRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[94]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[95]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5553,7 +5661,7 @@ func (x *DeletePackageRequest) String() string {
 func (*DeletePackageRequest) ProtoMessage() {}
 
 func (x *DeletePackageRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[94]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[95]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5566,7 +5674,7 @@ func (x *DeletePackageRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletePackageRequest.ProtoReflect.Descriptor instead.
 func (*DeletePackageRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{94}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{95}
 }
 
 func (x *DeletePackageRequest) GetType() string {
@@ -5593,7 +5701,7 @@ type DeletePackageResponse struct {
 
 func (x *DeletePackageResponse) Reset() {
 	*x = DeletePackageResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[95]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[96]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5605,7 +5713,7 @@ func (x *DeletePackageResponse) String() string {
 func (*DeletePackageResponse) ProtoMessage() {}
 
 func (x *DeletePackageResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[95]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[96]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5618,7 +5726,7 @@ func (x *DeletePackageResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletePackageResponse.ProtoReflect.Descriptor instead.
 func (*DeletePackageResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{95}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{96}
 }
 
 func (x *DeletePackageResponse) GetOk() bool {
@@ -5646,7 +5754,7 @@ type DeletePackageVersionRequest struct {
 
 func (x *DeletePackageVersionRequest) Reset() {
 	*x = DeletePackageVersionRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[96]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[97]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5658,7 +5766,7 @@ func (x *DeletePackageVersionRequest) String() string {
 func (*DeletePackageVersionRequest) ProtoMessage() {}
 
 func (x *DeletePackageVersionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[96]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[97]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5671,7 +5779,7 @@ func (x *DeletePackageVersionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletePackageVersionRequest.ProtoReflect.Descriptor instead.
 func (*DeletePackageVersionRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{96}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{97}
 }
 
 func (x *DeletePackageVersionRequest) GetType() string {
@@ -5705,7 +5813,7 @@ type DeletePackageVersionResponse struct {
 
 func (x *DeletePackageVersionResponse) Reset() {
 	*x = DeletePackageVersionResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[97]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[98]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5717,7 +5825,7 @@ func (x *DeletePackageVersionResponse) String() string {
 func (*DeletePackageVersionResponse) ProtoMessage() {}
 
 func (x *DeletePackageVersionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[97]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[98]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5730,7 +5838,7 @@ func (x *DeletePackageVersionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletePackageVersionResponse.ProtoReflect.Descriptor instead.
 func (*DeletePackageVersionResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{97}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{98}
 }
 
 func (x *DeletePackageVersionResponse) GetOk() bool {
@@ -5758,7 +5866,7 @@ type PublishSpec struct {
 
 func (x *PublishSpec) Reset() {
 	*x = PublishSpec{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[98]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[99]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5770,7 +5878,7 @@ func (x *PublishSpec) String() string {
 func (*PublishSpec) ProtoMessage() {}
 
 func (x *PublishSpec) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[98]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[99]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5783,7 +5891,7 @@ func (x *PublishSpec) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PublishSpec.ProtoReflect.Descriptor instead.
 func (*PublishSpec) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{98}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{99}
 }
 
 func (x *PublishSpec) GetProtocol() string {
@@ -5815,7 +5923,7 @@ type ListPublishSpecsRequest struct {
 
 func (x *ListPublishSpecsRequest) Reset() {
 	*x = ListPublishSpecsRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[99]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[100]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5827,7 +5935,7 @@ func (x *ListPublishSpecsRequest) String() string {
 func (*ListPublishSpecsRequest) ProtoMessage() {}
 
 func (x *ListPublishSpecsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[99]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[100]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5840,7 +5948,7 @@ func (x *ListPublishSpecsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListPublishSpecsRequest.ProtoReflect.Descriptor instead.
 func (*ListPublishSpecsRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{99}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{100}
 }
 
 type ListPublishSpecsResponse struct {
@@ -5852,7 +5960,7 @@ type ListPublishSpecsResponse struct {
 
 func (x *ListPublishSpecsResponse) Reset() {
 	*x = ListPublishSpecsResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[100]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[101]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5864,7 +5972,7 @@ func (x *ListPublishSpecsResponse) String() string {
 func (*ListPublishSpecsResponse) ProtoMessage() {}
 
 func (x *ListPublishSpecsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[100]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[101]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5877,7 +5985,7 @@ func (x *ListPublishSpecsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListPublishSpecsResponse.ProtoReflect.Descriptor instead.
 func (*ListPublishSpecsResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{100}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{101}
 }
 
 func (x *ListPublishSpecsResponse) GetSpecs() []*PublishSpec {
@@ -5895,7 +6003,7 @@ type HealthRequest struct {
 
 func (x *HealthRequest) Reset() {
 	*x = HealthRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[101]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[102]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5907,7 +6015,7 @@ func (x *HealthRequest) String() string {
 func (*HealthRequest) ProtoMessage() {}
 
 func (x *HealthRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[101]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[102]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5920,7 +6028,7 @@ func (x *HealthRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HealthRequest.ProtoReflect.Descriptor instead.
 func (*HealthRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{101}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{102}
 }
 
 type HealthResponse struct {
@@ -5933,7 +6041,7 @@ type HealthResponse struct {
 
 func (x *HealthResponse) Reset() {
 	*x = HealthResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[102]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[103]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5945,7 +6053,7 @@ func (x *HealthResponse) String() string {
 func (*HealthResponse) ProtoMessage() {}
 
 func (x *HealthResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[102]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[103]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5958,7 +6066,7 @@ func (x *HealthResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HealthResponse.ProtoReflect.Descriptor instead.
 func (*HealthResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{102}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{103}
 }
 
 func (x *HealthResponse) GetOk() bool {
@@ -5983,7 +6091,7 @@ type StatusRequest struct {
 
 func (x *StatusRequest) Reset() {
 	*x = StatusRequest{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[103]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[104]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5995,7 +6103,7 @@ func (x *StatusRequest) String() string {
 func (*StatusRequest) ProtoMessage() {}
 
 func (x *StatusRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[103]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[104]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6008,7 +6116,7 @@ func (x *StatusRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StatusRequest.ProtoReflect.Descriptor instead.
 func (*StatusRequest) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{103}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{104}
 }
 
 type StatusResponse struct {
@@ -6023,7 +6131,7 @@ type StatusResponse struct {
 
 func (x *StatusResponse) Reset() {
 	*x = StatusResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[104]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[105]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6035,7 +6143,7 @@ func (x *StatusResponse) String() string {
 func (*StatusResponse) ProtoMessage() {}
 
 func (x *StatusResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[104]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[105]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6048,7 +6156,7 @@ func (x *StatusResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StatusResponse.ProtoReflect.Descriptor instead.
 func (*StatusResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{104}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{105}
 }
 
 func (x *StatusResponse) GetOk() bool {
@@ -6079,6 +6187,690 @@ func (x *StatusResponse) GetSandboxes() int32 {
 	return 0
 }
 
+type SearchRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Org           string                 `protobuf:"bytes,1,opt,name=org,proto3" json:"org,omitempty"`
+	Repo          string                 `protobuf:"bytes,2,opt,name=repo,proto3" json:"repo,omitempty"`
+	Ref           string                 `protobuf:"bytes,3,opt,name=ref,proto3" json:"ref,omitempty"`
+	Q             string                 `protobuf:"bytes,4,opt,name=q,proto3" json:"q,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SearchRequest) Reset() {
+	*x = SearchRequest{}
+	mi := &file_easylab_v1_easylab_proto_msgTypes[106]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SearchRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchRequest) ProtoMessage() {}
+
+func (x *SearchRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_easylab_v1_easylab_proto_msgTypes[106]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchRequest.ProtoReflect.Descriptor instead.
+func (*SearchRequest) Descriptor() ([]byte, []int) {
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{106}
+}
+
+func (x *SearchRequest) GetOrg() string {
+	if x != nil {
+		return x.Org
+	}
+	return ""
+}
+
+func (x *SearchRequest) GetRepo() string {
+	if x != nil {
+		return x.Repo
+	}
+	return ""
+}
+
+func (x *SearchRequest) GetRef() string {
+	if x != nil {
+		return x.Ref
+	}
+	return ""
+}
+
+func (x *SearchRequest) GetQ() string {
+	if x != nil {
+		return x.Q
+	}
+	return ""
+}
+
+type SearchResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Matches       []string               `protobuf:"bytes,1,rep,name=matches,proto3" json:"matches,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SearchResponse) Reset() {
+	*x = SearchResponse{}
+	mi := &file_easylab_v1_easylab_proto_msgTypes[107]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SearchResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchResponse) ProtoMessage() {}
+
+func (x *SearchResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_easylab_v1_easylab_proto_msgTypes[107]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchResponse.ProtoReflect.Descriptor instead.
+func (*SearchResponse) Descriptor() ([]byte, []int) {
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{107}
+}
+
+func (x *SearchResponse) GetMatches() []string {
+	if x != nil {
+		return x.Matches
+	}
+	return nil
+}
+
+type GraphRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Org           string                 `protobuf:"bytes,1,opt,name=org,proto3" json:"org,omitempty"`
+	Repo          string                 `protobuf:"bytes,2,opt,name=repo,proto3" json:"repo,omitempty"`
+	Limit         int32                  `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GraphRequest) Reset() {
+	*x = GraphRequest{}
+	mi := &file_easylab_v1_easylab_proto_msgTypes[108]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GraphRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GraphRequest) ProtoMessage() {}
+
+func (x *GraphRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_easylab_v1_easylab_proto_msgTypes[108]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GraphRequest.ProtoReflect.Descriptor instead.
+func (*GraphRequest) Descriptor() ([]byte, []int) {
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{108}
+}
+
+func (x *GraphRequest) GetOrg() string {
+	if x != nil {
+		return x.Org
+	}
+	return ""
+}
+
+func (x *GraphRequest) GetRepo() string {
+	if x != nil {
+		return x.Repo
+	}
+	return ""
+}
+
+func (x *GraphRequest) GetLimit() int32 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+type GraphNode struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RevisionId    string                 `protobuf:"bytes,1,opt,name=revision_id,json=revisionId,proto3" json:"revision_id,omitempty"`
+	Snapshot      string                 `protobuf:"bytes,2,opt,name=snapshot,proto3" json:"snapshot,omitempty"`
+	Message       string                 `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	Author        string                 `protobuf:"bytes,4,opt,name=author,proto3" json:"author,omitempty"`
+	Parents       []string               `protobuf:"bytes,5,rep,name=parents,proto3" json:"parents,omitempty"`
+	IsHead        bool                   `protobuf:"varint,6,opt,name=is_head,json=isHead,proto3" json:"is_head,omitempty"`
+	CreatedMs     int64                  `protobuf:"varint,7,opt,name=created_ms,json=createdMs,proto3" json:"created_ms,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GraphNode) Reset() {
+	*x = GraphNode{}
+	mi := &file_easylab_v1_easylab_proto_msgTypes[109]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GraphNode) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GraphNode) ProtoMessage() {}
+
+func (x *GraphNode) ProtoReflect() protoreflect.Message {
+	mi := &file_easylab_v1_easylab_proto_msgTypes[109]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GraphNode.ProtoReflect.Descriptor instead.
+func (*GraphNode) Descriptor() ([]byte, []int) {
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{109}
+}
+
+func (x *GraphNode) GetRevisionId() string {
+	if x != nil {
+		return x.RevisionId
+	}
+	return ""
+}
+
+func (x *GraphNode) GetSnapshot() string {
+	if x != nil {
+		return x.Snapshot
+	}
+	return ""
+}
+
+func (x *GraphNode) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *GraphNode) GetAuthor() string {
+	if x != nil {
+		return x.Author
+	}
+	return ""
+}
+
+func (x *GraphNode) GetParents() []string {
+	if x != nil {
+		return x.Parents
+	}
+	return nil
+}
+
+func (x *GraphNode) GetIsHead() bool {
+	if x != nil {
+		return x.IsHead
+	}
+	return false
+}
+
+func (x *GraphNode) GetCreatedMs() int64 {
+	if x != nil {
+		return x.CreatedMs
+	}
+	return 0
+}
+
+type GraphResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Nodes         []*GraphNode           `protobuf:"bytes,1,rep,name=nodes,proto3" json:"nodes,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GraphResponse) Reset() {
+	*x = GraphResponse{}
+	mi := &file_easylab_v1_easylab_proto_msgTypes[110]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GraphResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GraphResponse) ProtoMessage() {}
+
+func (x *GraphResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_easylab_v1_easylab_proto_msgTypes[110]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GraphResponse.ProtoReflect.Descriptor instead.
+func (*GraphResponse) Descriptor() ([]byte, []int) {
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{110}
+}
+
+func (x *GraphResponse) GetNodes() []*GraphNode {
+	if x != nil {
+		return x.Nodes
+	}
+	return nil
+}
+
+type CompareRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Org           string                 `protobuf:"bytes,1,opt,name=org,proto3" json:"org,omitempty"`
+	Repo          string                 `protobuf:"bytes,2,opt,name=repo,proto3" json:"repo,omitempty"`
+	From          string                 `protobuf:"bytes,3,opt,name=from,proto3" json:"from,omitempty"`
+	To            string                 `protobuf:"bytes,4,opt,name=to,proto3" json:"to,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CompareRequest) Reset() {
+	*x = CompareRequest{}
+	mi := &file_easylab_v1_easylab_proto_msgTypes[111]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CompareRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CompareRequest) ProtoMessage() {}
+
+func (x *CompareRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_easylab_v1_easylab_proto_msgTypes[111]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CompareRequest.ProtoReflect.Descriptor instead.
+func (*CompareRequest) Descriptor() ([]byte, []int) {
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{111}
+}
+
+func (x *CompareRequest) GetOrg() string {
+	if x != nil {
+		return x.Org
+	}
+	return ""
+}
+
+func (x *CompareRequest) GetRepo() string {
+	if x != nil {
+		return x.Repo
+	}
+	return ""
+}
+
+func (x *CompareRequest) GetFrom() string {
+	if x != nil {
+		return x.From
+	}
+	return ""
+}
+
+func (x *CompareRequest) GetTo() string {
+	if x != nil {
+		return x.To
+	}
+	return ""
+}
+
+type CompareResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Files         []*DiffFile            `protobuf:"bytes,1,rep,name=files,proto3" json:"files,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CompareResponse) Reset() {
+	*x = CompareResponse{}
+	mi := &file_easylab_v1_easylab_proto_msgTypes[112]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CompareResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CompareResponse) ProtoMessage() {}
+
+func (x *CompareResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_easylab_v1_easylab_proto_msgTypes[112]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CompareResponse.ProtoReflect.Descriptor instead.
+func (*CompareResponse) Descriptor() ([]byte, []int) {
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{112}
+}
+
+func (x *CompareResponse) GetFiles() []*DiffFile {
+	if x != nil {
+		return x.Files
+	}
+	return nil
+}
+
+type RebaseRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Org           string                 `protobuf:"bytes,1,opt,name=org,proto3" json:"org,omitempty"`
+	Repo          string                 `protobuf:"bytes,2,opt,name=repo,proto3" json:"repo,omitempty"`
+	Rev           string                 `protobuf:"bytes,3,opt,name=rev,proto3" json:"rev,omitempty"`
+	NewParents    []string               `protobuf:"bytes,4,rep,name=new_parents,json=newParents,proto3" json:"new_parents,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RebaseRequest) Reset() {
+	*x = RebaseRequest{}
+	mi := &file_easylab_v1_easylab_proto_msgTypes[113]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RebaseRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RebaseRequest) ProtoMessage() {}
+
+func (x *RebaseRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_easylab_v1_easylab_proto_msgTypes[113]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RebaseRequest.ProtoReflect.Descriptor instead.
+func (*RebaseRequest) Descriptor() ([]byte, []int) {
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{113}
+}
+
+func (x *RebaseRequest) GetOrg() string {
+	if x != nil {
+		return x.Org
+	}
+	return ""
+}
+
+func (x *RebaseRequest) GetRepo() string {
+	if x != nil {
+		return x.Repo
+	}
+	return ""
+}
+
+func (x *RebaseRequest) GetRev() string {
+	if x != nil {
+		return x.Rev
+	}
+	return ""
+}
+
+func (x *RebaseRequest) GetNewParents() []string {
+	if x != nil {
+		return x.NewParents
+	}
+	return nil
+}
+
+type RebaseResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RevisionId    string                 `protobuf:"bytes,1,opt,name=revision_id,json=revisionId,proto3" json:"revision_id,omitempty"`
+	Snapshot      string                 `protobuf:"bytes,2,opt,name=snapshot,proto3" json:"snapshot,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RebaseResponse) Reset() {
+	*x = RebaseResponse{}
+	mi := &file_easylab_v1_easylab_proto_msgTypes[114]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RebaseResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RebaseResponse) ProtoMessage() {}
+
+func (x *RebaseResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_easylab_v1_easylab_proto_msgTypes[114]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RebaseResponse.ProtoReflect.Descriptor instead.
+func (*RebaseResponse) Descriptor() ([]byte, []int) {
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{114}
+}
+
+func (x *RebaseResponse) GetRevisionId() string {
+	if x != nil {
+		return x.RevisionId
+	}
+	return ""
+}
+
+func (x *RebaseResponse) GetSnapshot() string {
+	if x != nil {
+		return x.Snapshot
+	}
+	return ""
+}
+
+type SyncRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"` // service/container name
+	Org           string                 `protobuf:"bytes,2,opt,name=org,proto3" json:"org,omitempty"`
+	Repo          string                 `protobuf:"bytes,3,opt,name=repo,proto3" json:"repo,omitempty"`
+	Rev           string                 `protobuf:"bytes,4,opt,name=rev,proto3" json:"rev,omitempty"`
+	Namespace     string                 `protobuf:"bytes,5,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Dest          string                 `protobuf:"bytes,6,opt,name=dest,proto3" json:"dest,omitempty"` // extract destination inside the container (default /workspace)
+	Force         bool                   `protobuf:"varint,7,opt,name=force,proto3" json:"force,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SyncRequest) Reset() {
+	*x = SyncRequest{}
+	mi := &file_easylab_v1_easylab_proto_msgTypes[115]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SyncRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SyncRequest) ProtoMessage() {}
+
+func (x *SyncRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_easylab_v1_easylab_proto_msgTypes[115]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SyncRequest.ProtoReflect.Descriptor instead.
+func (*SyncRequest) Descriptor() ([]byte, []int) {
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{115}
+}
+
+func (x *SyncRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *SyncRequest) GetOrg() string {
+	if x != nil {
+		return x.Org
+	}
+	return ""
+}
+
+func (x *SyncRequest) GetRepo() string {
+	if x != nil {
+		return x.Repo
+	}
+	return ""
+}
+
+func (x *SyncRequest) GetRev() string {
+	if x != nil {
+		return x.Rev
+	}
+	return ""
+}
+
+func (x *SyncRequest) GetNamespace() string {
+	if x != nil {
+		return x.Namespace
+	}
+	return ""
+}
+
+func (x *SyncRequest) GetDest() string {
+	if x != nil {
+		return x.Dest
+	}
+	return ""
+}
+
+func (x *SyncRequest) GetForce() bool {
+	if x != nil {
+		return x.Force
+	}
+	return false
+}
+
+type SyncResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Ok            bool                   `protobuf:"varint,1,opt,name=ok,proto3" json:"ok,omitempty"`
+	Files         int32                  `protobuf:"varint,2,opt,name=files,proto3" json:"files,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SyncResponse) Reset() {
+	*x = SyncResponse{}
+	mi := &file_easylab_v1_easylab_proto_msgTypes[116]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SyncResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SyncResponse) ProtoMessage() {}
+
+func (x *SyncResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_easylab_v1_easylab_proto_msgTypes[116]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SyncResponse.ProtoReflect.Descriptor instead.
+func (*SyncResponse) Descriptor() ([]byte, []int) {
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{116}
+}
+
+func (x *SyncResponse) GetOk() bool {
+	if x != nil {
+		return x.Ok
+	}
+	return false
+}
+
+func (x *SyncResponse) GetFiles() int32 {
+	if x != nil {
+		return x.Files
+	}
+	return 0
+}
+
 type TaskLogResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Stream        string                 `protobuf:"bytes,1,opt,name=stream,proto3" json:"stream,omitempty"` // stdout | stderr | state
@@ -6089,7 +6881,7 @@ type TaskLogResponse struct {
 
 func (x *TaskLogResponse) Reset() {
 	*x = TaskLogResponse{}
-	mi := &file_easylab_v1_easylab_proto_msgTypes[105]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[117]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6101,7 +6893,7 @@ func (x *TaskLogResponse) String() string {
 func (*TaskLogResponse) ProtoMessage() {}
 
 func (x *TaskLogResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_easylab_v1_easylab_proto_msgTypes[105]
+	mi := &file_easylab_v1_easylab_proto_msgTypes[117]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6114,7 +6906,7 @@ func (x *TaskLogResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TaskLogResponse.ProtoReflect.Descriptor instead.
 func (*TaskLogResponse) Descriptor() ([]byte, []int) {
-	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{105}
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{117}
 }
 
 func (x *TaskLogResponse) GetStream() string {
@@ -6136,7 +6928,7 @@ var File_easylab_v1_easylab_proto protoreflect.FileDescriptor
 const file_easylab_v1_easylab_proto_rawDesc = "" +
 	"\n" +
 	"\x18easylab/v1/easylab.proto\x12\n" +
-	"easylab.v1\x1a\x1cgoogle/protobuf/struct.proto\"2\n" +
+	"easylab.v1\"2\n" +
 	"\n" +
 	"RepoRefReq\x12\x10\n" +
 	"\x03org\x18\x01 \x01(\tR\x03org\x12\x12\n" +
@@ -6355,17 +7147,34 @@ const file_easylab_v1_easylab_proto_rawDesc = "" +
 	"\x04name\x18\x01 \x01(\tR\x04name\"s\n" +
 	"\x12GetServiceResponse\x121\n" +
 	"\aservice\x18\x01 \x01(\v2\x17.easylab.v1.ServiceInfoR\aservice\x12*\n" +
-	"\x04pods\x18\x02 \x03(\v2\x16.easylab.v1.ServicePodR\x04pods\"\xff\x01\n" +
-	"\x14LaunchServiceRequest\x12\x14\n" +
-	"\x05image\x18\x01 \x01(\tR\x05image\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12\x18\n" +
-	"\asession\x18\x03 \x01(\tR\asession\x12\x10\n" +
-	"\x03org\x18\x04 \x01(\tR\x03org\x12\x12\n" +
-	"\x04repo\x18\x05 \x01(\tR\x04repo\x12\x1c\n" +
-	"\tnamespace\x18\x06 \x01(\tR\tnamespace\x125\n" +
-	"\tresources\x18\a \x01(\v2\x17.google.protobuf.StructR\tresources\x12\x14\n" +
-	"\x05ports\x18\b \x03(\x05R\x05ports\x12\x12\n" +
-	"\x04bare\x18\t \x01(\bR\x04bare\"c\n" +
+	"\x04pods\x18\x02 \x03(\v2\x16.easylab.v1.ServicePodR\x04pods\"B\n" +
+	"\bPortSpec\x12\x1c\n" +
+	"\tcontainer\x18\x01 \x01(\x05R\tcontainer\x12\x18\n" +
+	"\aservice\x18\x02 \x01(\x05R\aservice\"\x85\x05\n" +
+	"\x14LaunchServiceRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
+	"\x05image\x18\x02 \x01(\tR\x05image\x12\x12\n" +
+	"\x04kind\x18\x03 \x01(\tR\x04kind\x12\x18\n" +
+	"\acommand\x18\x04 \x01(\tR\acommand\x12*\n" +
+	"\x05ports\x18\x05 \x03(\v2\x14.easylab.v1.PortSpecR\x05ports\x12;\n" +
+	"\x03env\x18\x06 \x03(\v2).easylab.v1.LaunchServiceRequest.EnvEntryR\x03env\x12\x1a\n" +
+	"\breplicas\x18\a \x01(\x05R\breplicas\x12\x14\n" +
+	"\x05group\x18\b \x01(\tR\x05group\x12\x18\n" +
+	"\anetwork\x18\t \x01(\tR\anetwork\x12\x1c\n" +
+	"\tnamespace\x18\n" +
+	" \x01(\tR\tnamespace\x12\x12\n" +
+	"\x04cpus\x18\v \x01(\tR\x04cpus\x12!\n" +
+	"\fmemory_bytes\x18\f \x01(\x04R\vmemoryBytes\x12S\n" +
+	"\vannotations\x18\r \x03(\v21.easylab.v1.LaunchServiceRequest.AnnotationsEntryR\vannotations\x12\x18\n" +
+	"\asession\x18\x0e \x01(\tR\asession\x12\x10\n" +
+	"\x03org\x18\x0f \x01(\tR\x03org\x12\x12\n" +
+	"\x04repo\x18\x10 \x01(\tR\x04repo\x1a6\n" +
+	"\bEnvEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a>\n" +
+	"\x10AnnotationsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"c\n" +
 	"\x15LaunchServiceResponse\x12\x0e\n" +
 	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\x14\n" +
 	"\x05error\x18\x02 \x01(\tR\x05error\x12\x12\n" +
@@ -6533,14 +7342,65 @@ const file_easylab_v1_easylab_proto_rawDesc = "" +
 	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\tR\aversion\x12\x0e\n" +
 	"\x02db\x18\x03 \x01(\tR\x02db\x12\x1c\n" +
-	"\tsandboxes\x18\x04 \x01(\x05R\tsandboxes\"=\n" +
+	"\tsandboxes\x18\x04 \x01(\x05R\tsandboxes\"U\n" +
+	"\rSearchRequest\x12\x10\n" +
+	"\x03org\x18\x01 \x01(\tR\x03org\x12\x12\n" +
+	"\x04repo\x18\x02 \x01(\tR\x04repo\x12\x10\n" +
+	"\x03ref\x18\x03 \x01(\tR\x03ref\x12\f\n" +
+	"\x01q\x18\x04 \x01(\tR\x01q\"*\n" +
+	"\x0eSearchResponse\x12\x18\n" +
+	"\amatches\x18\x01 \x03(\tR\amatches\"J\n" +
+	"\fGraphRequest\x12\x10\n" +
+	"\x03org\x18\x01 \x01(\tR\x03org\x12\x12\n" +
+	"\x04repo\x18\x02 \x01(\tR\x04repo\x12\x14\n" +
+	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\xcc\x01\n" +
+	"\tGraphNode\x12\x1f\n" +
+	"\vrevision_id\x18\x01 \x01(\tR\n" +
+	"revisionId\x12\x1a\n" +
+	"\bsnapshot\x18\x02 \x01(\tR\bsnapshot\x12\x18\n" +
+	"\amessage\x18\x03 \x01(\tR\amessage\x12\x16\n" +
+	"\x06author\x18\x04 \x01(\tR\x06author\x12\x18\n" +
+	"\aparents\x18\x05 \x03(\tR\aparents\x12\x17\n" +
+	"\ais_head\x18\x06 \x01(\bR\x06isHead\x12\x1d\n" +
+	"\n" +
+	"created_ms\x18\a \x01(\x03R\tcreatedMs\"<\n" +
+	"\rGraphResponse\x12+\n" +
+	"\x05nodes\x18\x01 \x03(\v2\x15.easylab.v1.GraphNodeR\x05nodes\"Z\n" +
+	"\x0eCompareRequest\x12\x10\n" +
+	"\x03org\x18\x01 \x01(\tR\x03org\x12\x12\n" +
+	"\x04repo\x18\x02 \x01(\tR\x04repo\x12\x12\n" +
+	"\x04from\x18\x03 \x01(\tR\x04from\x12\x0e\n" +
+	"\x02to\x18\x04 \x01(\tR\x02to\"=\n" +
+	"\x0fCompareResponse\x12*\n" +
+	"\x05files\x18\x01 \x03(\v2\x14.easylab.v1.DiffFileR\x05files\"h\n" +
+	"\rRebaseRequest\x12\x10\n" +
+	"\x03org\x18\x01 \x01(\tR\x03org\x12\x12\n" +
+	"\x04repo\x18\x02 \x01(\tR\x04repo\x12\x10\n" +
+	"\x03rev\x18\x03 \x01(\tR\x03rev\x12\x1f\n" +
+	"\vnew_parents\x18\x04 \x03(\tR\n" +
+	"newParents\"M\n" +
+	"\x0eRebaseResponse\x12\x1f\n" +
+	"\vrevision_id\x18\x01 \x01(\tR\n" +
+	"revisionId\x12\x1a\n" +
+	"\bsnapshot\x18\x02 \x01(\tR\bsnapshot\"\xa1\x01\n" +
+	"\vSyncRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x10\n" +
+	"\x03org\x18\x02 \x01(\tR\x03org\x12\x12\n" +
+	"\x04repo\x18\x03 \x01(\tR\x04repo\x12\x10\n" +
+	"\x03rev\x18\x04 \x01(\tR\x03rev\x12\x1c\n" +
+	"\tnamespace\x18\x05 \x01(\tR\tnamespace\x12\x12\n" +
+	"\x04dest\x18\x06 \x01(\tR\x04dest\x12\x14\n" +
+	"\x05force\x18\a \x01(\bR\x05force\"4\n" +
+	"\fSyncResponse\x12\x0e\n" +
+	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\x14\n" +
+	"\x05files\x18\x02 \x01(\x05R\x05files\"=\n" +
 	"\x0fTaskLogResponse\x12\x16\n" +
 	"\x06stream\x18\x01 \x01(\tR\x06stream\x12\x12\n" +
 	"\x04line\x18\x02 \x01(\tR\x04line*_\n" +
 	"\vServiceKind\x12\x1c\n" +
 	"\x18SERVICE_KIND_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17SERVICE_KIND_DEPLOYMENT\x10\x01\x12\x15\n" +
-	"\x11SERVICE_KIND_BARE\x10\x022\xd9\v\n" +
+	"\x11SERVICE_KIND_BARE\x10\x022\xdd\r\n" +
 	"\n" +
 	"LabService\x12?\n" +
 	"\x06Health\x12\x19.easylab.v1.HealthRequest\x1a\x1a.easylab.v1.HealthResponse\x12?\n" +
@@ -6566,7 +7426,12 @@ const file_easylab_v1_easylab_proto_rawDesc = "" +
 	"\x05Blame\x12\x18.easylab.v1.BlameRequest\x1a\x19.easylab.v1.BlameResponse\x12Q\n" +
 	"\fDeleteBranch\x12\x1f.easylab.v1.DeleteBranchRequest\x1a .easylab.v1.DeleteBranchResponse\x12Q\n" +
 	"\fCreateBranch\x12\x1f.easylab.v1.CreateBranchRequest\x1a .easylab.v1.CreateBranchResponse\x12N\n" +
-	"\vFileHistory\x12\x1e.easylab.v1.FileHistoryRequest\x1a\x1f.easylab.v1.FileHistoryResponse2\xe4\t\n" +
+	"\vFileHistory\x12\x1e.easylab.v1.FileHistoryRequest\x1a\x1f.easylab.v1.FileHistoryResponse\x12?\n" +
+	"\x06Search\x12\x19.easylab.v1.SearchRequest\x1a\x1a.easylab.v1.SearchResponse\x12<\n" +
+	"\x05Graph\x12\x18.easylab.v1.GraphRequest\x1a\x19.easylab.v1.GraphResponse\x12B\n" +
+	"\aCompare\x12\x1a.easylab.v1.CompareRequest\x1a\x1b.easylab.v1.CompareResponse\x12?\n" +
+	"\x06Rebase\x12\x19.easylab.v1.RebaseRequest\x1a\x1a.easylab.v1.RebaseResponse2\x9f\n" +
+	"\n" +
 	"\n" +
 	"OpsService\x12H\n" +
 	"\tOpsStatus\x12\x1c.easylab.v1.OpsStatusRequest\x1a\x1d.easylab.v1.OpsStatusResponse\x12W\n" +
@@ -6585,14 +7450,15 @@ const file_easylab_v1_easylab_proto_rawDesc = "" +
 	"\aGetTask\x12\x1a.easylab.v1.GetTaskRequest\x1a\x1b.easylab.v1.GetTaskResponse\x12<\n" +
 	"\x05Build\x12\x18.easylab.v1.BuildRequest\x1a\x19.easylab.v1.BuildResponse\x126\n" +
 	"\x03Run\x12\x16.easylab.v1.RunRequest\x1a\x17.easylab.v1.RunResponse\x12D\n" +
-	"\aTaskLog\x12\x1a.easylab.v1.TaskLogRequest\x1a\x1b.easylab.v1.TaskLogResponse0\x012\xbf\x04\n" +
+	"\aTaskLog\x12\x1a.easylab.v1.TaskLogRequest\x1a\x1b.easylab.v1.TaskLogResponse0\x01\x129\n" +
+	"\x04Sync\x12\x17.easylab.v1.SyncRequest\x1a\x18.easylab.v1.SyncResponse2\xbf\x04\n" +
 	"\x0fRegistryService\x12]\n" +
 	"\x10ListPackageTypes\x12#.easylab.v1.ListPackageTypesRequest\x1a$.easylab.v1.ListPackageTypesResponse\x12Q\n" +
 	"\fListPackages\x12\x1f.easylab.v1.ListPackagesRequest\x1a .easylab.v1.ListPackagesResponse\x12Z\n" +
 	"\x0fPackageVersions\x12\".easylab.v1.PackageVersionsRequest\x1a#.easylab.v1.PackageVersionsResponse\x12T\n" +
 	"\rDeletePackage\x12 .easylab.v1.DeletePackageRequest\x1a!.easylab.v1.DeletePackageResponse\x12i\n" +
 	"\x14DeletePackageVersion\x12'.easylab.v1.DeletePackageVersionRequest\x1a(.easylab.v1.DeletePackageVersionResponse\x12]\n" +
-	"\x10ListPublishSpecs\x12#.easylab.v1.ListPublishSpecsRequest\x1a$.easylab.v1.ListPublishSpecsResponseBPZNforgejo.develop.10.199.64.20.nip.io/easylab/easylab-proto/easylab/v1;easylabv1b\x06proto3"
+	"\x10ListPublishSpecs\x12#.easylab.v1.ListPublishSpecsRequest\x1a$.easylab.v1.ListPublishSpecsResponseB@Z>github.com/easylab-platform/easylab-proto/easylab/v1;easylabv1b\x06proto3"
 
 var (
 	file_easylab_v1_easylab_proto_rawDescOnce sync.Once
@@ -6607,7 +7473,7 @@ func file_easylab_v1_easylab_proto_rawDescGZIP() []byte {
 }
 
 var file_easylab_v1_easylab_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_easylab_v1_easylab_proto_msgTypes = make([]protoimpl.MessageInfo, 107)
+var file_easylab_v1_easylab_proto_msgTypes = make([]protoimpl.MessageInfo, 121)
 var file_easylab_v1_easylab_proto_goTypes = []any{
 	(ServiceKind)(0),                     // 0: easylab.v1.ServiceKind
 	(*RepoRefReq)(nil),                   // 1: easylab.v1.RepoRefReq
@@ -6665,62 +7531,75 @@ var file_easylab_v1_easylab_proto_goTypes = []any{
 	(*ListServicesResponse)(nil),         // 53: easylab.v1.ListServicesResponse
 	(*GetServiceRequest)(nil),            // 54: easylab.v1.GetServiceRequest
 	(*GetServiceResponse)(nil),           // 55: easylab.v1.GetServiceResponse
-	(*LaunchServiceRequest)(nil),         // 56: easylab.v1.LaunchServiceRequest
-	(*LaunchServiceResponse)(nil),        // 57: easylab.v1.LaunchServiceResponse
-	(*DeleteServiceRequest)(nil),         // 58: easylab.v1.DeleteServiceRequest
-	(*DeleteServiceResponse)(nil),        // 59: easylab.v1.DeleteServiceResponse
-	(*ScaleServiceRequest)(nil),          // 60: easylab.v1.ScaleServiceRequest
-	(*ScaleServiceResponse)(nil),         // 61: easylab.v1.ScaleServiceResponse
-	(*SandboxExecRequest)(nil),           // 62: easylab.v1.SandboxExecRequest
-	(*SandboxExecResponse)(nil),          // 63: easylab.v1.SandboxExecResponse
-	(*SandboxReadRequest)(nil),           // 64: easylab.v1.SandboxReadRequest
-	(*SandboxReadResponse)(nil),          // 65: easylab.v1.SandboxReadResponse
-	(*SandboxWriteRequest)(nil),          // 66: easylab.v1.SandboxWriteRequest
-	(*SandboxWriteResponse)(nil),         // 67: easylab.v1.SandboxWriteResponse
-	(*SandboxJobKillRequest)(nil),        // 68: easylab.v1.SandboxJobKillRequest
-	(*SandboxJobKillResponse)(nil),       // 69: easylab.v1.SandboxJobKillResponse
-	(*TaskLogRequest)(nil),               // 70: easylab.v1.TaskLogRequest
-	(*ListTasksRequest)(nil),             // 71: easylab.v1.ListTasksRequest
-	(*TaskEntry)(nil),                    // 72: easylab.v1.TaskEntry
-	(*ListTasksResponse)(nil),            // 73: easylab.v1.ListTasksResponse
-	(*GetTaskRequest)(nil),               // 74: easylab.v1.GetTaskRequest
-	(*GetTaskResponse)(nil),              // 75: easylab.v1.GetTaskResponse
-	(*BuildRequest)(nil),                 // 76: easylab.v1.BuildRequest
-	(*BuildResponse)(nil),                // 77: easylab.v1.BuildResponse
-	(*RunRequest)(nil),                   // 78: easylab.v1.RunRequest
-	(*RunResponse)(nil),                  // 79: easylab.v1.RunResponse
-	(*OpsStatusRequest)(nil),             // 80: easylab.v1.OpsStatusRequest
-	(*OpsStatusResponse)(nil),            // 81: easylab.v1.OpsStatusResponse
-	(*ListNamespacesRequest)(nil),        // 82: easylab.v1.ListNamespacesRequest
-	(*NamespaceInfo)(nil),                // 83: easylab.v1.NamespaceInfo
-	(*ListNamespacesResponse)(nil),       // 84: easylab.v1.ListNamespacesResponse
-	(*PackageTypeEntry)(nil),             // 85: easylab.v1.PackageTypeEntry
-	(*ListPackageTypesRequest)(nil),      // 86: easylab.v1.ListPackageTypesRequest
-	(*ListPackageTypesResponse)(nil),     // 87: easylab.v1.ListPackageTypesResponse
-	(*PackageVersion)(nil),               // 88: easylab.v1.PackageVersion
-	(*PackageVersionFile)(nil),           // 89: easylab.v1.PackageVersionFile
-	(*PackageInfo)(nil),                  // 90: easylab.v1.PackageInfo
-	(*ListPackagesRequest)(nil),          // 91: easylab.v1.ListPackagesRequest
-	(*ListPackagesResponse)(nil),         // 92: easylab.v1.ListPackagesResponse
-	(*PackageVersionsRequest)(nil),       // 93: easylab.v1.PackageVersionsRequest
-	(*PackageVersionsResponse)(nil),      // 94: easylab.v1.PackageVersionsResponse
-	(*DeletePackageRequest)(nil),         // 95: easylab.v1.DeletePackageRequest
-	(*DeletePackageResponse)(nil),        // 96: easylab.v1.DeletePackageResponse
-	(*DeletePackageVersionRequest)(nil),  // 97: easylab.v1.DeletePackageVersionRequest
-	(*DeletePackageVersionResponse)(nil), // 98: easylab.v1.DeletePackageVersionResponse
-	(*PublishSpec)(nil),                  // 99: easylab.v1.PublishSpec
-	(*ListPublishSpecsRequest)(nil),      // 100: easylab.v1.ListPublishSpecsRequest
-	(*ListPublishSpecsResponse)(nil),     // 101: easylab.v1.ListPublishSpecsResponse
-	(*HealthRequest)(nil),                // 102: easylab.v1.HealthRequest
-	(*HealthResponse)(nil),               // 103: easylab.v1.HealthResponse
-	(*StatusRequest)(nil),                // 104: easylab.v1.StatusRequest
-	(*StatusResponse)(nil),               // 105: easylab.v1.StatusResponse
-	(*TaskLogResponse)(nil),              // 106: easylab.v1.TaskLogResponse
-	nil,                                  // 107: easylab.v1.RepoInfo.MetaEntry
-	(*structpb.Struct)(nil),              // 108: google.protobuf.Struct
+	(*PortSpec)(nil),                     // 56: easylab.v1.PortSpec
+	(*LaunchServiceRequest)(nil),         // 57: easylab.v1.LaunchServiceRequest
+	(*LaunchServiceResponse)(nil),        // 58: easylab.v1.LaunchServiceResponse
+	(*DeleteServiceRequest)(nil),         // 59: easylab.v1.DeleteServiceRequest
+	(*DeleteServiceResponse)(nil),        // 60: easylab.v1.DeleteServiceResponse
+	(*ScaleServiceRequest)(nil),          // 61: easylab.v1.ScaleServiceRequest
+	(*ScaleServiceResponse)(nil),         // 62: easylab.v1.ScaleServiceResponse
+	(*SandboxExecRequest)(nil),           // 63: easylab.v1.SandboxExecRequest
+	(*SandboxExecResponse)(nil),          // 64: easylab.v1.SandboxExecResponse
+	(*SandboxReadRequest)(nil),           // 65: easylab.v1.SandboxReadRequest
+	(*SandboxReadResponse)(nil),          // 66: easylab.v1.SandboxReadResponse
+	(*SandboxWriteRequest)(nil),          // 67: easylab.v1.SandboxWriteRequest
+	(*SandboxWriteResponse)(nil),         // 68: easylab.v1.SandboxWriteResponse
+	(*SandboxJobKillRequest)(nil),        // 69: easylab.v1.SandboxJobKillRequest
+	(*SandboxJobKillResponse)(nil),       // 70: easylab.v1.SandboxJobKillResponse
+	(*TaskLogRequest)(nil),               // 71: easylab.v1.TaskLogRequest
+	(*ListTasksRequest)(nil),             // 72: easylab.v1.ListTasksRequest
+	(*TaskEntry)(nil),                    // 73: easylab.v1.TaskEntry
+	(*ListTasksResponse)(nil),            // 74: easylab.v1.ListTasksResponse
+	(*GetTaskRequest)(nil),               // 75: easylab.v1.GetTaskRequest
+	(*GetTaskResponse)(nil),              // 76: easylab.v1.GetTaskResponse
+	(*BuildRequest)(nil),                 // 77: easylab.v1.BuildRequest
+	(*BuildResponse)(nil),                // 78: easylab.v1.BuildResponse
+	(*RunRequest)(nil),                   // 79: easylab.v1.RunRequest
+	(*RunResponse)(nil),                  // 80: easylab.v1.RunResponse
+	(*OpsStatusRequest)(nil),             // 81: easylab.v1.OpsStatusRequest
+	(*OpsStatusResponse)(nil),            // 82: easylab.v1.OpsStatusResponse
+	(*ListNamespacesRequest)(nil),        // 83: easylab.v1.ListNamespacesRequest
+	(*NamespaceInfo)(nil),                // 84: easylab.v1.NamespaceInfo
+	(*ListNamespacesResponse)(nil),       // 85: easylab.v1.ListNamespacesResponse
+	(*PackageTypeEntry)(nil),             // 86: easylab.v1.PackageTypeEntry
+	(*ListPackageTypesRequest)(nil),      // 87: easylab.v1.ListPackageTypesRequest
+	(*ListPackageTypesResponse)(nil),     // 88: easylab.v1.ListPackageTypesResponse
+	(*PackageVersion)(nil),               // 89: easylab.v1.PackageVersion
+	(*PackageVersionFile)(nil),           // 90: easylab.v1.PackageVersionFile
+	(*PackageInfo)(nil),                  // 91: easylab.v1.PackageInfo
+	(*ListPackagesRequest)(nil),          // 92: easylab.v1.ListPackagesRequest
+	(*ListPackagesResponse)(nil),         // 93: easylab.v1.ListPackagesResponse
+	(*PackageVersionsRequest)(nil),       // 94: easylab.v1.PackageVersionsRequest
+	(*PackageVersionsResponse)(nil),      // 95: easylab.v1.PackageVersionsResponse
+	(*DeletePackageRequest)(nil),         // 96: easylab.v1.DeletePackageRequest
+	(*DeletePackageResponse)(nil),        // 97: easylab.v1.DeletePackageResponse
+	(*DeletePackageVersionRequest)(nil),  // 98: easylab.v1.DeletePackageVersionRequest
+	(*DeletePackageVersionResponse)(nil), // 99: easylab.v1.DeletePackageVersionResponse
+	(*PublishSpec)(nil),                  // 100: easylab.v1.PublishSpec
+	(*ListPublishSpecsRequest)(nil),      // 101: easylab.v1.ListPublishSpecsRequest
+	(*ListPublishSpecsResponse)(nil),     // 102: easylab.v1.ListPublishSpecsResponse
+	(*HealthRequest)(nil),                // 103: easylab.v1.HealthRequest
+	(*HealthResponse)(nil),               // 104: easylab.v1.HealthResponse
+	(*StatusRequest)(nil),                // 105: easylab.v1.StatusRequest
+	(*StatusResponse)(nil),               // 106: easylab.v1.StatusResponse
+	(*SearchRequest)(nil),                // 107: easylab.v1.SearchRequest
+	(*SearchResponse)(nil),               // 108: easylab.v1.SearchResponse
+	(*GraphRequest)(nil),                 // 109: easylab.v1.GraphRequest
+	(*GraphNode)(nil),                    // 110: easylab.v1.GraphNode
+	(*GraphResponse)(nil),                // 111: easylab.v1.GraphResponse
+	(*CompareRequest)(nil),               // 112: easylab.v1.CompareRequest
+	(*CompareResponse)(nil),              // 113: easylab.v1.CompareResponse
+	(*RebaseRequest)(nil),                // 114: easylab.v1.RebaseRequest
+	(*RebaseResponse)(nil),               // 115: easylab.v1.RebaseResponse
+	(*SyncRequest)(nil),                  // 116: easylab.v1.SyncRequest
+	(*SyncResponse)(nil),                 // 117: easylab.v1.SyncResponse
+	(*TaskLogResponse)(nil),              // 118: easylab.v1.TaskLogResponse
+	nil,                                  // 119: easylab.v1.RepoInfo.MetaEntry
+	nil,                                  // 120: easylab.v1.LaunchServiceRequest.EnvEntry
+	nil,                                  // 121: easylab.v1.LaunchServiceRequest.AnnotationsEntry
 }
 var file_easylab_v1_easylab_proto_depIdxs = []int32{
-	107, // 0: easylab.v1.RepoInfo.meta:type_name -> easylab.v1.RepoInfo.MetaEntry
+	119, // 0: easylab.v1.RepoInfo.meta:type_name -> easylab.v1.RepoInfo.MetaEntry
 	2,   // 1: easylab.v1.ListReposResponse.repos:type_name -> easylab.v1.RepoInfo
 	4,   // 2: easylab.v1.TreeResponse.entries:type_name -> easylab.v1.FileEntry
 	6,   // 3: easylab.v1.LogResponse.commits:type_name -> easylab.v1.CommitInfo
@@ -6732,107 +7611,121 @@ var file_easylab_v1_easylab_proto_depIdxs = []int32{
 	50,  // 9: easylab.v1.ListServicesResponse.services:type_name -> easylab.v1.ServiceInfo
 	50,  // 10: easylab.v1.GetServiceResponse.service:type_name -> easylab.v1.ServiceInfo
 	51,  // 11: easylab.v1.GetServiceResponse.pods:type_name -> easylab.v1.ServicePod
-	108, // 12: easylab.v1.LaunchServiceRequest.resources:type_name -> google.protobuf.Struct
-	72,  // 13: easylab.v1.ListTasksResponse.tasks:type_name -> easylab.v1.TaskEntry
-	72,  // 14: easylab.v1.GetTaskResponse.task:type_name -> easylab.v1.TaskEntry
-	83,  // 15: easylab.v1.ListNamespacesResponse.namespaces:type_name -> easylab.v1.NamespaceInfo
-	85,  // 16: easylab.v1.ListPackageTypesResponse.packages:type_name -> easylab.v1.PackageTypeEntry
-	89,  // 17: easylab.v1.PackageVersion.files:type_name -> easylab.v1.PackageVersionFile
-	88,  // 18: easylab.v1.PackageInfo.versions:type_name -> easylab.v1.PackageVersion
-	90,  // 19: easylab.v1.ListPackagesResponse.packages:type_name -> easylab.v1.PackageInfo
-	88,  // 20: easylab.v1.PackageVersionsResponse.versions:type_name -> easylab.v1.PackageVersion
-	99,  // 21: easylab.v1.ListPublishSpecsResponse.specs:type_name -> easylab.v1.PublishSpec
-	102, // 22: easylab.v1.LabService.Health:input_type -> easylab.v1.HealthRequest
-	104, // 23: easylab.v1.LabService.Status:input_type -> easylab.v1.StatusRequest
-	12,  // 24: easylab.v1.LabService.ListRepos:input_type -> easylab.v1.ListReposRequest
-	14,  // 25: easylab.v1.LabService.CreateRepo:input_type -> easylab.v1.CreateRepoRequest
-	16,  // 26: easylab.v1.LabService.DeleteRepo:input_type -> easylab.v1.DeleteRepoRequest
-	18,  // 27: easylab.v1.LabService.EnsureRepo:input_type -> easylab.v1.EnsureRepoRequest
-	20,  // 28: easylab.v1.LabService.EnsureOrg:input_type -> easylab.v1.EnsureOrgRequest
-	22,  // 29: easylab.v1.LabService.ForkRepo:input_type -> easylab.v1.ForkRepoRequest
-	24,  // 30: easylab.v1.LabService.CloneRepo:input_type -> easylab.v1.CloneRepoRequest
-	26,  // 31: easylab.v1.LabService.Tree:input_type -> easylab.v1.TreeRequest
-	28,  // 32: easylab.v1.LabService.ReadBlob:input_type -> easylab.v1.ReadBlobRequest
-	30,  // 33: easylab.v1.LabService.WriteBlob:input_type -> easylab.v1.WriteBlobRequest
-	32,  // 34: easylab.v1.LabService.Log:input_type -> easylab.v1.LogRequest
-	34,  // 35: easylab.v1.LabService.Tags:input_type -> easylab.v1.TagsRequest
-	36,  // 36: easylab.v1.LabService.Branches:input_type -> easylab.v1.BranchesRequest
-	38,  // 37: easylab.v1.LabService.Revisions:input_type -> easylab.v1.RevisionsRequest
-	40,  // 38: easylab.v1.LabService.Diff:input_type -> easylab.v1.DiffRequest
-	42,  // 39: easylab.v1.LabService.Blame:input_type -> easylab.v1.BlameRequest
-	44,  // 40: easylab.v1.LabService.DeleteBranch:input_type -> easylab.v1.DeleteBranchRequest
-	46,  // 41: easylab.v1.LabService.CreateBranch:input_type -> easylab.v1.CreateBranchRequest
-	48,  // 42: easylab.v1.LabService.FileHistory:input_type -> easylab.v1.FileHistoryRequest
-	80,  // 43: easylab.v1.OpsService.OpsStatus:input_type -> easylab.v1.OpsStatusRequest
-	82,  // 44: easylab.v1.OpsService.ListNamespaces:input_type -> easylab.v1.ListNamespacesRequest
-	52,  // 45: easylab.v1.OpsService.ListServices:input_type -> easylab.v1.ListServicesRequest
-	54,  // 46: easylab.v1.OpsService.GetService:input_type -> easylab.v1.GetServiceRequest
-	56,  // 47: easylab.v1.OpsService.LaunchService:input_type -> easylab.v1.LaunchServiceRequest
-	58,  // 48: easylab.v1.OpsService.DeleteService:input_type -> easylab.v1.DeleteServiceRequest
-	60,  // 49: easylab.v1.OpsService.ScaleService:input_type -> easylab.v1.ScaleServiceRequest
-	62,  // 50: easylab.v1.OpsService.SandboxExec:input_type -> easylab.v1.SandboxExecRequest
-	64,  // 51: easylab.v1.OpsService.SandboxRead:input_type -> easylab.v1.SandboxReadRequest
-	66,  // 52: easylab.v1.OpsService.SandboxWrite:input_type -> easylab.v1.SandboxWriteRequest
-	68,  // 53: easylab.v1.OpsService.SandboxJobKill:input_type -> easylab.v1.SandboxJobKillRequest
-	71,  // 54: easylab.v1.OpsService.ListTasks:input_type -> easylab.v1.ListTasksRequest
-	74,  // 55: easylab.v1.OpsService.GetTask:input_type -> easylab.v1.GetTaskRequest
-	76,  // 56: easylab.v1.OpsService.Build:input_type -> easylab.v1.BuildRequest
-	78,  // 57: easylab.v1.OpsService.Run:input_type -> easylab.v1.RunRequest
-	70,  // 58: easylab.v1.OpsService.TaskLog:input_type -> easylab.v1.TaskLogRequest
-	86,  // 59: easylab.v1.RegistryService.ListPackageTypes:input_type -> easylab.v1.ListPackageTypesRequest
-	91,  // 60: easylab.v1.RegistryService.ListPackages:input_type -> easylab.v1.ListPackagesRequest
-	93,  // 61: easylab.v1.RegistryService.PackageVersions:input_type -> easylab.v1.PackageVersionsRequest
-	95,  // 62: easylab.v1.RegistryService.DeletePackage:input_type -> easylab.v1.DeletePackageRequest
-	97,  // 63: easylab.v1.RegistryService.DeletePackageVersion:input_type -> easylab.v1.DeletePackageVersionRequest
-	100, // 64: easylab.v1.RegistryService.ListPublishSpecs:input_type -> easylab.v1.ListPublishSpecsRequest
-	103, // 65: easylab.v1.LabService.Health:output_type -> easylab.v1.HealthResponse
-	105, // 66: easylab.v1.LabService.Status:output_type -> easylab.v1.StatusResponse
-	13,  // 67: easylab.v1.LabService.ListRepos:output_type -> easylab.v1.ListReposResponse
-	15,  // 68: easylab.v1.LabService.CreateRepo:output_type -> easylab.v1.CreateRepoResponse
-	17,  // 69: easylab.v1.LabService.DeleteRepo:output_type -> easylab.v1.DeleteRepoResponse
-	19,  // 70: easylab.v1.LabService.EnsureRepo:output_type -> easylab.v1.EnsureRepoResponse
-	21,  // 71: easylab.v1.LabService.EnsureOrg:output_type -> easylab.v1.EnsureOrgResponse
-	23,  // 72: easylab.v1.LabService.ForkRepo:output_type -> easylab.v1.ForkRepoResponse
-	25,  // 73: easylab.v1.LabService.CloneRepo:output_type -> easylab.v1.CloneRepoResponse
-	27,  // 74: easylab.v1.LabService.Tree:output_type -> easylab.v1.TreeResponse
-	29,  // 75: easylab.v1.LabService.ReadBlob:output_type -> easylab.v1.ReadBlobResponse
-	31,  // 76: easylab.v1.LabService.WriteBlob:output_type -> easylab.v1.WriteBlobResponse
-	33,  // 77: easylab.v1.LabService.Log:output_type -> easylab.v1.LogResponse
-	35,  // 78: easylab.v1.LabService.Tags:output_type -> easylab.v1.TagsResponse
-	37,  // 79: easylab.v1.LabService.Branches:output_type -> easylab.v1.BranchesResponse
-	39,  // 80: easylab.v1.LabService.Revisions:output_type -> easylab.v1.RevisionsResponse
-	41,  // 81: easylab.v1.LabService.Diff:output_type -> easylab.v1.DiffResponse
-	43,  // 82: easylab.v1.LabService.Blame:output_type -> easylab.v1.BlameResponse
-	45,  // 83: easylab.v1.LabService.DeleteBranch:output_type -> easylab.v1.DeleteBranchResponse
-	47,  // 84: easylab.v1.LabService.CreateBranch:output_type -> easylab.v1.CreateBranchResponse
-	49,  // 85: easylab.v1.LabService.FileHistory:output_type -> easylab.v1.FileHistoryResponse
-	81,  // 86: easylab.v1.OpsService.OpsStatus:output_type -> easylab.v1.OpsStatusResponse
-	84,  // 87: easylab.v1.OpsService.ListNamespaces:output_type -> easylab.v1.ListNamespacesResponse
-	53,  // 88: easylab.v1.OpsService.ListServices:output_type -> easylab.v1.ListServicesResponse
-	55,  // 89: easylab.v1.OpsService.GetService:output_type -> easylab.v1.GetServiceResponse
-	57,  // 90: easylab.v1.OpsService.LaunchService:output_type -> easylab.v1.LaunchServiceResponse
-	59,  // 91: easylab.v1.OpsService.DeleteService:output_type -> easylab.v1.DeleteServiceResponse
-	61,  // 92: easylab.v1.OpsService.ScaleService:output_type -> easylab.v1.ScaleServiceResponse
-	63,  // 93: easylab.v1.OpsService.SandboxExec:output_type -> easylab.v1.SandboxExecResponse
-	65,  // 94: easylab.v1.OpsService.SandboxRead:output_type -> easylab.v1.SandboxReadResponse
-	67,  // 95: easylab.v1.OpsService.SandboxWrite:output_type -> easylab.v1.SandboxWriteResponse
-	69,  // 96: easylab.v1.OpsService.SandboxJobKill:output_type -> easylab.v1.SandboxJobKillResponse
-	73,  // 97: easylab.v1.OpsService.ListTasks:output_type -> easylab.v1.ListTasksResponse
-	75,  // 98: easylab.v1.OpsService.GetTask:output_type -> easylab.v1.GetTaskResponse
-	77,  // 99: easylab.v1.OpsService.Build:output_type -> easylab.v1.BuildResponse
-	79,  // 100: easylab.v1.OpsService.Run:output_type -> easylab.v1.RunResponse
-	106, // 101: easylab.v1.OpsService.TaskLog:output_type -> easylab.v1.TaskLogResponse
-	87,  // 102: easylab.v1.RegistryService.ListPackageTypes:output_type -> easylab.v1.ListPackageTypesResponse
-	92,  // 103: easylab.v1.RegistryService.ListPackages:output_type -> easylab.v1.ListPackagesResponse
-	94,  // 104: easylab.v1.RegistryService.PackageVersions:output_type -> easylab.v1.PackageVersionsResponse
-	96,  // 105: easylab.v1.RegistryService.DeletePackage:output_type -> easylab.v1.DeletePackageResponse
-	98,  // 106: easylab.v1.RegistryService.DeletePackageVersion:output_type -> easylab.v1.DeletePackageVersionResponse
-	101, // 107: easylab.v1.RegistryService.ListPublishSpecs:output_type -> easylab.v1.ListPublishSpecsResponse
-	65,  // [65:108] is the sub-list for method output_type
-	22,  // [22:65] is the sub-list for method input_type
-	22,  // [22:22] is the sub-list for extension type_name
-	22,  // [22:22] is the sub-list for extension extendee
-	0,   // [0:22] is the sub-list for field type_name
+	56,  // 12: easylab.v1.LaunchServiceRequest.ports:type_name -> easylab.v1.PortSpec
+	120, // 13: easylab.v1.LaunchServiceRequest.env:type_name -> easylab.v1.LaunchServiceRequest.EnvEntry
+	121, // 14: easylab.v1.LaunchServiceRequest.annotations:type_name -> easylab.v1.LaunchServiceRequest.AnnotationsEntry
+	73,  // 15: easylab.v1.ListTasksResponse.tasks:type_name -> easylab.v1.TaskEntry
+	73,  // 16: easylab.v1.GetTaskResponse.task:type_name -> easylab.v1.TaskEntry
+	84,  // 17: easylab.v1.ListNamespacesResponse.namespaces:type_name -> easylab.v1.NamespaceInfo
+	86,  // 18: easylab.v1.ListPackageTypesResponse.packages:type_name -> easylab.v1.PackageTypeEntry
+	90,  // 19: easylab.v1.PackageVersion.files:type_name -> easylab.v1.PackageVersionFile
+	89,  // 20: easylab.v1.PackageInfo.versions:type_name -> easylab.v1.PackageVersion
+	91,  // 21: easylab.v1.ListPackagesResponse.packages:type_name -> easylab.v1.PackageInfo
+	89,  // 22: easylab.v1.PackageVersionsResponse.versions:type_name -> easylab.v1.PackageVersion
+	100, // 23: easylab.v1.ListPublishSpecsResponse.specs:type_name -> easylab.v1.PublishSpec
+	110, // 24: easylab.v1.GraphResponse.nodes:type_name -> easylab.v1.GraphNode
+	5,   // 25: easylab.v1.CompareResponse.files:type_name -> easylab.v1.DiffFile
+	103, // 26: easylab.v1.LabService.Health:input_type -> easylab.v1.HealthRequest
+	105, // 27: easylab.v1.LabService.Status:input_type -> easylab.v1.StatusRequest
+	12,  // 28: easylab.v1.LabService.ListRepos:input_type -> easylab.v1.ListReposRequest
+	14,  // 29: easylab.v1.LabService.CreateRepo:input_type -> easylab.v1.CreateRepoRequest
+	16,  // 30: easylab.v1.LabService.DeleteRepo:input_type -> easylab.v1.DeleteRepoRequest
+	18,  // 31: easylab.v1.LabService.EnsureRepo:input_type -> easylab.v1.EnsureRepoRequest
+	20,  // 32: easylab.v1.LabService.EnsureOrg:input_type -> easylab.v1.EnsureOrgRequest
+	22,  // 33: easylab.v1.LabService.ForkRepo:input_type -> easylab.v1.ForkRepoRequest
+	24,  // 34: easylab.v1.LabService.CloneRepo:input_type -> easylab.v1.CloneRepoRequest
+	26,  // 35: easylab.v1.LabService.Tree:input_type -> easylab.v1.TreeRequest
+	28,  // 36: easylab.v1.LabService.ReadBlob:input_type -> easylab.v1.ReadBlobRequest
+	30,  // 37: easylab.v1.LabService.WriteBlob:input_type -> easylab.v1.WriteBlobRequest
+	32,  // 38: easylab.v1.LabService.Log:input_type -> easylab.v1.LogRequest
+	34,  // 39: easylab.v1.LabService.Tags:input_type -> easylab.v1.TagsRequest
+	36,  // 40: easylab.v1.LabService.Branches:input_type -> easylab.v1.BranchesRequest
+	38,  // 41: easylab.v1.LabService.Revisions:input_type -> easylab.v1.RevisionsRequest
+	40,  // 42: easylab.v1.LabService.Diff:input_type -> easylab.v1.DiffRequest
+	42,  // 43: easylab.v1.LabService.Blame:input_type -> easylab.v1.BlameRequest
+	44,  // 44: easylab.v1.LabService.DeleteBranch:input_type -> easylab.v1.DeleteBranchRequest
+	46,  // 45: easylab.v1.LabService.CreateBranch:input_type -> easylab.v1.CreateBranchRequest
+	48,  // 46: easylab.v1.LabService.FileHistory:input_type -> easylab.v1.FileHistoryRequest
+	107, // 47: easylab.v1.LabService.Search:input_type -> easylab.v1.SearchRequest
+	109, // 48: easylab.v1.LabService.Graph:input_type -> easylab.v1.GraphRequest
+	112, // 49: easylab.v1.LabService.Compare:input_type -> easylab.v1.CompareRequest
+	114, // 50: easylab.v1.LabService.Rebase:input_type -> easylab.v1.RebaseRequest
+	81,  // 51: easylab.v1.OpsService.OpsStatus:input_type -> easylab.v1.OpsStatusRequest
+	83,  // 52: easylab.v1.OpsService.ListNamespaces:input_type -> easylab.v1.ListNamespacesRequest
+	52,  // 53: easylab.v1.OpsService.ListServices:input_type -> easylab.v1.ListServicesRequest
+	54,  // 54: easylab.v1.OpsService.GetService:input_type -> easylab.v1.GetServiceRequest
+	57,  // 55: easylab.v1.OpsService.LaunchService:input_type -> easylab.v1.LaunchServiceRequest
+	59,  // 56: easylab.v1.OpsService.DeleteService:input_type -> easylab.v1.DeleteServiceRequest
+	61,  // 57: easylab.v1.OpsService.ScaleService:input_type -> easylab.v1.ScaleServiceRequest
+	63,  // 58: easylab.v1.OpsService.SandboxExec:input_type -> easylab.v1.SandboxExecRequest
+	65,  // 59: easylab.v1.OpsService.SandboxRead:input_type -> easylab.v1.SandboxReadRequest
+	67,  // 60: easylab.v1.OpsService.SandboxWrite:input_type -> easylab.v1.SandboxWriteRequest
+	69,  // 61: easylab.v1.OpsService.SandboxJobKill:input_type -> easylab.v1.SandboxJobKillRequest
+	72,  // 62: easylab.v1.OpsService.ListTasks:input_type -> easylab.v1.ListTasksRequest
+	75,  // 63: easylab.v1.OpsService.GetTask:input_type -> easylab.v1.GetTaskRequest
+	77,  // 64: easylab.v1.OpsService.Build:input_type -> easylab.v1.BuildRequest
+	79,  // 65: easylab.v1.OpsService.Run:input_type -> easylab.v1.RunRequest
+	71,  // 66: easylab.v1.OpsService.TaskLog:input_type -> easylab.v1.TaskLogRequest
+	116, // 67: easylab.v1.OpsService.Sync:input_type -> easylab.v1.SyncRequest
+	87,  // 68: easylab.v1.RegistryService.ListPackageTypes:input_type -> easylab.v1.ListPackageTypesRequest
+	92,  // 69: easylab.v1.RegistryService.ListPackages:input_type -> easylab.v1.ListPackagesRequest
+	94,  // 70: easylab.v1.RegistryService.PackageVersions:input_type -> easylab.v1.PackageVersionsRequest
+	96,  // 71: easylab.v1.RegistryService.DeletePackage:input_type -> easylab.v1.DeletePackageRequest
+	98,  // 72: easylab.v1.RegistryService.DeletePackageVersion:input_type -> easylab.v1.DeletePackageVersionRequest
+	101, // 73: easylab.v1.RegistryService.ListPublishSpecs:input_type -> easylab.v1.ListPublishSpecsRequest
+	104, // 74: easylab.v1.LabService.Health:output_type -> easylab.v1.HealthResponse
+	106, // 75: easylab.v1.LabService.Status:output_type -> easylab.v1.StatusResponse
+	13,  // 76: easylab.v1.LabService.ListRepos:output_type -> easylab.v1.ListReposResponse
+	15,  // 77: easylab.v1.LabService.CreateRepo:output_type -> easylab.v1.CreateRepoResponse
+	17,  // 78: easylab.v1.LabService.DeleteRepo:output_type -> easylab.v1.DeleteRepoResponse
+	19,  // 79: easylab.v1.LabService.EnsureRepo:output_type -> easylab.v1.EnsureRepoResponse
+	21,  // 80: easylab.v1.LabService.EnsureOrg:output_type -> easylab.v1.EnsureOrgResponse
+	23,  // 81: easylab.v1.LabService.ForkRepo:output_type -> easylab.v1.ForkRepoResponse
+	25,  // 82: easylab.v1.LabService.CloneRepo:output_type -> easylab.v1.CloneRepoResponse
+	27,  // 83: easylab.v1.LabService.Tree:output_type -> easylab.v1.TreeResponse
+	29,  // 84: easylab.v1.LabService.ReadBlob:output_type -> easylab.v1.ReadBlobResponse
+	31,  // 85: easylab.v1.LabService.WriteBlob:output_type -> easylab.v1.WriteBlobResponse
+	33,  // 86: easylab.v1.LabService.Log:output_type -> easylab.v1.LogResponse
+	35,  // 87: easylab.v1.LabService.Tags:output_type -> easylab.v1.TagsResponse
+	37,  // 88: easylab.v1.LabService.Branches:output_type -> easylab.v1.BranchesResponse
+	39,  // 89: easylab.v1.LabService.Revisions:output_type -> easylab.v1.RevisionsResponse
+	41,  // 90: easylab.v1.LabService.Diff:output_type -> easylab.v1.DiffResponse
+	43,  // 91: easylab.v1.LabService.Blame:output_type -> easylab.v1.BlameResponse
+	45,  // 92: easylab.v1.LabService.DeleteBranch:output_type -> easylab.v1.DeleteBranchResponse
+	47,  // 93: easylab.v1.LabService.CreateBranch:output_type -> easylab.v1.CreateBranchResponse
+	49,  // 94: easylab.v1.LabService.FileHistory:output_type -> easylab.v1.FileHistoryResponse
+	108, // 95: easylab.v1.LabService.Search:output_type -> easylab.v1.SearchResponse
+	111, // 96: easylab.v1.LabService.Graph:output_type -> easylab.v1.GraphResponse
+	113, // 97: easylab.v1.LabService.Compare:output_type -> easylab.v1.CompareResponse
+	115, // 98: easylab.v1.LabService.Rebase:output_type -> easylab.v1.RebaseResponse
+	82,  // 99: easylab.v1.OpsService.OpsStatus:output_type -> easylab.v1.OpsStatusResponse
+	85,  // 100: easylab.v1.OpsService.ListNamespaces:output_type -> easylab.v1.ListNamespacesResponse
+	53,  // 101: easylab.v1.OpsService.ListServices:output_type -> easylab.v1.ListServicesResponse
+	55,  // 102: easylab.v1.OpsService.GetService:output_type -> easylab.v1.GetServiceResponse
+	58,  // 103: easylab.v1.OpsService.LaunchService:output_type -> easylab.v1.LaunchServiceResponse
+	60,  // 104: easylab.v1.OpsService.DeleteService:output_type -> easylab.v1.DeleteServiceResponse
+	62,  // 105: easylab.v1.OpsService.ScaleService:output_type -> easylab.v1.ScaleServiceResponse
+	64,  // 106: easylab.v1.OpsService.SandboxExec:output_type -> easylab.v1.SandboxExecResponse
+	66,  // 107: easylab.v1.OpsService.SandboxRead:output_type -> easylab.v1.SandboxReadResponse
+	68,  // 108: easylab.v1.OpsService.SandboxWrite:output_type -> easylab.v1.SandboxWriteResponse
+	70,  // 109: easylab.v1.OpsService.SandboxJobKill:output_type -> easylab.v1.SandboxJobKillResponse
+	74,  // 110: easylab.v1.OpsService.ListTasks:output_type -> easylab.v1.ListTasksResponse
+	76,  // 111: easylab.v1.OpsService.GetTask:output_type -> easylab.v1.GetTaskResponse
+	78,  // 112: easylab.v1.OpsService.Build:output_type -> easylab.v1.BuildResponse
+	80,  // 113: easylab.v1.OpsService.Run:output_type -> easylab.v1.RunResponse
+	118, // 114: easylab.v1.OpsService.TaskLog:output_type -> easylab.v1.TaskLogResponse
+	117, // 115: easylab.v1.OpsService.Sync:output_type -> easylab.v1.SyncResponse
+	88,  // 116: easylab.v1.RegistryService.ListPackageTypes:output_type -> easylab.v1.ListPackageTypesResponse
+	93,  // 117: easylab.v1.RegistryService.ListPackages:output_type -> easylab.v1.ListPackagesResponse
+	95,  // 118: easylab.v1.RegistryService.PackageVersions:output_type -> easylab.v1.PackageVersionsResponse
+	97,  // 119: easylab.v1.RegistryService.DeletePackage:output_type -> easylab.v1.DeletePackageResponse
+	99,  // 120: easylab.v1.RegistryService.DeletePackageVersion:output_type -> easylab.v1.DeletePackageVersionResponse
+	102, // 121: easylab.v1.RegistryService.ListPublishSpecs:output_type -> easylab.v1.ListPublishSpecsResponse
+	74,  // [74:122] is the sub-list for method output_type
+	26,  // [26:74] is the sub-list for method input_type
+	26,  // [26:26] is the sub-list for extension type_name
+	26,  // [26:26] is the sub-list for extension extendee
+	0,   // [0:26] is the sub-list for field type_name
 }
 
 func init() { file_easylab_v1_easylab_proto_init() }
@@ -6846,7 +7739,7 @@ func file_easylab_v1_easylab_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_easylab_v1_easylab_proto_rawDesc), len(file_easylab_v1_easylab_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   107,
+			NumMessages:   121,
 			NumExtensions: 0,
 			NumServices:   3,
 		},

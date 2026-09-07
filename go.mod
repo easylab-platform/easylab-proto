@@ -1,4 +1,4 @@
-module forgejo.develop.10.199.64.20.nip.io/easylab/easylab-proto
+module github.com/easylab-platform/easylab-proto
 
 go 1.26
 
