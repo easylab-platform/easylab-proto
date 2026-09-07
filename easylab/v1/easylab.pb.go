@@ -2875,6 +2875,8 @@ type ServiceInfo struct {
 	Status        string                 `protobuf:"bytes,9,opt,name=status,proto3" json:"status,omitempty"`
 	Url           string                 `protobuf:"bytes,10,opt,name=url,proto3" json:"url,omitempty"`
 	Kind          string                 `protobuf:"bytes,11,opt,name=kind,proto3" json:"kind,omitempty"`
+	PodIp         string                 `protobuf:"bytes,12,opt,name=pod_ip,json=podIp,proto3" json:"pod_ip,omitempty"` // direct pod address (sandbox worker reach)
+	Phase         string                 `protobuf:"bytes,13,opt,name=phase,proto3" json:"phase,omitempty"`              // running | pending | ...
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2982,6 +2984,20 @@ func (x *ServiceInfo) GetUrl() string {
 func (x *ServiceInfo) GetKind() string {
 	if x != nil {
 		return x.Kind
+	}
+	return ""
+}
+
+func (x *ServiceInfo) GetPodIp() string {
+	if x != nil {
+		return x.PodIp
+	}
+	return ""
+}
+
+func (x *ServiceInfo) GetPhase() string {
+	if x != nil {
+		return x.Phase
 	}
 	return ""
 }
@@ -7113,7 +7129,7 @@ const file_easylab_v1_easylab_proto_rawDesc = "" +
 	"\x04path\x18\x03 \x01(\tR\x04path\x12\x10\n" +
 	"\x03ref\x18\x04 \x01(\tR\x03ref\"G\n" +
 	"\x13FileHistoryResponse\x120\n" +
-	"\acommits\x18\x01 \x03(\v2\x16.easylab.v1.CommitInfoR\acommits\"\x87\x02\n" +
+	"\acommits\x18\x01 \x03(\v2\x16.easylab.v1.CommitInfoR\acommits\"\xb4\x02\n" +
 	"\vServiceInfo\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
 	"\x05image\x18\x02 \x01(\tR\x05image\x12\x1a\n" +
@@ -7126,7 +7142,9 @@ const file_easylab_v1_easylab_proto_rawDesc = "" +
 	"\x06status\x18\t \x01(\tR\x06status\x12\x10\n" +
 	"\x03url\x18\n" +
 	" \x01(\tR\x03url\x12\x12\n" +
-	"\x04kind\x18\v \x01(\tR\x04kind\"\xa0\x01\n" +
+	"\x04kind\x18\v \x01(\tR\x04kind\x12\x15\n" +
+	"\x06pod_ip\x18\f \x01(\tR\x05podIp\x12\x14\n" +
+	"\x05phase\x18\r \x01(\tR\x05phase\"\xa0\x01\n" +
 	"\n" +
 	"ServicePod\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x0e\n" +
