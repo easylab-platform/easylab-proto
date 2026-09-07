@@ -122,8 +122,6 @@ const (
 	OpsServiceGetTaskProcedure = "/easylab.v1.OpsService/GetTask"
 	// OpsServiceBuildProcedure is the fully-qualified name of the OpsService's Build RPC.
 	OpsServiceBuildProcedure = "/easylab.v1.OpsService/Build"
-	// OpsServiceRunProcedure is the fully-qualified name of the OpsService's Run RPC.
-	OpsServiceRunProcedure = "/easylab.v1.OpsService/Run"
 	// OpsServiceTaskLogProcedure is the fully-qualified name of the OpsService's TaskLog RPC.
 	OpsServiceTaskLogProcedure = "/easylab.v1.OpsService/TaskLog"
 	// OpsServiceSyncProcedure is the fully-qualified name of the OpsService's Sync RPC.
@@ -858,7 +856,6 @@ type OpsServiceClient interface {
 	ListTasks(context.Context, *connect.Request[v1.ListTasksRequest]) (*connect.Response[v1.ListTasksResponse], error)
 	GetTask(context.Context, *connect.Request[v1.GetTaskRequest]) (*connect.Response[v1.GetTaskResponse], error)
 	Build(context.Context, *connect.Request[v1.BuildRequest]) (*connect.Response[v1.BuildResponse], error)
-	Run(context.Context, *connect.Request[v1.RunRequest]) (*connect.Response[v1.RunResponse], error)
 	TaskLog(context.Context, *connect.Request[v1.TaskLogRequest]) (*connect.ServerStreamForClient[v1.TaskLogResponse], error)
 	Sync(context.Context, *connect.Request[v1.SyncRequest]) (*connect.Response[v1.SyncResponse], error)
 }
@@ -958,12 +955,6 @@ func NewOpsServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(opsServiceMethods.ByName("Build")),
 			connect.WithClientOptions(opts...),
 		),
-		run: connect.NewClient[v1.RunRequest, v1.RunResponse](
-			httpClient,
-			baseURL+OpsServiceRunProcedure,
-			connect.WithSchema(opsServiceMethods.ByName("Run")),
-			connect.WithClientOptions(opts...),
-		),
 		taskLog: connect.NewClient[v1.TaskLogRequest, v1.TaskLogResponse](
 			httpClient,
 			baseURL+OpsServiceTaskLogProcedure,
@@ -995,7 +986,6 @@ type opsServiceClient struct {
 	listTasks      *connect.Client[v1.ListTasksRequest, v1.ListTasksResponse]
 	getTask        *connect.Client[v1.GetTaskRequest, v1.GetTaskResponse]
 	build          *connect.Client[v1.BuildRequest, v1.BuildResponse]
-	run            *connect.Client[v1.RunRequest, v1.RunResponse]
 	taskLog        *connect.Client[v1.TaskLogRequest, v1.TaskLogResponse]
 	sync           *connect.Client[v1.SyncRequest, v1.SyncResponse]
 }
@@ -1070,11 +1060,6 @@ func (c *opsServiceClient) Build(ctx context.Context, req *connect.Request[v1.Bu
 	return c.build.CallUnary(ctx, req)
 }
 
-// Run calls easylab.v1.OpsService.Run.
-func (c *opsServiceClient) Run(ctx context.Context, req *connect.Request[v1.RunRequest]) (*connect.Response[v1.RunResponse], error) {
-	return c.run.CallUnary(ctx, req)
-}
-
 // TaskLog calls easylab.v1.OpsService.TaskLog.
 func (c *opsServiceClient) TaskLog(ctx context.Context, req *connect.Request[v1.TaskLogRequest]) (*connect.ServerStreamForClient[v1.TaskLogResponse], error) {
 	return c.taskLog.CallServerStream(ctx, req)
@@ -1101,7 +1086,6 @@ type OpsServiceHandler interface {
 	ListTasks(context.Context, *connect.Request[v1.ListTasksRequest]) (*connect.Response[v1.ListTasksResponse], error)
 	GetTask(context.Context, *connect.Request[v1.GetTaskRequest]) (*connect.Response[v1.GetTaskResponse], error)
 	Build(context.Context, *connect.Request[v1.BuildRequest]) (*connect.Response[v1.BuildResponse], error)
-	Run(context.Context, *connect.Request[v1.RunRequest]) (*connect.Response[v1.RunResponse], error)
 	TaskLog(context.Context, *connect.Request[v1.TaskLogRequest], *connect.ServerStream[v1.TaskLogResponse]) error
 	Sync(context.Context, *connect.Request[v1.SyncRequest]) (*connect.Response[v1.SyncResponse], error)
 }
@@ -1197,12 +1181,6 @@ func NewOpsServiceHandler(svc OpsServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(opsServiceMethods.ByName("Build")),
 		connect.WithHandlerOptions(opts...),
 	)
-	opsServiceRunHandler := connect.NewUnaryHandler(
-		OpsServiceRunProcedure,
-		svc.Run,
-		connect.WithSchema(opsServiceMethods.ByName("Run")),
-		connect.WithHandlerOptions(opts...),
-	)
 	opsServiceTaskLogHandler := connect.NewServerStreamHandler(
 		OpsServiceTaskLogProcedure,
 		svc.TaskLog,
@@ -1245,8 +1223,6 @@ func NewOpsServiceHandler(svc OpsServiceHandler, opts ...connect.HandlerOption) 
 			opsServiceGetTaskHandler.ServeHTTP(w, r)
 		case OpsServiceBuildProcedure:
 			opsServiceBuildHandler.ServeHTTP(w, r)
-		case OpsServiceRunProcedure:
-			opsServiceRunHandler.ServeHTTP(w, r)
 		case OpsServiceTaskLogProcedure:
 			opsServiceTaskLogHandler.ServeHTTP(w, r)
 		case OpsServiceSyncProcedure:
@@ -1314,10 +1290,6 @@ func (UnimplementedOpsServiceHandler) GetTask(context.Context, *connect.Request[
 
 func (UnimplementedOpsServiceHandler) Build(context.Context, *connect.Request[v1.BuildRequest]) (*connect.Response[v1.BuildResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.OpsService.Build is not implemented"))
-}
-
-func (UnimplementedOpsServiceHandler) Run(context.Context, *connect.Request[v1.RunRequest]) (*connect.Response[v1.RunResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.OpsService.Run is not implemented"))
 }
 
 func (UnimplementedOpsServiceHandler) TaskLog(context.Context, *connect.Request[v1.TaskLogRequest], *connect.ServerStream[v1.TaskLogResponse]) error {
