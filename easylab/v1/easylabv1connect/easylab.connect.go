@@ -11,7 +11,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	v1 "forgejo.develop.10.199.64.20.nip.io/easylab/easylab-proto/easylab/v1"
+	v1 "github.com/easylab-platform/easylab-proto/easylab/v1"
 	http "net/http"
 	strings "strings"
 )

@@ -6592,7 +6592,7 @@ const file_easylab_v1_easylab_proto_rawDesc = "" +
 	"\x0fPackageVersions\x12\".easylab.v1.PackageVersionsRequest\x1a#.easylab.v1.PackageVersionsResponse\x12T\n" +
 	"\rDeletePackage\x12 .easylab.v1.DeletePackageRequest\x1a!.easylab.v1.DeletePackageResponse\x12i\n" +
 	"\x14DeletePackageVersion\x12'.easylab.v1.DeletePackageVersionRequest\x1a(.easylab.v1.DeletePackageVersionResponse\x12]\n" +
-	"\x10ListPublishSpecs\x12#.easylab.v1.ListPublishSpecsRequest\x1a$.easylab.v1.ListPublishSpecsResponseBPZNforgejo.develop.10.199.64.20.nip.io/easylab/easylab-proto/easylab/v1;easylabv1b\x06proto3"
+	"\x10ListPublishSpecs\x12#.easylab.v1.ListPublishSpecsRequest\x1a$.easylab.v1.ListPublishSpecsResponseB@Z>github.com/easylab-platform/easylab-proto/easylab/v1;easylabv1b\x06proto3"
 
 var (
 	file_easylab_v1_easylab_proto_rawDescOnce sync.Once
