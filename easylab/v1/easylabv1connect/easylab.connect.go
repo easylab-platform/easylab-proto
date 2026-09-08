@@ -90,6 +90,23 @@ const (
 	LabServiceCompareProcedure = "/easylab.v1.LabService/Compare"
 	// LabServiceRebaseProcedure is the fully-qualified name of the LabService's Rebase RPC.
 	LabServiceRebaseProcedure = "/easylab.v1.LabService/Rebase"
+	// LabServiceDeleteOrgProcedure is the fully-qualified name of the LabService's DeleteOrg RPC.
+	LabServiceDeleteOrgProcedure = "/easylab.v1.LabService/DeleteOrg"
+	// LabServiceListReleasesProcedure is the fully-qualified name of the LabService's ListReleases RPC.
+	LabServiceListReleasesProcedure = "/easylab.v1.LabService/ListReleases"
+	// LabServiceDownloadReleaseAssetProcedure is the fully-qualified name of the LabService's
+	// DownloadReleaseAsset RPC.
+	LabServiceDownloadReleaseAssetProcedure = "/easylab.v1.LabService/DownloadReleaseAsset"
+	// LabServiceArchiveProcedure is the fully-qualified name of the LabService's Archive RPC.
+	LabServiceArchiveProcedure = "/easylab.v1.LabService/Archive"
+	// LabServiceGetMirrorProcedure is the fully-qualified name of the LabService's GetMirror RPC.
+	LabServiceGetMirrorProcedure = "/easylab.v1.LabService/GetMirror"
+	// LabServiceSetMirrorProcedure is the fully-qualified name of the LabService's SetMirror RPC.
+	LabServiceSetMirrorProcedure = "/easylab.v1.LabService/SetMirror"
+	// LabServiceDeleteMirrorProcedure is the fully-qualified name of the LabService's DeleteMirror RPC.
+	LabServiceDeleteMirrorProcedure = "/easylab.v1.LabService/DeleteMirror"
+	// LabServiceSyncMirrorProcedure is the fully-qualified name of the LabService's SyncMirror RPC.
+	LabServiceSyncMirrorProcedure = "/easylab.v1.LabService/SyncMirror"
 	// OpsServiceOpsStatusProcedure is the fully-qualified name of the OpsService's OpsStatus RPC.
 	OpsServiceOpsStatusProcedure = "/easylab.v1.OpsService/OpsStatus"
 	// OpsServiceListNamespacesProcedure is the fully-qualified name of the OpsService's ListNamespaces
@@ -144,6 +161,9 @@ const (
 	// RegistryServiceListPublishSpecsProcedure is the fully-qualified name of the RegistryService's
 	// ListPublishSpecs RPC.
 	RegistryServiceListPublishSpecsProcedure = "/easylab.v1.RegistryService/ListPublishSpecs"
+	// RegistryServiceOCICatalogProcedure is the fully-qualified name of the RegistryService's
+	// OCICatalog RPC.
+	RegistryServiceOCICatalogProcedure = "/easylab.v1.RegistryService/OCICatalog"
 )
 
 // LabServiceClient is a client for the easylab.v1.LabService service.
@@ -173,6 +193,18 @@ type LabServiceClient interface {
 	Graph(context.Context, *connect.Request[v1.GraphRequest]) (*connect.Response[v1.GraphResponse], error)
 	Compare(context.Context, *connect.Request[v1.CompareRequest]) (*connect.Response[v1.CompareResponse], error)
 	Rebase(context.Context, *connect.Request[v1.RebaseRequest]) (*connect.Response[v1.RebaseResponse], error)
+	// ---- Lab additions (REST removals) ----
+	DeleteOrg(context.Context, *connect.Request[v1.DeleteOrgRequest]) (*connect.Response[v1.DeleteOrgResponse], error)
+	// Releases (backed by the generic artifact registry; format "generic").
+	ListReleases(context.Context, *connect.Request[v1.ListReleasesRequest]) (*connect.Response[v1.ListReleasesResponse], error)
+	DownloadReleaseAsset(context.Context, *connect.Request[v1.DownloadReleaseAssetRequest]) (*connect.Response[v1.DownloadReleaseAssetResponse], error)
+	// Source archive tarball for a rev/tag.
+	Archive(context.Context, *connect.Request[v1.ArchiveRequest]) (*connect.Response[v1.ArchiveResponse], error)
+	// Mirror (persistent push/pull mirrors on a repo).
+	GetMirror(context.Context, *connect.Request[v1.GetMirrorRequest]) (*connect.Response[v1.GetMirrorResponse], error)
+	SetMirror(context.Context, *connect.Request[v1.SetMirrorRequest]) (*connect.Response[v1.SetMirrorResponse], error)
+	DeleteMirror(context.Context, *connect.Request[v1.DeleteMirrorRequest]) (*connect.Response[v1.DeleteMirrorResponse], error)
+	SyncMirror(context.Context, *connect.Request[v1.SyncMirrorRequest]) (*connect.Response[v1.SyncMirrorResponse], error)
 }
 
 // NewLabServiceClient constructs a client for the easylab.v1.LabService service. By default, it
@@ -336,36 +368,92 @@ func NewLabServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(labServiceMethods.ByName("Rebase")),
 			connect.WithClientOptions(opts...),
 		),
+		deleteOrg: connect.NewClient[v1.DeleteOrgRequest, v1.DeleteOrgResponse](
+			httpClient,
+			baseURL+LabServiceDeleteOrgProcedure,
+			connect.WithSchema(labServiceMethods.ByName("DeleteOrg")),
+			connect.WithClientOptions(opts...),
+		),
+		listReleases: connect.NewClient[v1.ListReleasesRequest, v1.ListReleasesResponse](
+			httpClient,
+			baseURL+LabServiceListReleasesProcedure,
+			connect.WithSchema(labServiceMethods.ByName("ListReleases")),
+			connect.WithClientOptions(opts...),
+		),
+		downloadReleaseAsset: connect.NewClient[v1.DownloadReleaseAssetRequest, v1.DownloadReleaseAssetResponse](
+			httpClient,
+			baseURL+LabServiceDownloadReleaseAssetProcedure,
+			connect.WithSchema(labServiceMethods.ByName("DownloadReleaseAsset")),
+			connect.WithClientOptions(opts...),
+		),
+		archive: connect.NewClient[v1.ArchiveRequest, v1.ArchiveResponse](
+			httpClient,
+			baseURL+LabServiceArchiveProcedure,
+			connect.WithSchema(labServiceMethods.ByName("Archive")),
+			connect.WithClientOptions(opts...),
+		),
+		getMirror: connect.NewClient[v1.GetMirrorRequest, v1.GetMirrorResponse](
+			httpClient,
+			baseURL+LabServiceGetMirrorProcedure,
+			connect.WithSchema(labServiceMethods.ByName("GetMirror")),
+			connect.WithClientOptions(opts...),
+		),
+		setMirror: connect.NewClient[v1.SetMirrorRequest, v1.SetMirrorResponse](
+			httpClient,
+			baseURL+LabServiceSetMirrorProcedure,
+			connect.WithSchema(labServiceMethods.ByName("SetMirror")),
+			connect.WithClientOptions(opts...),
+		),
+		deleteMirror: connect.NewClient[v1.DeleteMirrorRequest, v1.DeleteMirrorResponse](
+			httpClient,
+			baseURL+LabServiceDeleteMirrorProcedure,
+			connect.WithSchema(labServiceMethods.ByName("DeleteMirror")),
+			connect.WithClientOptions(opts...),
+		),
+		syncMirror: connect.NewClient[v1.SyncMirrorRequest, v1.SyncMirrorResponse](
+			httpClient,
+			baseURL+LabServiceSyncMirrorProcedure,
+			connect.WithSchema(labServiceMethods.ByName("SyncMirror")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // labServiceClient implements LabServiceClient.
 type labServiceClient struct {
-	health       *connect.Client[v1.HealthRequest, v1.HealthResponse]
-	status       *connect.Client[v1.StatusRequest, v1.StatusResponse]
-	listRepos    *connect.Client[v1.ListReposRequest, v1.ListReposResponse]
-	createRepo   *connect.Client[v1.CreateRepoRequest, v1.CreateRepoResponse]
-	deleteRepo   *connect.Client[v1.DeleteRepoRequest, v1.DeleteRepoResponse]
-	ensureRepo   *connect.Client[v1.EnsureRepoRequest, v1.EnsureRepoResponse]
-	ensureOrg    *connect.Client[v1.EnsureOrgRequest, v1.EnsureOrgResponse]
-	forkRepo     *connect.Client[v1.ForkRepoRequest, v1.ForkRepoResponse]
-	cloneRepo    *connect.Client[v1.CloneRepoRequest, v1.CloneRepoResponse]
-	tree         *connect.Client[v1.TreeRequest, v1.TreeResponse]
-	readBlob     *connect.Client[v1.ReadBlobRequest, v1.ReadBlobResponse]
-	writeBlob    *connect.Client[v1.WriteBlobRequest, v1.WriteBlobResponse]
-	log          *connect.Client[v1.LogRequest, v1.LogResponse]
-	tags         *connect.Client[v1.TagsRequest, v1.TagsResponse]
-	branches     *connect.Client[v1.BranchesRequest, v1.BranchesResponse]
-	revisions    *connect.Client[v1.RevisionsRequest, v1.RevisionsResponse]
-	diff         *connect.Client[v1.DiffRequest, v1.DiffResponse]
-	blame        *connect.Client[v1.BlameRequest, v1.BlameResponse]
-	deleteBranch *connect.Client[v1.DeleteBranchRequest, v1.DeleteBranchResponse]
-	createBranch *connect.Client[v1.CreateBranchRequest, v1.CreateBranchResponse]
-	fileHistory  *connect.Client[v1.FileHistoryRequest, v1.FileHistoryResponse]
-	search       *connect.Client[v1.SearchRequest, v1.SearchResponse]
-	graph        *connect.Client[v1.GraphRequest, v1.GraphResponse]
-	compare      *connect.Client[v1.CompareRequest, v1.CompareResponse]
-	rebase       *connect.Client[v1.RebaseRequest, v1.RebaseResponse]
+	health               *connect.Client[v1.HealthRequest, v1.HealthResponse]
+	status               *connect.Client[v1.StatusRequest, v1.StatusResponse]
+	listRepos            *connect.Client[v1.ListReposRequest, v1.ListReposResponse]
+	createRepo           *connect.Client[v1.CreateRepoRequest, v1.CreateRepoResponse]
+	deleteRepo           *connect.Client[v1.DeleteRepoRequest, v1.DeleteRepoResponse]
+	ensureRepo           *connect.Client[v1.EnsureRepoRequest, v1.EnsureRepoResponse]
+	ensureOrg            *connect.Client[v1.EnsureOrgRequest, v1.EnsureOrgResponse]
+	forkRepo             *connect.Client[v1.ForkRepoRequest, v1.ForkRepoResponse]
+	cloneRepo            *connect.Client[v1.CloneRepoRequest, v1.CloneRepoResponse]
+	tree                 *connect.Client[v1.TreeRequest, v1.TreeResponse]
+	readBlob             *connect.Client[v1.ReadBlobRequest, v1.ReadBlobResponse]
+	writeBlob            *connect.Client[v1.WriteBlobRequest, v1.WriteBlobResponse]
+	log                  *connect.Client[v1.LogRequest, v1.LogResponse]
+	tags                 *connect.Client[v1.TagsRequest, v1.TagsResponse]
+	branches             *connect.Client[v1.BranchesRequest, v1.BranchesResponse]
+	revisions            *connect.Client[v1.RevisionsRequest, v1.RevisionsResponse]
+	diff                 *connect.Client[v1.DiffRequest, v1.DiffResponse]
+	blame                *connect.Client[v1.BlameRequest, v1.BlameResponse]
+	deleteBranch         *connect.Client[v1.DeleteBranchRequest, v1.DeleteBranchResponse]
+	createBranch         *connect.Client[v1.CreateBranchRequest, v1.CreateBranchResponse]
+	fileHistory          *connect.Client[v1.FileHistoryRequest, v1.FileHistoryResponse]
+	search               *connect.Client[v1.SearchRequest, v1.SearchResponse]
+	graph                *connect.Client[v1.GraphRequest, v1.GraphResponse]
+	compare              *connect.Client[v1.CompareRequest, v1.CompareResponse]
+	rebase               *connect.Client[v1.RebaseRequest, v1.RebaseResponse]
+	deleteOrg            *connect.Client[v1.DeleteOrgRequest, v1.DeleteOrgResponse]
+	listReleases         *connect.Client[v1.ListReleasesRequest, v1.ListReleasesResponse]
+	downloadReleaseAsset *connect.Client[v1.DownloadReleaseAssetRequest, v1.DownloadReleaseAssetResponse]
+	archive              *connect.Client[v1.ArchiveRequest, v1.ArchiveResponse]
+	getMirror            *connect.Client[v1.GetMirrorRequest, v1.GetMirrorResponse]
+	setMirror            *connect.Client[v1.SetMirrorRequest, v1.SetMirrorResponse]
+	deleteMirror         *connect.Client[v1.DeleteMirrorRequest, v1.DeleteMirrorResponse]
+	syncMirror           *connect.Client[v1.SyncMirrorRequest, v1.SyncMirrorResponse]
 }
 
 // Health calls easylab.v1.LabService.Health.
@@ -493,6 +581,46 @@ func (c *labServiceClient) Rebase(ctx context.Context, req *connect.Request[v1.R
 	return c.rebase.CallUnary(ctx, req)
 }
 
+// DeleteOrg calls easylab.v1.LabService.DeleteOrg.
+func (c *labServiceClient) DeleteOrg(ctx context.Context, req *connect.Request[v1.DeleteOrgRequest]) (*connect.Response[v1.DeleteOrgResponse], error) {
+	return c.deleteOrg.CallUnary(ctx, req)
+}
+
+// ListReleases calls easylab.v1.LabService.ListReleases.
+func (c *labServiceClient) ListReleases(ctx context.Context, req *connect.Request[v1.ListReleasesRequest]) (*connect.Response[v1.ListReleasesResponse], error) {
+	return c.listReleases.CallUnary(ctx, req)
+}
+
+// DownloadReleaseAsset calls easylab.v1.LabService.DownloadReleaseAsset.
+func (c *labServiceClient) DownloadReleaseAsset(ctx context.Context, req *connect.Request[v1.DownloadReleaseAssetRequest]) (*connect.Response[v1.DownloadReleaseAssetResponse], error) {
+	return c.downloadReleaseAsset.CallUnary(ctx, req)
+}
+
+// Archive calls easylab.v1.LabService.Archive.
+func (c *labServiceClient) Archive(ctx context.Context, req *connect.Request[v1.ArchiveRequest]) (*connect.Response[v1.ArchiveResponse], error) {
+	return c.archive.CallUnary(ctx, req)
+}
+
+// GetMirror calls easylab.v1.LabService.GetMirror.
+func (c *labServiceClient) GetMirror(ctx context.Context, req *connect.Request[v1.GetMirrorRequest]) (*connect.Response[v1.GetMirrorResponse], error) {
+	return c.getMirror.CallUnary(ctx, req)
+}
+
+// SetMirror calls easylab.v1.LabService.SetMirror.
+func (c *labServiceClient) SetMirror(ctx context.Context, req *connect.Request[v1.SetMirrorRequest]) (*connect.Response[v1.SetMirrorResponse], error) {
+	return c.setMirror.CallUnary(ctx, req)
+}
+
+// DeleteMirror calls easylab.v1.LabService.DeleteMirror.
+func (c *labServiceClient) DeleteMirror(ctx context.Context, req *connect.Request[v1.DeleteMirrorRequest]) (*connect.Response[v1.DeleteMirrorResponse], error) {
+	return c.deleteMirror.CallUnary(ctx, req)
+}
+
+// SyncMirror calls easylab.v1.LabService.SyncMirror.
+func (c *labServiceClient) SyncMirror(ctx context.Context, req *connect.Request[v1.SyncMirrorRequest]) (*connect.Response[v1.SyncMirrorResponse], error) {
+	return c.syncMirror.CallUnary(ctx, req)
+}
+
 // LabServiceHandler is an implementation of the easylab.v1.LabService service.
 type LabServiceHandler interface {
 	Health(context.Context, *connect.Request[v1.HealthRequest]) (*connect.Response[v1.HealthResponse], error)
@@ -520,6 +648,18 @@ type LabServiceHandler interface {
 	Graph(context.Context, *connect.Request[v1.GraphRequest]) (*connect.Response[v1.GraphResponse], error)
 	Compare(context.Context, *connect.Request[v1.CompareRequest]) (*connect.Response[v1.CompareResponse], error)
 	Rebase(context.Context, *connect.Request[v1.RebaseRequest]) (*connect.Response[v1.RebaseResponse], error)
+	// ---- Lab additions (REST removals) ----
+	DeleteOrg(context.Context, *connect.Request[v1.DeleteOrgRequest]) (*connect.Response[v1.DeleteOrgResponse], error)
+	// Releases (backed by the generic artifact registry; format "generic").
+	ListReleases(context.Context, *connect.Request[v1.ListReleasesRequest]) (*connect.Response[v1.ListReleasesResponse], error)
+	DownloadReleaseAsset(context.Context, *connect.Request[v1.DownloadReleaseAssetRequest]) (*connect.Response[v1.DownloadReleaseAssetResponse], error)
+	// Source archive tarball for a rev/tag.
+	Archive(context.Context, *connect.Request[v1.ArchiveRequest]) (*connect.Response[v1.ArchiveResponse], error)
+	// Mirror (persistent push/pull mirrors on a repo).
+	GetMirror(context.Context, *connect.Request[v1.GetMirrorRequest]) (*connect.Response[v1.GetMirrorResponse], error)
+	SetMirror(context.Context, *connect.Request[v1.SetMirrorRequest]) (*connect.Response[v1.SetMirrorResponse], error)
+	DeleteMirror(context.Context, *connect.Request[v1.DeleteMirrorRequest]) (*connect.Response[v1.DeleteMirrorResponse], error)
+	SyncMirror(context.Context, *connect.Request[v1.SyncMirrorRequest]) (*connect.Response[v1.SyncMirrorResponse], error)
 }
 
 // NewLabServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -679,6 +819,54 @@ func NewLabServiceHandler(svc LabServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(labServiceMethods.ByName("Rebase")),
 		connect.WithHandlerOptions(opts...),
 	)
+	labServiceDeleteOrgHandler := connect.NewUnaryHandler(
+		LabServiceDeleteOrgProcedure,
+		svc.DeleteOrg,
+		connect.WithSchema(labServiceMethods.ByName("DeleteOrg")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceListReleasesHandler := connect.NewUnaryHandler(
+		LabServiceListReleasesProcedure,
+		svc.ListReleases,
+		connect.WithSchema(labServiceMethods.ByName("ListReleases")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceDownloadReleaseAssetHandler := connect.NewUnaryHandler(
+		LabServiceDownloadReleaseAssetProcedure,
+		svc.DownloadReleaseAsset,
+		connect.WithSchema(labServiceMethods.ByName("DownloadReleaseAsset")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceArchiveHandler := connect.NewUnaryHandler(
+		LabServiceArchiveProcedure,
+		svc.Archive,
+		connect.WithSchema(labServiceMethods.ByName("Archive")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceGetMirrorHandler := connect.NewUnaryHandler(
+		LabServiceGetMirrorProcedure,
+		svc.GetMirror,
+		connect.WithSchema(labServiceMethods.ByName("GetMirror")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceSetMirrorHandler := connect.NewUnaryHandler(
+		LabServiceSetMirrorProcedure,
+		svc.SetMirror,
+		connect.WithSchema(labServiceMethods.ByName("SetMirror")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceDeleteMirrorHandler := connect.NewUnaryHandler(
+		LabServiceDeleteMirrorProcedure,
+		svc.DeleteMirror,
+		connect.WithSchema(labServiceMethods.ByName("DeleteMirror")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceSyncMirrorHandler := connect.NewUnaryHandler(
+		LabServiceSyncMirrorProcedure,
+		svc.SyncMirror,
+		connect.WithSchema(labServiceMethods.ByName("SyncMirror")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/easylab.v1.LabService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case LabServiceHealthProcedure:
@@ -731,6 +919,22 @@ func NewLabServiceHandler(svc LabServiceHandler, opts ...connect.HandlerOption) 
 			labServiceCompareHandler.ServeHTTP(w, r)
 		case LabServiceRebaseProcedure:
 			labServiceRebaseHandler.ServeHTTP(w, r)
+		case LabServiceDeleteOrgProcedure:
+			labServiceDeleteOrgHandler.ServeHTTP(w, r)
+		case LabServiceListReleasesProcedure:
+			labServiceListReleasesHandler.ServeHTTP(w, r)
+		case LabServiceDownloadReleaseAssetProcedure:
+			labServiceDownloadReleaseAssetHandler.ServeHTTP(w, r)
+		case LabServiceArchiveProcedure:
+			labServiceArchiveHandler.ServeHTTP(w, r)
+		case LabServiceGetMirrorProcedure:
+			labServiceGetMirrorHandler.ServeHTTP(w, r)
+		case LabServiceSetMirrorProcedure:
+			labServiceSetMirrorHandler.ServeHTTP(w, r)
+		case LabServiceDeleteMirrorProcedure:
+			labServiceDeleteMirrorHandler.ServeHTTP(w, r)
+		case LabServiceSyncMirrorProcedure:
+			labServiceSyncMirrorHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -838,6 +1042,38 @@ func (UnimplementedLabServiceHandler) Compare(context.Context, *connect.Request[
 
 func (UnimplementedLabServiceHandler) Rebase(context.Context, *connect.Request[v1.RebaseRequest]) (*connect.Response[v1.RebaseResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.Rebase is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) DeleteOrg(context.Context, *connect.Request[v1.DeleteOrgRequest]) (*connect.Response[v1.DeleteOrgResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.DeleteOrg is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) ListReleases(context.Context, *connect.Request[v1.ListReleasesRequest]) (*connect.Response[v1.ListReleasesResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.ListReleases is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) DownloadReleaseAsset(context.Context, *connect.Request[v1.DownloadReleaseAssetRequest]) (*connect.Response[v1.DownloadReleaseAssetResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.DownloadReleaseAsset is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) Archive(context.Context, *connect.Request[v1.ArchiveRequest]) (*connect.Response[v1.ArchiveResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.Archive is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) GetMirror(context.Context, *connect.Request[v1.GetMirrorRequest]) (*connect.Response[v1.GetMirrorResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.GetMirror is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) SetMirror(context.Context, *connect.Request[v1.SetMirrorRequest]) (*connect.Response[v1.SetMirrorResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.SetMirror is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) DeleteMirror(context.Context, *connect.Request[v1.DeleteMirrorRequest]) (*connect.Response[v1.DeleteMirrorResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.DeleteMirror is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) SyncMirror(context.Context, *connect.Request[v1.SyncMirrorRequest]) (*connect.Response[v1.SyncMirrorResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.SyncMirror is not implemented"))
 }
 
 // OpsServiceClient is a client for the easylab.v1.OpsService service.
@@ -1308,6 +1544,7 @@ type RegistryServiceClient interface {
 	DeletePackage(context.Context, *connect.Request[v1.DeletePackageRequest]) (*connect.Response[v1.DeletePackageResponse], error)
 	DeletePackageVersion(context.Context, *connect.Request[v1.DeletePackageVersionRequest]) (*connect.Response[v1.DeletePackageVersionResponse], error)
 	ListPublishSpecs(context.Context, *connect.Request[v1.ListPublishSpecsRequest]) (*connect.Response[v1.ListPublishSpecsResponse], error)
+	OCICatalog(context.Context, *connect.Request[v1.OCICatalogRequest]) (*connect.Response[v1.OCICatalogResponse], error)
 }
 
 // NewRegistryServiceClient constructs a client for the easylab.v1.RegistryService service. By
@@ -1357,6 +1594,12 @@ func NewRegistryServiceClient(httpClient connect.HTTPClient, baseURL string, opt
 			connect.WithSchema(registryServiceMethods.ByName("ListPublishSpecs")),
 			connect.WithClientOptions(opts...),
 		),
+		oCICatalog: connect.NewClient[v1.OCICatalogRequest, v1.OCICatalogResponse](
+			httpClient,
+			baseURL+RegistryServiceOCICatalogProcedure,
+			connect.WithSchema(registryServiceMethods.ByName("OCICatalog")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -1368,6 +1611,7 @@ type registryServiceClient struct {
 	deletePackage        *connect.Client[v1.DeletePackageRequest, v1.DeletePackageResponse]
 	deletePackageVersion *connect.Client[v1.DeletePackageVersionRequest, v1.DeletePackageVersionResponse]
 	listPublishSpecs     *connect.Client[v1.ListPublishSpecsRequest, v1.ListPublishSpecsResponse]
+	oCICatalog           *connect.Client[v1.OCICatalogRequest, v1.OCICatalogResponse]
 }
 
 // ListPackageTypes calls easylab.v1.RegistryService.ListPackageTypes.
@@ -1400,6 +1644,11 @@ func (c *registryServiceClient) ListPublishSpecs(ctx context.Context, req *conne
 	return c.listPublishSpecs.CallUnary(ctx, req)
 }
 
+// OCICatalog calls easylab.v1.RegistryService.OCICatalog.
+func (c *registryServiceClient) OCICatalog(ctx context.Context, req *connect.Request[v1.OCICatalogRequest]) (*connect.Response[v1.OCICatalogResponse], error) {
+	return c.oCICatalog.CallUnary(ctx, req)
+}
+
 // RegistryServiceHandler is an implementation of the easylab.v1.RegistryService service.
 type RegistryServiceHandler interface {
 	ListPackageTypes(context.Context, *connect.Request[v1.ListPackageTypesRequest]) (*connect.Response[v1.ListPackageTypesResponse], error)
@@ -1408,6 +1657,7 @@ type RegistryServiceHandler interface {
 	DeletePackage(context.Context, *connect.Request[v1.DeletePackageRequest]) (*connect.Response[v1.DeletePackageResponse], error)
 	DeletePackageVersion(context.Context, *connect.Request[v1.DeletePackageVersionRequest]) (*connect.Response[v1.DeletePackageVersionResponse], error)
 	ListPublishSpecs(context.Context, *connect.Request[v1.ListPublishSpecsRequest]) (*connect.Response[v1.ListPublishSpecsResponse], error)
+	OCICatalog(context.Context, *connect.Request[v1.OCICatalogRequest]) (*connect.Response[v1.OCICatalogResponse], error)
 }
 
 // NewRegistryServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -1453,6 +1703,12 @@ func NewRegistryServiceHandler(svc RegistryServiceHandler, opts ...connect.Handl
 		connect.WithSchema(registryServiceMethods.ByName("ListPublishSpecs")),
 		connect.WithHandlerOptions(opts...),
 	)
+	registryServiceOCICatalogHandler := connect.NewUnaryHandler(
+		RegistryServiceOCICatalogProcedure,
+		svc.OCICatalog,
+		connect.WithSchema(registryServiceMethods.ByName("OCICatalog")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/easylab.v1.RegistryService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case RegistryServiceListPackageTypesProcedure:
@@ -1467,6 +1723,8 @@ func NewRegistryServiceHandler(svc RegistryServiceHandler, opts ...connect.Handl
 			registryServiceDeletePackageVersionHandler.ServeHTTP(w, r)
 		case RegistryServiceListPublishSpecsProcedure:
 			registryServiceListPublishSpecsHandler.ServeHTTP(w, r)
+		case RegistryServiceOCICatalogProcedure:
+			registryServiceOCICatalogHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -1498,4 +1756,8 @@ func (UnimplementedRegistryServiceHandler) DeletePackageVersion(context.Context,
 
 func (UnimplementedRegistryServiceHandler) ListPublishSpecs(context.Context, *connect.Request[v1.ListPublishSpecsRequest]) (*connect.Response[v1.ListPublishSpecsResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.RegistryService.ListPublishSpecs is not implemented"))
+}
+
+func (UnimplementedRegistryServiceHandler) OCICatalog(context.Context, *connect.Request[v1.OCICatalogRequest]) (*connect.Response[v1.OCICatalogResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.RegistryService.OCICatalog is not implemented"))
 }
