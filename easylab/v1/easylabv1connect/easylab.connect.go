@@ -33,6 +33,8 @@ const (
 	RegistryServiceName = "easylab.v1.RegistryService"
 	// SandboxServiceName is the fully-qualified name of the SandboxService service.
 	SandboxServiceName = "easylab.v1.SandboxService"
+	// WorkflowServiceName is the fully-qualified name of the WorkflowService service.
+	WorkflowServiceName = "easylab.v1.WorkflowService"
 )
 
 // These constants are the fully-qualified names of the RPCs defined in this package. They're
@@ -207,6 +209,35 @@ const (
 	SandboxServiceFileWriteProcedure = "/easylab.v1.SandboxService/FileWrite"
 	// SandboxServiceFileListProcedure is the fully-qualified name of the SandboxService's FileList RPC.
 	SandboxServiceFileListProcedure = "/easylab.v1.SandboxService/FileList"
+	// WorkflowServiceCreateWorkflowProcedure is the fully-qualified name of the WorkflowService's
+	// CreateWorkflow RPC.
+	WorkflowServiceCreateWorkflowProcedure = "/easylab.v1.WorkflowService/CreateWorkflow"
+	// WorkflowServiceGetWorkflowProcedure is the fully-qualified name of the WorkflowService's
+	// GetWorkflow RPC.
+	WorkflowServiceGetWorkflowProcedure = "/easylab.v1.WorkflowService/GetWorkflow"
+	// WorkflowServiceListWorkflowsProcedure is the fully-qualified name of the WorkflowService's
+	// ListWorkflows RPC.
+	WorkflowServiceListWorkflowsProcedure = "/easylab.v1.WorkflowService/ListWorkflows"
+	// WorkflowServiceTriggerRunProcedure is the fully-qualified name of the WorkflowService's
+	// TriggerRun RPC.
+	WorkflowServiceTriggerRunProcedure = "/easylab.v1.WorkflowService/TriggerRun"
+	// WorkflowServiceGetRunProcedure is the fully-qualified name of the WorkflowService's GetRun RPC.
+	WorkflowServiceGetRunProcedure = "/easylab.v1.WorkflowService/GetRun"
+	// WorkflowServiceListRunsProcedure is the fully-qualified name of the WorkflowService's ListRuns
+	// RPC.
+	WorkflowServiceListRunsProcedure = "/easylab.v1.WorkflowService/ListRuns"
+	// WorkflowServiceRunJobLogProcedure is the fully-qualified name of the WorkflowService's RunJobLog
+	// RPC.
+	WorkflowServiceRunJobLogProcedure = "/easylab.v1.WorkflowService/RunJobLog"
+	// WorkflowServiceCancelRunProcedure is the fully-qualified name of the WorkflowService's CancelRun
+	// RPC.
+	WorkflowServiceCancelRunProcedure = "/easylab.v1.WorkflowService/CancelRun"
+	// WorkflowServiceRegisterRunnerProcedure is the fully-qualified name of the WorkflowService's
+	// RegisterRunner RPC.
+	WorkflowServiceRegisterRunnerProcedure = "/easylab.v1.WorkflowService/RegisterRunner"
+	// WorkflowServiceListRunnersProcedure is the fully-qualified name of the WorkflowService's
+	// ListRunners RPC.
+	WorkflowServiceListRunnersProcedure = "/easylab.v1.WorkflowService/ListRunners"
 )
 
 // LabServiceClient is a client for the easylab.v1.LabService service.
@@ -2271,4 +2302,308 @@ func (UnimplementedSandboxServiceHandler) FileWrite(context.Context, *connect.Re
 
 func (UnimplementedSandboxServiceHandler) FileList(context.Context, *connect.Request[v1.FileListRequest]) (*connect.Response[v11.FileListResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.FileList is not implemented"))
+}
+
+// WorkflowServiceClient is a client for the easylab.v1.WorkflowService service.
+type WorkflowServiceClient interface {
+	CreateWorkflow(context.Context, *connect.Request[v1.CreateWorkflowRequest]) (*connect.Response[v1.CreateWorkflowResponse], error)
+	GetWorkflow(context.Context, *connect.Request[v1.GetWorkflowRequest]) (*connect.Response[v1.GetWorkflowResponse], error)
+	ListWorkflows(context.Context, *connect.Request[v1.ListWorkflowsRequest]) (*connect.Response[v1.ListWorkflowsResponse], error)
+	TriggerRun(context.Context, *connect.Request[v1.TriggerRunRequest]) (*connect.Response[v1.TriggerRunResponse], error)
+	GetRun(context.Context, *connect.Request[v1.GetRunRequest]) (*connect.Response[v1.GetRunResponse], error)
+	ListRuns(context.Context, *connect.Request[v1.ListRunsRequest]) (*connect.Response[v1.ListRunsResponse], error)
+	RunJobLog(context.Context, *connect.Request[v1.RunJobLogRequest]) (*connect.ServerStreamForClient[v1.RunJobLogResponse], error)
+	CancelRun(context.Context, *connect.Request[v1.CancelRunRequest]) (*connect.Response[v1.CancelRunResponse], error)
+	RegisterRunner(context.Context, *connect.Request[v1.RegisterRunnerRequest]) (*connect.Response[v1.RegisterRunnerResponse], error)
+	ListRunners(context.Context, *connect.Request[v1.ListRunnersRequest]) (*connect.Response[v1.ListRunnersResponse], error)
+}
+
+// NewWorkflowServiceClient constructs a client for the easylab.v1.WorkflowService service. By
+// default, it uses the Connect protocol with the binary Protobuf Codec, asks for gzipped responses,
+// and sends uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the
+// connect.WithGRPC() or connect.WithGRPCWeb() options.
+//
+// The URL supplied here should be the base URL for the Connect or gRPC server (for example,
+// http://api.acme.com or https://acme.com/grpc).
+func NewWorkflowServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) WorkflowServiceClient {
+	baseURL = strings.TrimRight(baseURL, "/")
+	workflowServiceMethods := v1.File_easylab_v1_easylab_proto.Services().ByName("WorkflowService").Methods()
+	return &workflowServiceClient{
+		createWorkflow: connect.NewClient[v1.CreateWorkflowRequest, v1.CreateWorkflowResponse](
+			httpClient,
+			baseURL+WorkflowServiceCreateWorkflowProcedure,
+			connect.WithSchema(workflowServiceMethods.ByName("CreateWorkflow")),
+			connect.WithClientOptions(opts...),
+		),
+		getWorkflow: connect.NewClient[v1.GetWorkflowRequest, v1.GetWorkflowResponse](
+			httpClient,
+			baseURL+WorkflowServiceGetWorkflowProcedure,
+			connect.WithSchema(workflowServiceMethods.ByName("GetWorkflow")),
+			connect.WithClientOptions(opts...),
+		),
+		listWorkflows: connect.NewClient[v1.ListWorkflowsRequest, v1.ListWorkflowsResponse](
+			httpClient,
+			baseURL+WorkflowServiceListWorkflowsProcedure,
+			connect.WithSchema(workflowServiceMethods.ByName("ListWorkflows")),
+			connect.WithClientOptions(opts...),
+		),
+		triggerRun: connect.NewClient[v1.TriggerRunRequest, v1.TriggerRunResponse](
+			httpClient,
+			baseURL+WorkflowServiceTriggerRunProcedure,
+			connect.WithSchema(workflowServiceMethods.ByName("TriggerRun")),
+			connect.WithClientOptions(opts...),
+		),
+		getRun: connect.NewClient[v1.GetRunRequest, v1.GetRunResponse](
+			httpClient,
+			baseURL+WorkflowServiceGetRunProcedure,
+			connect.WithSchema(workflowServiceMethods.ByName("GetRun")),
+			connect.WithClientOptions(opts...),
+		),
+		listRuns: connect.NewClient[v1.ListRunsRequest, v1.ListRunsResponse](
+			httpClient,
+			baseURL+WorkflowServiceListRunsProcedure,
+			connect.WithSchema(workflowServiceMethods.ByName("ListRuns")),
+			connect.WithClientOptions(opts...),
+		),
+		runJobLog: connect.NewClient[v1.RunJobLogRequest, v1.RunJobLogResponse](
+			httpClient,
+			baseURL+WorkflowServiceRunJobLogProcedure,
+			connect.WithSchema(workflowServiceMethods.ByName("RunJobLog")),
+			connect.WithClientOptions(opts...),
+		),
+		cancelRun: connect.NewClient[v1.CancelRunRequest, v1.CancelRunResponse](
+			httpClient,
+			baseURL+WorkflowServiceCancelRunProcedure,
+			connect.WithSchema(workflowServiceMethods.ByName("CancelRun")),
+			connect.WithClientOptions(opts...),
+		),
+		registerRunner: connect.NewClient[v1.RegisterRunnerRequest, v1.RegisterRunnerResponse](
+			httpClient,
+			baseURL+WorkflowServiceRegisterRunnerProcedure,
+			connect.WithSchema(workflowServiceMethods.ByName("RegisterRunner")),
+			connect.WithClientOptions(opts...),
+		),
+		listRunners: connect.NewClient[v1.ListRunnersRequest, v1.ListRunnersResponse](
+			httpClient,
+			baseURL+WorkflowServiceListRunnersProcedure,
+			connect.WithSchema(workflowServiceMethods.ByName("ListRunners")),
+			connect.WithClientOptions(opts...),
+		),
+	}
+}
+
+// workflowServiceClient implements WorkflowServiceClient.
+type workflowServiceClient struct {
+	createWorkflow *connect.Client[v1.CreateWorkflowRequest, v1.CreateWorkflowResponse]
+	getWorkflow    *connect.Client[v1.GetWorkflowRequest, v1.GetWorkflowResponse]
+	listWorkflows  *connect.Client[v1.ListWorkflowsRequest, v1.ListWorkflowsResponse]
+	triggerRun     *connect.Client[v1.TriggerRunRequest, v1.TriggerRunResponse]
+	getRun         *connect.Client[v1.GetRunRequest, v1.GetRunResponse]
+	listRuns       *connect.Client[v1.ListRunsRequest, v1.ListRunsResponse]
+	runJobLog      *connect.Client[v1.RunJobLogRequest, v1.RunJobLogResponse]
+	cancelRun      *connect.Client[v1.CancelRunRequest, v1.CancelRunResponse]
+	registerRunner *connect.Client[v1.RegisterRunnerRequest, v1.RegisterRunnerResponse]
+	listRunners    *connect.Client[v1.ListRunnersRequest, v1.ListRunnersResponse]
+}
+
+// CreateWorkflow calls easylab.v1.WorkflowService.CreateWorkflow.
+func (c *workflowServiceClient) CreateWorkflow(ctx context.Context, req *connect.Request[v1.CreateWorkflowRequest]) (*connect.Response[v1.CreateWorkflowResponse], error) {
+	return c.createWorkflow.CallUnary(ctx, req)
+}
+
+// GetWorkflow calls easylab.v1.WorkflowService.GetWorkflow.
+func (c *workflowServiceClient) GetWorkflow(ctx context.Context, req *connect.Request[v1.GetWorkflowRequest]) (*connect.Response[v1.GetWorkflowResponse], error) {
+	return c.getWorkflow.CallUnary(ctx, req)
+}
+
+// ListWorkflows calls easylab.v1.WorkflowService.ListWorkflows.
+func (c *workflowServiceClient) ListWorkflows(ctx context.Context, req *connect.Request[v1.ListWorkflowsRequest]) (*connect.Response[v1.ListWorkflowsResponse], error) {
+	return c.listWorkflows.CallUnary(ctx, req)
+}
+
+// TriggerRun calls easylab.v1.WorkflowService.TriggerRun.
+func (c *workflowServiceClient) TriggerRun(ctx context.Context, req *connect.Request[v1.TriggerRunRequest]) (*connect.Response[v1.TriggerRunResponse], error) {
+	return c.triggerRun.CallUnary(ctx, req)
+}
+
+// GetRun calls easylab.v1.WorkflowService.GetRun.
+func (c *workflowServiceClient) GetRun(ctx context.Context, req *connect.Request[v1.GetRunRequest]) (*connect.Response[v1.GetRunResponse], error) {
+	return c.getRun.CallUnary(ctx, req)
+}
+
+// ListRuns calls easylab.v1.WorkflowService.ListRuns.
+func (c *workflowServiceClient) ListRuns(ctx context.Context, req *connect.Request[v1.ListRunsRequest]) (*connect.Response[v1.ListRunsResponse], error) {
+	return c.listRuns.CallUnary(ctx, req)
+}
+
+// RunJobLog calls easylab.v1.WorkflowService.RunJobLog.
+func (c *workflowServiceClient) RunJobLog(ctx context.Context, req *connect.Request[v1.RunJobLogRequest]) (*connect.ServerStreamForClient[v1.RunJobLogResponse], error) {
+	return c.runJobLog.CallServerStream(ctx, req)
+}
+
+// CancelRun calls easylab.v1.WorkflowService.CancelRun.
+func (c *workflowServiceClient) CancelRun(ctx context.Context, req *connect.Request[v1.CancelRunRequest]) (*connect.Response[v1.CancelRunResponse], error) {
+	return c.cancelRun.CallUnary(ctx, req)
+}
+
+// RegisterRunner calls easylab.v1.WorkflowService.RegisterRunner.
+func (c *workflowServiceClient) RegisterRunner(ctx context.Context, req *connect.Request[v1.RegisterRunnerRequest]) (*connect.Response[v1.RegisterRunnerResponse], error) {
+	return c.registerRunner.CallUnary(ctx, req)
+}
+
+// ListRunners calls easylab.v1.WorkflowService.ListRunners.
+func (c *workflowServiceClient) ListRunners(ctx context.Context, req *connect.Request[v1.ListRunnersRequest]) (*connect.Response[v1.ListRunnersResponse], error) {
+	return c.listRunners.CallUnary(ctx, req)
+}
+
+// WorkflowServiceHandler is an implementation of the easylab.v1.WorkflowService service.
+type WorkflowServiceHandler interface {
+	CreateWorkflow(context.Context, *connect.Request[v1.CreateWorkflowRequest]) (*connect.Response[v1.CreateWorkflowResponse], error)
+	GetWorkflow(context.Context, *connect.Request[v1.GetWorkflowRequest]) (*connect.Response[v1.GetWorkflowResponse], error)
+	ListWorkflows(context.Context, *connect.Request[v1.ListWorkflowsRequest]) (*connect.Response[v1.ListWorkflowsResponse], error)
+	TriggerRun(context.Context, *connect.Request[v1.TriggerRunRequest]) (*connect.Response[v1.TriggerRunResponse], error)
+	GetRun(context.Context, *connect.Request[v1.GetRunRequest]) (*connect.Response[v1.GetRunResponse], error)
+	ListRuns(context.Context, *connect.Request[v1.ListRunsRequest]) (*connect.Response[v1.ListRunsResponse], error)
+	RunJobLog(context.Context, *connect.Request[v1.RunJobLogRequest], *connect.ServerStream[v1.RunJobLogResponse]) error
+	CancelRun(context.Context, *connect.Request[v1.CancelRunRequest]) (*connect.Response[v1.CancelRunResponse], error)
+	RegisterRunner(context.Context, *connect.Request[v1.RegisterRunnerRequest]) (*connect.Response[v1.RegisterRunnerResponse], error)
+	ListRunners(context.Context, *connect.Request[v1.ListRunnersRequest]) (*connect.Response[v1.ListRunnersResponse], error)
+}
+
+// NewWorkflowServiceHandler builds an HTTP handler from the service implementation. It returns the
+// path on which to mount the handler and the handler itself.
+//
+// By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
+// and JSON codecs. They also support gzip compression.
+func NewWorkflowServiceHandler(svc WorkflowServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	workflowServiceMethods := v1.File_easylab_v1_easylab_proto.Services().ByName("WorkflowService").Methods()
+	workflowServiceCreateWorkflowHandler := connect.NewUnaryHandler(
+		WorkflowServiceCreateWorkflowProcedure,
+		svc.CreateWorkflow,
+		connect.WithSchema(workflowServiceMethods.ByName("CreateWorkflow")),
+		connect.WithHandlerOptions(opts...),
+	)
+	workflowServiceGetWorkflowHandler := connect.NewUnaryHandler(
+		WorkflowServiceGetWorkflowProcedure,
+		svc.GetWorkflow,
+		connect.WithSchema(workflowServiceMethods.ByName("GetWorkflow")),
+		connect.WithHandlerOptions(opts...),
+	)
+	workflowServiceListWorkflowsHandler := connect.NewUnaryHandler(
+		WorkflowServiceListWorkflowsProcedure,
+		svc.ListWorkflows,
+		connect.WithSchema(workflowServiceMethods.ByName("ListWorkflows")),
+		connect.WithHandlerOptions(opts...),
+	)
+	workflowServiceTriggerRunHandler := connect.NewUnaryHandler(
+		WorkflowServiceTriggerRunProcedure,
+		svc.TriggerRun,
+		connect.WithSchema(workflowServiceMethods.ByName("TriggerRun")),
+		connect.WithHandlerOptions(opts...),
+	)
+	workflowServiceGetRunHandler := connect.NewUnaryHandler(
+		WorkflowServiceGetRunProcedure,
+		svc.GetRun,
+		connect.WithSchema(workflowServiceMethods.ByName("GetRun")),
+		connect.WithHandlerOptions(opts...),
+	)
+	workflowServiceListRunsHandler := connect.NewUnaryHandler(
+		WorkflowServiceListRunsProcedure,
+		svc.ListRuns,
+		connect.WithSchema(workflowServiceMethods.ByName("ListRuns")),
+		connect.WithHandlerOptions(opts...),
+	)
+	workflowServiceRunJobLogHandler := connect.NewServerStreamHandler(
+		WorkflowServiceRunJobLogProcedure,
+		svc.RunJobLog,
+		connect.WithSchema(workflowServiceMethods.ByName("RunJobLog")),
+		connect.WithHandlerOptions(opts...),
+	)
+	workflowServiceCancelRunHandler := connect.NewUnaryHandler(
+		WorkflowServiceCancelRunProcedure,
+		svc.CancelRun,
+		connect.WithSchema(workflowServiceMethods.ByName("CancelRun")),
+		connect.WithHandlerOptions(opts...),
+	)
+	workflowServiceRegisterRunnerHandler := connect.NewUnaryHandler(
+		WorkflowServiceRegisterRunnerProcedure,
+		svc.RegisterRunner,
+		connect.WithSchema(workflowServiceMethods.ByName("RegisterRunner")),
+		connect.WithHandlerOptions(opts...),
+	)
+	workflowServiceListRunnersHandler := connect.NewUnaryHandler(
+		WorkflowServiceListRunnersProcedure,
+		svc.ListRunners,
+		connect.WithSchema(workflowServiceMethods.ByName("ListRunners")),
+		connect.WithHandlerOptions(opts...),
+	)
+	return "/easylab.v1.WorkflowService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		switch r.URL.Path {
+		case WorkflowServiceCreateWorkflowProcedure:
+			workflowServiceCreateWorkflowHandler.ServeHTTP(w, r)
+		case WorkflowServiceGetWorkflowProcedure:
+			workflowServiceGetWorkflowHandler.ServeHTTP(w, r)
+		case WorkflowServiceListWorkflowsProcedure:
+			workflowServiceListWorkflowsHandler.ServeHTTP(w, r)
+		case WorkflowServiceTriggerRunProcedure:
+			workflowServiceTriggerRunHandler.ServeHTTP(w, r)
+		case WorkflowServiceGetRunProcedure:
+			workflowServiceGetRunHandler.ServeHTTP(w, r)
+		case WorkflowServiceListRunsProcedure:
+			workflowServiceListRunsHandler.ServeHTTP(w, r)
+		case WorkflowServiceRunJobLogProcedure:
+			workflowServiceRunJobLogHandler.ServeHTTP(w, r)
+		case WorkflowServiceCancelRunProcedure:
+			workflowServiceCancelRunHandler.ServeHTTP(w, r)
+		case WorkflowServiceRegisterRunnerProcedure:
+			workflowServiceRegisterRunnerHandler.ServeHTTP(w, r)
+		case WorkflowServiceListRunnersProcedure:
+			workflowServiceListRunnersHandler.ServeHTTP(w, r)
+		default:
+			http.NotFound(w, r)
+		}
+	})
+}
+
+// UnimplementedWorkflowServiceHandler returns CodeUnimplemented from all methods.
+type UnimplementedWorkflowServiceHandler struct{}
+
+func (UnimplementedWorkflowServiceHandler) CreateWorkflow(context.Context, *connect.Request[v1.CreateWorkflowRequest]) (*connect.Response[v1.CreateWorkflowResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.WorkflowService.CreateWorkflow is not implemented"))
+}
+
+func (UnimplementedWorkflowServiceHandler) GetWorkflow(context.Context, *connect.Request[v1.GetWorkflowRequest]) (*connect.Response[v1.GetWorkflowResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.WorkflowService.GetWorkflow is not implemented"))
+}
+
+func (UnimplementedWorkflowServiceHandler) ListWorkflows(context.Context, *connect.Request[v1.ListWorkflowsRequest]) (*connect.Response[v1.ListWorkflowsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.WorkflowService.ListWorkflows is not implemented"))
+}
+
+func (UnimplementedWorkflowServiceHandler) TriggerRun(context.Context, *connect.Request[v1.TriggerRunRequest]) (*connect.Response[v1.TriggerRunResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.WorkflowService.TriggerRun is not implemented"))
+}
+
+func (UnimplementedWorkflowServiceHandler) GetRun(context.Context, *connect.Request[v1.GetRunRequest]) (*connect.Response[v1.GetRunResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.WorkflowService.GetRun is not implemented"))
+}
+
+func (UnimplementedWorkflowServiceHandler) ListRuns(context.Context, *connect.Request[v1.ListRunsRequest]) (*connect.Response[v1.ListRunsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.WorkflowService.ListRuns is not implemented"))
+}
+
+func (UnimplementedWorkflowServiceHandler) RunJobLog(context.Context, *connect.Request[v1.RunJobLogRequest], *connect.ServerStream[v1.RunJobLogResponse]) error {
+	return connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.WorkflowService.RunJobLog is not implemented"))
+}
+
+func (UnimplementedWorkflowServiceHandler) CancelRun(context.Context, *connect.Request[v1.CancelRunRequest]) (*connect.Response[v1.CancelRunResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.WorkflowService.CancelRun is not implemented"))
+}
+
+func (UnimplementedWorkflowServiceHandler) RegisterRunner(context.Context, *connect.Request[v1.RegisterRunnerRequest]) (*connect.Response[v1.RegisterRunnerResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.WorkflowService.RegisterRunner is not implemented"))
+}
+
+func (UnimplementedWorkflowServiceHandler) ListRunners(context.Context, *connect.Request[v1.ListRunnersRequest]) (*connect.Response[v1.ListRunnersResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.WorkflowService.ListRunners is not implemented"))
 }
