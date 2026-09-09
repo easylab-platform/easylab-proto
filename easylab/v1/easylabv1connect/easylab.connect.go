@@ -12,6 +12,7 @@ import (
 	context "context"
 	errors "errors"
 	v1 "github.com/easylab-platform/easylab-proto/easylab/v1"
+	v11 "github.com/easylab-platform/easylab-proto/worker/v1"
 	http "net/http"
 	strings "strings"
 )
@@ -30,6 +31,8 @@ const (
 	OpsServiceName = "easylab.v1.OpsService"
 	// RegistryServiceName is the fully-qualified name of the RegistryService service.
 	RegistryServiceName = "easylab.v1.RegistryService"
+	// SandboxServiceName is the fully-qualified name of the SandboxService service.
+	SandboxServiceName = "easylab.v1.SandboxService"
 )
 
 // These constants are the fully-qualified names of the RPCs defined in this package. They're
@@ -164,6 +167,46 @@ const (
 	// RegistryServiceOCICatalogProcedure is the fully-qualified name of the RegistryService's
 	// OCICatalog RPC.
 	RegistryServiceOCICatalogProcedure = "/easylab.v1.RegistryService/OCICatalog"
+	// SandboxServiceListSandboxesProcedure is the fully-qualified name of the SandboxService's
+	// ListSandboxes RPC.
+	SandboxServiceListSandboxesProcedure = "/easylab.v1.SandboxService/ListSandboxes"
+	// SandboxServiceGetSandboxProcedure is the fully-qualified name of the SandboxService's GetSandbox
+	// RPC.
+	SandboxServiceGetSandboxProcedure = "/easylab.v1.SandboxService/GetSandbox"
+	// SandboxServiceEnsureSandboxImageProcedure is the fully-qualified name of the SandboxService's
+	// EnsureSandboxImage RPC.
+	SandboxServiceEnsureSandboxImageProcedure = "/easylab.v1.SandboxService/EnsureSandboxImage"
+	// SandboxServiceLaunchSandboxProcedure is the fully-qualified name of the SandboxService's
+	// LaunchSandbox RPC.
+	SandboxServiceLaunchSandboxProcedure = "/easylab.v1.SandboxService/LaunchSandbox"
+	// SandboxServiceDeleteSandboxProcedure is the fully-qualified name of the SandboxService's
+	// DeleteSandbox RPC.
+	SandboxServiceDeleteSandboxProcedure = "/easylab.v1.SandboxService/DeleteSandbox"
+	// SandboxServiceExecuteProcedure is the fully-qualified name of the SandboxService's Execute RPC.
+	SandboxServiceExecuteProcedure = "/easylab.v1.SandboxService/Execute"
+	// SandboxServiceListJobsProcedure is the fully-qualified name of the SandboxService's ListJobs RPC.
+	SandboxServiceListJobsProcedure = "/easylab.v1.SandboxService/ListJobs"
+	// SandboxServiceJobOutputProcedure is the fully-qualified name of the SandboxService's JobOutput
+	// RPC.
+	SandboxServiceJobOutputProcedure = "/easylab.v1.SandboxService/JobOutput"
+	// SandboxServiceWatchJobProcedure is the fully-qualified name of the SandboxService's WatchJob RPC.
+	SandboxServiceWatchJobProcedure = "/easylab.v1.SandboxService/WatchJob"
+	// SandboxServiceJobWaitProcedure is the fully-qualified name of the SandboxService's JobWait RPC.
+	SandboxServiceJobWaitProcedure = "/easylab.v1.SandboxService/JobWait"
+	// SandboxServiceJobStdinProcedure is the fully-qualified name of the SandboxService's JobStdin RPC.
+	SandboxServiceJobStdinProcedure = "/easylab.v1.SandboxService/JobStdin"
+	// SandboxServiceJobKillProcedure is the fully-qualified name of the SandboxService's JobKill RPC.
+	SandboxServiceJobKillProcedure = "/easylab.v1.SandboxService/JobKill"
+	// SandboxServiceFileReadProcedure is the fully-qualified name of the SandboxService's FileRead RPC.
+	SandboxServiceFileReadProcedure = "/easylab.v1.SandboxService/FileRead"
+	// SandboxServiceSyncWorkspaceProcedure is the fully-qualified name of the SandboxService's
+	// SyncWorkspace RPC.
+	SandboxServiceSyncWorkspaceProcedure = "/easylab.v1.SandboxService/SyncWorkspace"
+	// SandboxServiceFileWriteProcedure is the fully-qualified name of the SandboxService's FileWrite
+	// RPC.
+	SandboxServiceFileWriteProcedure = "/easylab.v1.SandboxService/FileWrite"
+	// SandboxServiceFileListProcedure is the fully-qualified name of the SandboxService's FileList RPC.
+	SandboxServiceFileListProcedure = "/easylab.v1.SandboxService/FileList"
 )
 
 // LabServiceClient is a client for the easylab.v1.LabService service.
@@ -1760,4 +1803,472 @@ func (UnimplementedRegistryServiceHandler) ListPublishSpecs(context.Context, *co
 
 func (UnimplementedRegistryServiceHandler) OCICatalog(context.Context, *connect.Request[v1.OCICatalogRequest]) (*connect.Response[v1.OCICatalogResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.RegistryService.OCICatalog is not implemented"))
+}
+
+// SandboxServiceClient is a client for the easylab.v1.SandboxService service.
+type SandboxServiceClient interface {
+	// lifecycle
+	ListSandboxes(context.Context, *connect.Request[v1.ListSandboxesRequest]) (*connect.Response[v1.ListSandboxesResponse], error)
+	GetSandbox(context.Context, *connect.Request[v1.GetSandboxRequest]) (*connect.Response[v1.GetSandboxResponse], error)
+	EnsureSandboxImage(context.Context, *connect.Request[v1.EnsureSandboxImageRequest]) (*connect.Response[v1.EnsureSandboxImageResponse], error)
+	LaunchSandbox(context.Context, *connect.Request[v1.LaunchSandboxRequest]) (*connect.Response[v1.LaunchSandboxResponse], error)
+	DeleteSandbox(context.Context, *connect.Request[v1.DeleteSandboxRequest]) (*connect.Response[v1.DeleteSandboxResponse], error)
+	// worker passthroughs (sandbox routing + worker.v1 payloads)
+	Execute(context.Context, *connect.Request[v1.ExecuteRequest]) (*connect.Response[v11.ExecuteResponse], error)
+	ListJobs(context.Context, *connect.Request[v1.ListJobsRequest]) (*connect.Response[v11.ListJobsResponse], error)
+	JobOutput(context.Context, *connect.Request[v1.JobOutputRequest]) (*connect.Response[v11.JobOutputResponse], error)
+	WatchJob(context.Context, *connect.Request[v1.WatchJobRequest]) (*connect.ServerStreamForClient[v11.WatchJobResponse], error)
+	JobWait(context.Context, *connect.Request[v1.JobWaitRequest]) (*connect.Response[v11.JobWaitResponse], error)
+	JobStdin(context.Context, *connect.Request[v1.JobStdinRequest]) (*connect.Response[v11.JobStdinResponse], error)
+	JobKill(context.Context, *connect.Request[v1.JobKillRequest]) (*connect.Response[v11.JobKillResponse], error)
+	FileRead(context.Context, *connect.Request[v1.FileReadRequest]) (*connect.Response[v11.FileReadResponse], error)
+	// SyncWorkspace pushes the repo tree at rev into the sandbox and records
+	// rev + worker boot id in the registry (single rev-coherence write).
+	SyncWorkspace(context.Context, *connect.Request[v1.SyncWorkspaceRequest]) (*connect.Response[v1.SyncWorkspaceResponse], error)
+	FileWrite(context.Context, *connect.Request[v1.FileWriteRequest]) (*connect.Response[v11.FileWriteResponse], error)
+	FileList(context.Context, *connect.Request[v1.FileListRequest]) (*connect.Response[v11.FileListResponse], error)
+}
+
+// NewSandboxServiceClient constructs a client for the easylab.v1.SandboxService service. By
+// default, it uses the Connect protocol with the binary Protobuf Codec, asks for gzipped responses,
+// and sends uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the
+// connect.WithGRPC() or connect.WithGRPCWeb() options.
+//
+// The URL supplied here should be the base URL for the Connect or gRPC server (for example,
+// http://api.acme.com or https://acme.com/grpc).
+func NewSandboxServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) SandboxServiceClient {
+	baseURL = strings.TrimRight(baseURL, "/")
+	sandboxServiceMethods := v1.File_easylab_v1_easylab_proto.Services().ByName("SandboxService").Methods()
+	return &sandboxServiceClient{
+		listSandboxes: connect.NewClient[v1.ListSandboxesRequest, v1.ListSandboxesResponse](
+			httpClient,
+			baseURL+SandboxServiceListSandboxesProcedure,
+			connect.WithSchema(sandboxServiceMethods.ByName("ListSandboxes")),
+			connect.WithClientOptions(opts...),
+		),
+		getSandbox: connect.NewClient[v1.GetSandboxRequest, v1.GetSandboxResponse](
+			httpClient,
+			baseURL+SandboxServiceGetSandboxProcedure,
+			connect.WithSchema(sandboxServiceMethods.ByName("GetSandbox")),
+			connect.WithClientOptions(opts...),
+		),
+		ensureSandboxImage: connect.NewClient[v1.EnsureSandboxImageRequest, v1.EnsureSandboxImageResponse](
+			httpClient,
+			baseURL+SandboxServiceEnsureSandboxImageProcedure,
+			connect.WithSchema(sandboxServiceMethods.ByName("EnsureSandboxImage")),
+			connect.WithClientOptions(opts...),
+		),
+		launchSandbox: connect.NewClient[v1.LaunchSandboxRequest, v1.LaunchSandboxResponse](
+			httpClient,
+			baseURL+SandboxServiceLaunchSandboxProcedure,
+			connect.WithSchema(sandboxServiceMethods.ByName("LaunchSandbox")),
+			connect.WithClientOptions(opts...),
+		),
+		deleteSandbox: connect.NewClient[v1.DeleteSandboxRequest, v1.DeleteSandboxResponse](
+			httpClient,
+			baseURL+SandboxServiceDeleteSandboxProcedure,
+			connect.WithSchema(sandboxServiceMethods.ByName("DeleteSandbox")),
+			connect.WithClientOptions(opts...),
+		),
+		execute: connect.NewClient[v1.ExecuteRequest, v11.ExecuteResponse](
+			httpClient,
+			baseURL+SandboxServiceExecuteProcedure,
+			connect.WithSchema(sandboxServiceMethods.ByName("Execute")),
+			connect.WithClientOptions(opts...),
+		),
+		listJobs: connect.NewClient[v1.ListJobsRequest, v11.ListJobsResponse](
+			httpClient,
+			baseURL+SandboxServiceListJobsProcedure,
+			connect.WithSchema(sandboxServiceMethods.ByName("ListJobs")),
+			connect.WithClientOptions(opts...),
+		),
+		jobOutput: connect.NewClient[v1.JobOutputRequest, v11.JobOutputResponse](
+			httpClient,
+			baseURL+SandboxServiceJobOutputProcedure,
+			connect.WithSchema(sandboxServiceMethods.ByName("JobOutput")),
+			connect.WithClientOptions(opts...),
+		),
+		watchJob: connect.NewClient[v1.WatchJobRequest, v11.WatchJobResponse](
+			httpClient,
+			baseURL+SandboxServiceWatchJobProcedure,
+			connect.WithSchema(sandboxServiceMethods.ByName("WatchJob")),
+			connect.WithClientOptions(opts...),
+		),
+		jobWait: connect.NewClient[v1.JobWaitRequest, v11.JobWaitResponse](
+			httpClient,
+			baseURL+SandboxServiceJobWaitProcedure,
+			connect.WithSchema(sandboxServiceMethods.ByName("JobWait")),
+			connect.WithClientOptions(opts...),
+		),
+		jobStdin: connect.NewClient[v1.JobStdinRequest, v11.JobStdinResponse](
+			httpClient,
+			baseURL+SandboxServiceJobStdinProcedure,
+			connect.WithSchema(sandboxServiceMethods.ByName("JobStdin")),
+			connect.WithClientOptions(opts...),
+		),
+		jobKill: connect.NewClient[v1.JobKillRequest, v11.JobKillResponse](
+			httpClient,
+			baseURL+SandboxServiceJobKillProcedure,
+			connect.WithSchema(sandboxServiceMethods.ByName("JobKill")),
+			connect.WithClientOptions(opts...),
+		),
+		fileRead: connect.NewClient[v1.FileReadRequest, v11.FileReadResponse](
+			httpClient,
+			baseURL+SandboxServiceFileReadProcedure,
+			connect.WithSchema(sandboxServiceMethods.ByName("FileRead")),
+			connect.WithClientOptions(opts...),
+		),
+		syncWorkspace: connect.NewClient[v1.SyncWorkspaceRequest, v1.SyncWorkspaceResponse](
+			httpClient,
+			baseURL+SandboxServiceSyncWorkspaceProcedure,
+			connect.WithSchema(sandboxServiceMethods.ByName("SyncWorkspace")),
+			connect.WithClientOptions(opts...),
+		),
+		fileWrite: connect.NewClient[v1.FileWriteRequest, v11.FileWriteResponse](
+			httpClient,
+			baseURL+SandboxServiceFileWriteProcedure,
+			connect.WithSchema(sandboxServiceMethods.ByName("FileWrite")),
+			connect.WithClientOptions(opts...),
+		),
+		fileList: connect.NewClient[v1.FileListRequest, v11.FileListResponse](
+			httpClient,
+			baseURL+SandboxServiceFileListProcedure,
+			connect.WithSchema(sandboxServiceMethods.ByName("FileList")),
+			connect.WithClientOptions(opts...),
+		),
+	}
+}
+
+// sandboxServiceClient implements SandboxServiceClient.
+type sandboxServiceClient struct {
+	listSandboxes      *connect.Client[v1.ListSandboxesRequest, v1.ListSandboxesResponse]
+	getSandbox         *connect.Client[v1.GetSandboxRequest, v1.GetSandboxResponse]
+	ensureSandboxImage *connect.Client[v1.EnsureSandboxImageRequest, v1.EnsureSandboxImageResponse]
+	launchSandbox      *connect.Client[v1.LaunchSandboxRequest, v1.LaunchSandboxResponse]
+	deleteSandbox      *connect.Client[v1.DeleteSandboxRequest, v1.DeleteSandboxResponse]
+	execute            *connect.Client[v1.ExecuteRequest, v11.ExecuteResponse]
+	listJobs           *connect.Client[v1.ListJobsRequest, v11.ListJobsResponse]
+	jobOutput          *connect.Client[v1.JobOutputRequest, v11.JobOutputResponse]
+	watchJob           *connect.Client[v1.WatchJobRequest, v11.WatchJobResponse]
+	jobWait            *connect.Client[v1.JobWaitRequest, v11.JobWaitResponse]
+	jobStdin           *connect.Client[v1.JobStdinRequest, v11.JobStdinResponse]
+	jobKill            *connect.Client[v1.JobKillRequest, v11.JobKillResponse]
+	fileRead           *connect.Client[v1.FileReadRequest, v11.FileReadResponse]
+	syncWorkspace      *connect.Client[v1.SyncWorkspaceRequest, v1.SyncWorkspaceResponse]
+	fileWrite          *connect.Client[v1.FileWriteRequest, v11.FileWriteResponse]
+	fileList           *connect.Client[v1.FileListRequest, v11.FileListResponse]
+}
+
+// ListSandboxes calls easylab.v1.SandboxService.ListSandboxes.
+func (c *sandboxServiceClient) ListSandboxes(ctx context.Context, req *connect.Request[v1.ListSandboxesRequest]) (*connect.Response[v1.ListSandboxesResponse], error) {
+	return c.listSandboxes.CallUnary(ctx, req)
+}
+
+// GetSandbox calls easylab.v1.SandboxService.GetSandbox.
+func (c *sandboxServiceClient) GetSandbox(ctx context.Context, req *connect.Request[v1.GetSandboxRequest]) (*connect.Response[v1.GetSandboxResponse], error) {
+	return c.getSandbox.CallUnary(ctx, req)
+}
+
+// EnsureSandboxImage calls easylab.v1.SandboxService.EnsureSandboxImage.
+func (c *sandboxServiceClient) EnsureSandboxImage(ctx context.Context, req *connect.Request[v1.EnsureSandboxImageRequest]) (*connect.Response[v1.EnsureSandboxImageResponse], error) {
+	return c.ensureSandboxImage.CallUnary(ctx, req)
+}
+
+// LaunchSandbox calls easylab.v1.SandboxService.LaunchSandbox.
+func (c *sandboxServiceClient) LaunchSandbox(ctx context.Context, req *connect.Request[v1.LaunchSandboxRequest]) (*connect.Response[v1.LaunchSandboxResponse], error) {
+	return c.launchSandbox.CallUnary(ctx, req)
+}
+
+// DeleteSandbox calls easylab.v1.SandboxService.DeleteSandbox.
+func (c *sandboxServiceClient) DeleteSandbox(ctx context.Context, req *connect.Request[v1.DeleteSandboxRequest]) (*connect.Response[v1.DeleteSandboxResponse], error) {
+	return c.deleteSandbox.CallUnary(ctx, req)
+}
+
+// Execute calls easylab.v1.SandboxService.Execute.
+func (c *sandboxServiceClient) Execute(ctx context.Context, req *connect.Request[v1.ExecuteRequest]) (*connect.Response[v11.ExecuteResponse], error) {
+	return c.execute.CallUnary(ctx, req)
+}
+
+// ListJobs calls easylab.v1.SandboxService.ListJobs.
+func (c *sandboxServiceClient) ListJobs(ctx context.Context, req *connect.Request[v1.ListJobsRequest]) (*connect.Response[v11.ListJobsResponse], error) {
+	return c.listJobs.CallUnary(ctx, req)
+}
+
+// JobOutput calls easylab.v1.SandboxService.JobOutput.
+func (c *sandboxServiceClient) JobOutput(ctx context.Context, req *connect.Request[v1.JobOutputRequest]) (*connect.Response[v11.JobOutputResponse], error) {
+	return c.jobOutput.CallUnary(ctx, req)
+}
+
+// WatchJob calls easylab.v1.SandboxService.WatchJob.
+func (c *sandboxServiceClient) WatchJob(ctx context.Context, req *connect.Request[v1.WatchJobRequest]) (*connect.ServerStreamForClient[v11.WatchJobResponse], error) {
+	return c.watchJob.CallServerStream(ctx, req)
+}
+
+// JobWait calls easylab.v1.SandboxService.JobWait.
+func (c *sandboxServiceClient) JobWait(ctx context.Context, req *connect.Request[v1.JobWaitRequest]) (*connect.Response[v11.JobWaitResponse], error) {
+	return c.jobWait.CallUnary(ctx, req)
+}
+
+// JobStdin calls easylab.v1.SandboxService.JobStdin.
+func (c *sandboxServiceClient) JobStdin(ctx context.Context, req *connect.Request[v1.JobStdinRequest]) (*connect.Response[v11.JobStdinResponse], error) {
+	return c.jobStdin.CallUnary(ctx, req)
+}
+
+// JobKill calls easylab.v1.SandboxService.JobKill.
+func (c *sandboxServiceClient) JobKill(ctx context.Context, req *connect.Request[v1.JobKillRequest]) (*connect.Response[v11.JobKillResponse], error) {
+	return c.jobKill.CallUnary(ctx, req)
+}
+
+// FileRead calls easylab.v1.SandboxService.FileRead.
+func (c *sandboxServiceClient) FileRead(ctx context.Context, req *connect.Request[v1.FileReadRequest]) (*connect.Response[v11.FileReadResponse], error) {
+	return c.fileRead.CallUnary(ctx, req)
+}
+
+// SyncWorkspace calls easylab.v1.SandboxService.SyncWorkspace.
+func (c *sandboxServiceClient) SyncWorkspace(ctx context.Context, req *connect.Request[v1.SyncWorkspaceRequest]) (*connect.Response[v1.SyncWorkspaceResponse], error) {
+	return c.syncWorkspace.CallUnary(ctx, req)
+}
+
+// FileWrite calls easylab.v1.SandboxService.FileWrite.
+func (c *sandboxServiceClient) FileWrite(ctx context.Context, req *connect.Request[v1.FileWriteRequest]) (*connect.Response[v11.FileWriteResponse], error) {
+	return c.fileWrite.CallUnary(ctx, req)
+}
+
+// FileList calls easylab.v1.SandboxService.FileList.
+func (c *sandboxServiceClient) FileList(ctx context.Context, req *connect.Request[v1.FileListRequest]) (*connect.Response[v11.FileListResponse], error) {
+	return c.fileList.CallUnary(ctx, req)
+}
+
+// SandboxServiceHandler is an implementation of the easylab.v1.SandboxService service.
+type SandboxServiceHandler interface {
+	// lifecycle
+	ListSandboxes(context.Context, *connect.Request[v1.ListSandboxesRequest]) (*connect.Response[v1.ListSandboxesResponse], error)
+	GetSandbox(context.Context, *connect.Request[v1.GetSandboxRequest]) (*connect.Response[v1.GetSandboxResponse], error)
+	EnsureSandboxImage(context.Context, *connect.Request[v1.EnsureSandboxImageRequest]) (*connect.Response[v1.EnsureSandboxImageResponse], error)
+	LaunchSandbox(context.Context, *connect.Request[v1.LaunchSandboxRequest]) (*connect.Response[v1.LaunchSandboxResponse], error)
+	DeleteSandbox(context.Context, *connect.Request[v1.DeleteSandboxRequest]) (*connect.Response[v1.DeleteSandboxResponse], error)
+	// worker passthroughs (sandbox routing + worker.v1 payloads)
+	Execute(context.Context, *connect.Request[v1.ExecuteRequest]) (*connect.Response[v11.ExecuteResponse], error)
+	ListJobs(context.Context, *connect.Request[v1.ListJobsRequest]) (*connect.Response[v11.ListJobsResponse], error)
+	JobOutput(context.Context, *connect.Request[v1.JobOutputRequest]) (*connect.Response[v11.JobOutputResponse], error)
+	WatchJob(context.Context, *connect.Request[v1.WatchJobRequest], *connect.ServerStream[v11.WatchJobResponse]) error
+	JobWait(context.Context, *connect.Request[v1.JobWaitRequest]) (*connect.Response[v11.JobWaitResponse], error)
+	JobStdin(context.Context, *connect.Request[v1.JobStdinRequest]) (*connect.Response[v11.JobStdinResponse], error)
+	JobKill(context.Context, *connect.Request[v1.JobKillRequest]) (*connect.Response[v11.JobKillResponse], error)
+	FileRead(context.Context, *connect.Request[v1.FileReadRequest]) (*connect.Response[v11.FileReadResponse], error)
+	// SyncWorkspace pushes the repo tree at rev into the sandbox and records
+	// rev + worker boot id in the registry (single rev-coherence write).
+	SyncWorkspace(context.Context, *connect.Request[v1.SyncWorkspaceRequest]) (*connect.Response[v1.SyncWorkspaceResponse], error)
+	FileWrite(context.Context, *connect.Request[v1.FileWriteRequest]) (*connect.Response[v11.FileWriteResponse], error)
+	FileList(context.Context, *connect.Request[v1.FileListRequest]) (*connect.Response[v11.FileListResponse], error)
+}
+
+// NewSandboxServiceHandler builds an HTTP handler from the service implementation. It returns the
+// path on which to mount the handler and the handler itself.
+//
+// By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
+// and JSON codecs. They also support gzip compression.
+func NewSandboxServiceHandler(svc SandboxServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	sandboxServiceMethods := v1.File_easylab_v1_easylab_proto.Services().ByName("SandboxService").Methods()
+	sandboxServiceListSandboxesHandler := connect.NewUnaryHandler(
+		SandboxServiceListSandboxesProcedure,
+		svc.ListSandboxes,
+		connect.WithSchema(sandboxServiceMethods.ByName("ListSandboxes")),
+		connect.WithHandlerOptions(opts...),
+	)
+	sandboxServiceGetSandboxHandler := connect.NewUnaryHandler(
+		SandboxServiceGetSandboxProcedure,
+		svc.GetSandbox,
+		connect.WithSchema(sandboxServiceMethods.ByName("GetSandbox")),
+		connect.WithHandlerOptions(opts...),
+	)
+	sandboxServiceEnsureSandboxImageHandler := connect.NewUnaryHandler(
+		SandboxServiceEnsureSandboxImageProcedure,
+		svc.EnsureSandboxImage,
+		connect.WithSchema(sandboxServiceMethods.ByName("EnsureSandboxImage")),
+		connect.WithHandlerOptions(opts...),
+	)
+	sandboxServiceLaunchSandboxHandler := connect.NewUnaryHandler(
+		SandboxServiceLaunchSandboxProcedure,
+		svc.LaunchSandbox,
+		connect.WithSchema(sandboxServiceMethods.ByName("LaunchSandbox")),
+		connect.WithHandlerOptions(opts...),
+	)
+	sandboxServiceDeleteSandboxHandler := connect.NewUnaryHandler(
+		SandboxServiceDeleteSandboxProcedure,
+		svc.DeleteSandbox,
+		connect.WithSchema(sandboxServiceMethods.ByName("DeleteSandbox")),
+		connect.WithHandlerOptions(opts...),
+	)
+	sandboxServiceExecuteHandler := connect.NewUnaryHandler(
+		SandboxServiceExecuteProcedure,
+		svc.Execute,
+		connect.WithSchema(sandboxServiceMethods.ByName("Execute")),
+		connect.WithHandlerOptions(opts...),
+	)
+	sandboxServiceListJobsHandler := connect.NewUnaryHandler(
+		SandboxServiceListJobsProcedure,
+		svc.ListJobs,
+		connect.WithSchema(sandboxServiceMethods.ByName("ListJobs")),
+		connect.WithHandlerOptions(opts...),
+	)
+	sandboxServiceJobOutputHandler := connect.NewUnaryHandler(
+		SandboxServiceJobOutputProcedure,
+		svc.JobOutput,
+		connect.WithSchema(sandboxServiceMethods.ByName("JobOutput")),
+		connect.WithHandlerOptions(opts...),
+	)
+	sandboxServiceWatchJobHandler := connect.NewServerStreamHandler(
+		SandboxServiceWatchJobProcedure,
+		svc.WatchJob,
+		connect.WithSchema(sandboxServiceMethods.ByName("WatchJob")),
+		connect.WithHandlerOptions(opts...),
+	)
+	sandboxServiceJobWaitHandler := connect.NewUnaryHandler(
+		SandboxServiceJobWaitProcedure,
+		svc.JobWait,
+		connect.WithSchema(sandboxServiceMethods.ByName("JobWait")),
+		connect.WithHandlerOptions(opts...),
+	)
+	sandboxServiceJobStdinHandler := connect.NewUnaryHandler(
+		SandboxServiceJobStdinProcedure,
+		svc.JobStdin,
+		connect.WithSchema(sandboxServiceMethods.ByName("JobStdin")),
+		connect.WithHandlerOptions(opts...),
+	)
+	sandboxServiceJobKillHandler := connect.NewUnaryHandler(
+		SandboxServiceJobKillProcedure,
+		svc.JobKill,
+		connect.WithSchema(sandboxServiceMethods.ByName("JobKill")),
+		connect.WithHandlerOptions(opts...),
+	)
+	sandboxServiceFileReadHandler := connect.NewUnaryHandler(
+		SandboxServiceFileReadProcedure,
+		svc.FileRead,
+		connect.WithSchema(sandboxServiceMethods.ByName("FileRead")),
+		connect.WithHandlerOptions(opts...),
+	)
+	sandboxServiceSyncWorkspaceHandler := connect.NewUnaryHandler(
+		SandboxServiceSyncWorkspaceProcedure,
+		svc.SyncWorkspace,
+		connect.WithSchema(sandboxServiceMethods.ByName("SyncWorkspace")),
+		connect.WithHandlerOptions(opts...),
+	)
+	sandboxServiceFileWriteHandler := connect.NewUnaryHandler(
+		SandboxServiceFileWriteProcedure,
+		svc.FileWrite,
+		connect.WithSchema(sandboxServiceMethods.ByName("FileWrite")),
+		connect.WithHandlerOptions(opts...),
+	)
+	sandboxServiceFileListHandler := connect.NewUnaryHandler(
+		SandboxServiceFileListProcedure,
+		svc.FileList,
+		connect.WithSchema(sandboxServiceMethods.ByName("FileList")),
+		connect.WithHandlerOptions(opts...),
+	)
+	return "/easylab.v1.SandboxService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		switch r.URL.Path {
+		case SandboxServiceListSandboxesProcedure:
+			sandboxServiceListSandboxesHandler.ServeHTTP(w, r)
+		case SandboxServiceGetSandboxProcedure:
+			sandboxServiceGetSandboxHandler.ServeHTTP(w, r)
+		case SandboxServiceEnsureSandboxImageProcedure:
+			sandboxServiceEnsureSandboxImageHandler.ServeHTTP(w, r)
+		case SandboxServiceLaunchSandboxProcedure:
+			sandboxServiceLaunchSandboxHandler.ServeHTTP(w, r)
+		case SandboxServiceDeleteSandboxProcedure:
+			sandboxServiceDeleteSandboxHandler.ServeHTTP(w, r)
+		case SandboxServiceExecuteProcedure:
+			sandboxServiceExecuteHandler.ServeHTTP(w, r)
+		case SandboxServiceListJobsProcedure:
+			sandboxServiceListJobsHandler.ServeHTTP(w, r)
+		case SandboxServiceJobOutputProcedure:
+			sandboxServiceJobOutputHandler.ServeHTTP(w, r)
+		case SandboxServiceWatchJobProcedure:
+			sandboxServiceWatchJobHandler.ServeHTTP(w, r)
+		case SandboxServiceJobWaitProcedure:
+			sandboxServiceJobWaitHandler.ServeHTTP(w, r)
+		case SandboxServiceJobStdinProcedure:
+			sandboxServiceJobStdinHandler.ServeHTTP(w, r)
+		case SandboxServiceJobKillProcedure:
+			sandboxServiceJobKillHandler.ServeHTTP(w, r)
+		case SandboxServiceFileReadProcedure:
+			sandboxServiceFileReadHandler.ServeHTTP(w, r)
+		case SandboxServiceSyncWorkspaceProcedure:
+			sandboxServiceSyncWorkspaceHandler.ServeHTTP(w, r)
+		case SandboxServiceFileWriteProcedure:
+			sandboxServiceFileWriteHandler.ServeHTTP(w, r)
+		case SandboxServiceFileListProcedure:
+			sandboxServiceFileListHandler.ServeHTTP(w, r)
+		default:
+			http.NotFound(w, r)
+		}
+	})
+}
+
+// UnimplementedSandboxServiceHandler returns CodeUnimplemented from all methods.
+type UnimplementedSandboxServiceHandler struct{}
+
+func (UnimplementedSandboxServiceHandler) ListSandboxes(context.Context, *connect.Request[v1.ListSandboxesRequest]) (*connect.Response[v1.ListSandboxesResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.ListSandboxes is not implemented"))
+}
+
+func (UnimplementedSandboxServiceHandler) GetSandbox(context.Context, *connect.Request[v1.GetSandboxRequest]) (*connect.Response[v1.GetSandboxResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.GetSandbox is not implemented"))
+}
+
+func (UnimplementedSandboxServiceHandler) EnsureSandboxImage(context.Context, *connect.Request[v1.EnsureSandboxImageRequest]) (*connect.Response[v1.EnsureSandboxImageResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.EnsureSandboxImage is not implemented"))
+}
+
+func (UnimplementedSandboxServiceHandler) LaunchSandbox(context.Context, *connect.Request[v1.LaunchSandboxRequest]) (*connect.Response[v1.LaunchSandboxResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.LaunchSandbox is not implemented"))
+}
+
+func (UnimplementedSandboxServiceHandler) DeleteSandbox(context.Context, *connect.Request[v1.DeleteSandboxRequest]) (*connect.Response[v1.DeleteSandboxResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.DeleteSandbox is not implemented"))
+}
+
+func (UnimplementedSandboxServiceHandler) Execute(context.Context, *connect.Request[v1.ExecuteRequest]) (*connect.Response[v11.ExecuteResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.Execute is not implemented"))
+}
+
+func (UnimplementedSandboxServiceHandler) ListJobs(context.Context, *connect.Request[v1.ListJobsRequest]) (*connect.Response[v11.ListJobsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.ListJobs is not implemented"))
+}
+
+func (UnimplementedSandboxServiceHandler) JobOutput(context.Context, *connect.Request[v1.JobOutputRequest]) (*connect.Response[v11.JobOutputResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.JobOutput is not implemented"))
+}
+
+func (UnimplementedSandboxServiceHandler) WatchJob(context.Context, *connect.Request[v1.WatchJobRequest], *connect.ServerStream[v11.WatchJobResponse]) error {
+	return connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.WatchJob is not implemented"))
+}
+
+func (UnimplementedSandboxServiceHandler) JobWait(context.Context, *connect.Request[v1.JobWaitRequest]) (*connect.Response[v11.JobWaitResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.JobWait is not implemented"))
+}
+
+func (UnimplementedSandboxServiceHandler) JobStdin(context.Context, *connect.Request[v1.JobStdinRequest]) (*connect.Response[v11.JobStdinResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.JobStdin is not implemented"))
+}
+
+func (UnimplementedSandboxServiceHandler) JobKill(context.Context, *connect.Request[v1.JobKillRequest]) (*connect.Response[v11.JobKillResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.JobKill is not implemented"))
+}
+
+func (UnimplementedSandboxServiceHandler) FileRead(context.Context, *connect.Request[v1.FileReadRequest]) (*connect.Response[v11.FileReadResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.FileRead is not implemented"))
+}
+
+func (UnimplementedSandboxServiceHandler) SyncWorkspace(context.Context, *connect.Request[v1.SyncWorkspaceRequest]) (*connect.Response[v1.SyncWorkspaceResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.SyncWorkspace is not implemented"))
+}
+
+func (UnimplementedSandboxServiceHandler) FileWrite(context.Context, *connect.Request[v1.FileWriteRequest]) (*connect.Response[v11.FileWriteResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.FileWrite is not implemented"))
+}
+
+func (UnimplementedSandboxServiceHandler) FileList(context.Context, *connect.Request[v1.FileListRequest]) (*connect.Response[v11.FileListResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.FileList is not implemented"))
 }
