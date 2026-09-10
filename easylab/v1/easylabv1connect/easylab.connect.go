@@ -245,6 +245,9 @@ const (
 	// WorkflowServiceListRunnersProcedure is the fully-qualified name of the WorkflowService's
 	// ListRunners RPC.
 	WorkflowServiceListRunnersProcedure = "/easylab.v1.WorkflowService/ListRunners"
+	// WorkflowServiceRunWorkflowFileProcedure is the fully-qualified name of the WorkflowService's
+	// RunWorkflowFile RPC.
+	WorkflowServiceRunWorkflowFileProcedure = "/easylab.v1.WorkflowService/RunWorkflowFile"
 )
 
 // LabServiceClient is a client for the easylab.v1.LabService service.
@@ -2397,6 +2400,10 @@ type WorkflowServiceClient interface {
 	CancelRun(context.Context, *connect.Request[v1.CancelRunRequest]) (*connect.Response[v1.CancelRunResponse], error)
 	RegisterRunner(context.Context, *connect.Request[v1.RegisterRunnerRequest]) (*connect.Response[v1.RegisterRunnerResponse], error)
 	ListRunners(context.Context, *connect.Request[v1.ListRunnersRequest]) (*connect.Response[v1.ListRunnersResponse], error)
+	// RunWorkflowFile loads .easylab/workflows.yaml from the branch tree and runs
+	// the named workflow (or all when name is empty). Asynchronous: returns the
+	// created runs (pending/running); poll GetRun / stream RunJobLog.
+	RunWorkflowFile(context.Context, *connect.Request[v1.RunWorkflowFileRequest]) (*connect.Response[v1.RunWorkflowFileResponse], error)
 }
 
 // NewWorkflowServiceClient constructs a client for the easylab.v1.WorkflowService service. By
@@ -2470,21 +2477,28 @@ func NewWorkflowServiceClient(httpClient connect.HTTPClient, baseURL string, opt
 			connect.WithSchema(workflowServiceMethods.ByName("ListRunners")),
 			connect.WithClientOptions(opts...),
 		),
+		runWorkflowFile: connect.NewClient[v1.RunWorkflowFileRequest, v1.RunWorkflowFileResponse](
+			httpClient,
+			baseURL+WorkflowServiceRunWorkflowFileProcedure,
+			connect.WithSchema(workflowServiceMethods.ByName("RunWorkflowFile")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // workflowServiceClient implements WorkflowServiceClient.
 type workflowServiceClient struct {
-	createWorkflow *connect.Client[v1.CreateWorkflowRequest, v1.CreateWorkflowResponse]
-	getWorkflow    *connect.Client[v1.GetWorkflowRequest, v1.GetWorkflowResponse]
-	listWorkflows  *connect.Client[v1.ListWorkflowsRequest, v1.ListWorkflowsResponse]
-	triggerRun     *connect.Client[v1.TriggerRunRequest, v1.TriggerRunResponse]
-	getRun         *connect.Client[v1.GetRunRequest, v1.GetRunResponse]
-	listRuns       *connect.Client[v1.ListRunsRequest, v1.ListRunsResponse]
-	runJobLog      *connect.Client[v1.RunJobLogRequest, v1.RunJobLogResponse]
-	cancelRun      *connect.Client[v1.CancelRunRequest, v1.CancelRunResponse]
-	registerRunner *connect.Client[v1.RegisterRunnerRequest, v1.RegisterRunnerResponse]
-	listRunners    *connect.Client[v1.ListRunnersRequest, v1.ListRunnersResponse]
+	createWorkflow  *connect.Client[v1.CreateWorkflowRequest, v1.CreateWorkflowResponse]
+	getWorkflow     *connect.Client[v1.GetWorkflowRequest, v1.GetWorkflowResponse]
+	listWorkflows   *connect.Client[v1.ListWorkflowsRequest, v1.ListWorkflowsResponse]
+	triggerRun      *connect.Client[v1.TriggerRunRequest, v1.TriggerRunResponse]
+	getRun          *connect.Client[v1.GetRunRequest, v1.GetRunResponse]
+	listRuns        *connect.Client[v1.ListRunsRequest, v1.ListRunsResponse]
+	runJobLog       *connect.Client[v1.RunJobLogRequest, v1.RunJobLogResponse]
+	cancelRun       *connect.Client[v1.CancelRunRequest, v1.CancelRunResponse]
+	registerRunner  *connect.Client[v1.RegisterRunnerRequest, v1.RegisterRunnerResponse]
+	listRunners     *connect.Client[v1.ListRunnersRequest, v1.ListRunnersResponse]
+	runWorkflowFile *connect.Client[v1.RunWorkflowFileRequest, v1.RunWorkflowFileResponse]
 }
 
 // CreateWorkflow calls easylab.v1.WorkflowService.CreateWorkflow.
@@ -2537,6 +2551,11 @@ func (c *workflowServiceClient) ListRunners(ctx context.Context, req *connect.Re
 	return c.listRunners.CallUnary(ctx, req)
 }
 
+// RunWorkflowFile calls easylab.v1.WorkflowService.RunWorkflowFile.
+func (c *workflowServiceClient) RunWorkflowFile(ctx context.Context, req *connect.Request[v1.RunWorkflowFileRequest]) (*connect.Response[v1.RunWorkflowFileResponse], error) {
+	return c.runWorkflowFile.CallUnary(ctx, req)
+}
+
 // WorkflowServiceHandler is an implementation of the easylab.v1.WorkflowService service.
 type WorkflowServiceHandler interface {
 	CreateWorkflow(context.Context, *connect.Request[v1.CreateWorkflowRequest]) (*connect.Response[v1.CreateWorkflowResponse], error)
@@ -2549,6 +2568,10 @@ type WorkflowServiceHandler interface {
 	CancelRun(context.Context, *connect.Request[v1.CancelRunRequest]) (*connect.Response[v1.CancelRunResponse], error)
 	RegisterRunner(context.Context, *connect.Request[v1.RegisterRunnerRequest]) (*connect.Response[v1.RegisterRunnerResponse], error)
 	ListRunners(context.Context, *connect.Request[v1.ListRunnersRequest]) (*connect.Response[v1.ListRunnersResponse], error)
+	// RunWorkflowFile loads .easylab/workflows.yaml from the branch tree and runs
+	// the named workflow (or all when name is empty). Asynchronous: returns the
+	// created runs (pending/running); poll GetRun / stream RunJobLog.
+	RunWorkflowFile(context.Context, *connect.Request[v1.RunWorkflowFileRequest]) (*connect.Response[v1.RunWorkflowFileResponse], error)
 }
 
 // NewWorkflowServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -2618,6 +2641,12 @@ func NewWorkflowServiceHandler(svc WorkflowServiceHandler, opts ...connect.Handl
 		connect.WithSchema(workflowServiceMethods.ByName("ListRunners")),
 		connect.WithHandlerOptions(opts...),
 	)
+	workflowServiceRunWorkflowFileHandler := connect.NewUnaryHandler(
+		WorkflowServiceRunWorkflowFileProcedure,
+		svc.RunWorkflowFile,
+		connect.WithSchema(workflowServiceMethods.ByName("RunWorkflowFile")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/easylab.v1.WorkflowService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case WorkflowServiceCreateWorkflowProcedure:
@@ -2640,6 +2669,8 @@ func NewWorkflowServiceHandler(svc WorkflowServiceHandler, opts ...connect.Handl
 			workflowServiceRegisterRunnerHandler.ServeHTTP(w, r)
 		case WorkflowServiceListRunnersProcedure:
 			workflowServiceListRunnersHandler.ServeHTTP(w, r)
+		case WorkflowServiceRunWorkflowFileProcedure:
+			workflowServiceRunWorkflowFileHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -2687,4 +2718,8 @@ func (UnimplementedWorkflowServiceHandler) RegisterRunner(context.Context, *conn
 
 func (UnimplementedWorkflowServiceHandler) ListRunners(context.Context, *connect.Request[v1.ListRunnersRequest]) (*connect.Response[v1.ListRunnersResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.WorkflowService.ListRunners is not implemented"))
+}
+
+func (UnimplementedWorkflowServiceHandler) RunWorkflowFile(context.Context, *connect.Request[v1.RunWorkflowFileRequest]) (*connect.Response[v1.RunWorkflowFileResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.WorkflowService.RunWorkflowFile is not implemented"))
 }

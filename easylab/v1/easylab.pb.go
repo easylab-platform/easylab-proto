@@ -11152,6 +11152,142 @@ func (x *ListRunnersResponse) GetRunners() []*Runner {
 	return nil
 }
 
+type RunWorkflowFileRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Org           string                 `protobuf:"bytes,1,opt,name=org,proto3" json:"org,omitempty"`
+	Repo          string                 `protobuf:"bytes,2,opt,name=repo,proto3" json:"repo,omitempty"`
+	Branch        string                 `protobuf:"bytes,3,opt,name=branch,proto3" json:"branch,omitempty"`
+	Name          string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`                                                                           // '' = run every workflow in the file
+	Args          map[string]string      `protobuf:"bytes,5,rep,name=args,proto3" json:"args,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // optional preset-arg overrides
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RunWorkflowFileRequest) Reset() {
+	*x = RunWorkflowFileRequest{}
+	mi := &file_easylab_v1_easylab_proto_msgTypes[193]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RunWorkflowFileRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RunWorkflowFileRequest) ProtoMessage() {}
+
+func (x *RunWorkflowFileRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_easylab_v1_easylab_proto_msgTypes[193]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RunWorkflowFileRequest.ProtoReflect.Descriptor instead.
+func (*RunWorkflowFileRequest) Descriptor() ([]byte, []int) {
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{193}
+}
+
+func (x *RunWorkflowFileRequest) GetOrg() string {
+	if x != nil {
+		return x.Org
+	}
+	return ""
+}
+
+func (x *RunWorkflowFileRequest) GetRepo() string {
+	if x != nil {
+		return x.Repo
+	}
+	return ""
+}
+
+func (x *RunWorkflowFileRequest) GetBranch() string {
+	if x != nil {
+		return x.Branch
+	}
+	return ""
+}
+
+func (x *RunWorkflowFileRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *RunWorkflowFileRequest) GetArgs() map[string]string {
+	if x != nil {
+		return x.Args
+	}
+	return nil
+}
+
+type RunWorkflowFileResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Runs          []*Run                 `protobuf:"bytes,1,rep,name=runs,proto3" json:"runs,omitempty"`       // one pending/running run per matched workflow
+	Skipped       []string               `protobuf:"bytes,2,rep,name=skipped,proto3" json:"skipped,omitempty"` // requested/unknown names not found
+	Error         string                 `protobuf:"bytes,3,opt,name=error,proto3" json:"error,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RunWorkflowFileResponse) Reset() {
+	*x = RunWorkflowFileResponse{}
+	mi := &file_easylab_v1_easylab_proto_msgTypes[194]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RunWorkflowFileResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RunWorkflowFileResponse) ProtoMessage() {}
+
+func (x *RunWorkflowFileResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_easylab_v1_easylab_proto_msgTypes[194]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RunWorkflowFileResponse.ProtoReflect.Descriptor instead.
+func (*RunWorkflowFileResponse) Descriptor() ([]byte, []int) {
+	return file_easylab_v1_easylab_proto_rawDescGZIP(), []int{194}
+}
+
+func (x *RunWorkflowFileResponse) GetRuns() []*Run {
+	if x != nil {
+		return x.Runs
+	}
+	return nil
+}
+
+func (x *RunWorkflowFileResponse) GetSkipped() []string {
+	if x != nil {
+		return x.Skipped
+	}
+	return nil
+}
+
+func (x *RunWorkflowFileResponse) GetError() string {
+	if x != nil {
+		return x.Error
+	}
+	return ""
+}
+
 var File_easylab_v1_easylab_proto protoreflect.FileDescriptor
 
 const file_easylab_v1_easylab_proto_rawDesc = "" +
@@ -11920,7 +12056,20 @@ const file_easylab_v1_easylab_proto_rawDesc = "" +
 	"\x12ListRunnersRequest\x12#\n" +
 	"\rsession_bound\x18\x01 \x01(\bR\fsessionBound\"C\n" +
 	"\x13ListRunnersResponse\x12,\n" +
-	"\arunners\x18\x01 \x03(\v2\x12.easylab.v1.RunnerR\arunners*_\n" +
+	"\arunners\x18\x01 \x03(\v2\x12.easylab.v1.RunnerR\arunners\"\xe5\x01\n" +
+	"\x16RunWorkflowFileRequest\x12\x10\n" +
+	"\x03org\x18\x01 \x01(\tR\x03org\x12\x12\n" +
+	"\x04repo\x18\x02 \x01(\tR\x04repo\x12\x16\n" +
+	"\x06branch\x18\x03 \x01(\tR\x06branch\x12\x12\n" +
+	"\x04name\x18\x04 \x01(\tR\x04name\x12@\n" +
+	"\x04args\x18\x05 \x03(\v2,.easylab.v1.RunWorkflowFileRequest.ArgsEntryR\x04args\x1a7\n" +
+	"\tArgsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"n\n" +
+	"\x17RunWorkflowFileResponse\x12#\n" +
+	"\x04runs\x18\x01 \x03(\v2\x0f.easylab.v1.RunR\x04runs\x12\x18\n" +
+	"\askipped\x18\x02 \x03(\tR\askipped\x12\x14\n" +
+	"\x05error\x18\x03 \x01(\tR\x05error*_\n" +
 	"\vServiceKind\x12\x1c\n" +
 	"\x18SERVICE_KIND_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17SERVICE_KIND_DEPLOYMENT\x10\x01\x12\x15\n" +
@@ -12011,7 +12160,7 @@ const file_easylab_v1_easylab_proto_rawDesc = "" +
 	"\bFileList\x12\x1b.easylab.v1.FileListRequest\x1a\x1b.worker.v1.FileListResponse\x12r\n" +
 	"\x17RegisterExternalSandbox\x12*.easylab.v1.RegisterExternalSandboxRequest\x1a+.easylab.v1.RegisterExternalSandboxResponse\x12l\n" +
 	"\x15ListExternalSandboxes\x12(.easylab.v1.ListExternalSandboxesRequest\x1a).easylab.v1.ListExternalSandboxesResponse\x12o\n" +
-	"\x16ReleaseExternalSandbox\x12).easylab.v1.ReleaseExternalSandboxRequest\x1a*.easylab.v1.ReleaseExternalSandboxResponse2\xa4\x06\n" +
+	"\x16ReleaseExternalSandbox\x12).easylab.v1.ReleaseExternalSandboxRequest\x1a*.easylab.v1.ReleaseExternalSandboxResponse2\x80\a\n" +
 	"\x0fWorkflowService\x12W\n" +
 	"\x0eCreateWorkflow\x12!.easylab.v1.CreateWorkflowRequest\x1a\".easylab.v1.CreateWorkflowResponse\x12N\n" +
 	"\vGetWorkflow\x12\x1e.easylab.v1.GetWorkflowRequest\x1a\x1f.easylab.v1.GetWorkflowResponse\x12T\n" +
@@ -12023,7 +12172,8 @@ const file_easylab_v1_easylab_proto_rawDesc = "" +
 	"\tRunJobLog\x12\x1c.easylab.v1.RunJobLogRequest\x1a\x1d.easylab.v1.RunJobLogResponse0\x01\x12H\n" +
 	"\tCancelRun\x12\x1c.easylab.v1.CancelRunRequest\x1a\x1d.easylab.v1.CancelRunResponse\x12W\n" +
 	"\x0eRegisterRunner\x12!.easylab.v1.RegisterRunnerRequest\x1a\".easylab.v1.RegisterRunnerResponse\x12N\n" +
-	"\vListRunners\x12\x1e.easylab.v1.ListRunnersRequest\x1a\x1f.easylab.v1.ListRunnersResponseB@Z>github.com/easylab-platform/easylab-proto/easylab/v1;easylabv1b\x06proto3"
+	"\vListRunners\x12\x1e.easylab.v1.ListRunnersRequest\x1a\x1f.easylab.v1.ListRunnersResponse\x12Z\n" +
+	"\x0fRunWorkflowFile\x12\".easylab.v1.RunWorkflowFileRequest\x1a#.easylab.v1.RunWorkflowFileResponseB@Z>github.com/easylab-platform/easylab-proto/easylab/v1;easylabv1b\x06proto3"
 
 var (
 	file_easylab_v1_easylab_proto_rawDescOnce sync.Once
@@ -12038,7 +12188,7 @@ func file_easylab_v1_easylab_proto_rawDescGZIP() []byte {
 }
 
 var file_easylab_v1_easylab_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_easylab_v1_easylab_proto_msgTypes = make([]protoimpl.MessageInfo, 199)
+var file_easylab_v1_easylab_proto_msgTypes = make([]protoimpl.MessageInfo, 202)
 var file_easylab_v1_easylab_proto_goTypes = []any{
 	(ServiceKind)(0),                        // 0: easylab.v1.ServiceKind
 	(*RepoRefReq)(nil),                      // 1: easylab.v1.RepoRefReq
@@ -12234,34 +12384,37 @@ var file_easylab_v1_easylab_proto_goTypes = []any{
 	(*RegisterRunnerResponse)(nil),          // 191: easylab.v1.RegisterRunnerResponse
 	(*ListRunnersRequest)(nil),              // 192: easylab.v1.ListRunnersRequest
 	(*ListRunnersResponse)(nil),             // 193: easylab.v1.ListRunnersResponse
-	nil,                                     // 194: easylab.v1.RepoInfo.MetaEntry
-	nil,                                     // 195: easylab.v1.LaunchServiceRequest.EnvEntry
-	nil,                                     // 196: easylab.v1.LaunchServiceRequest.AnnotationsEntry
-	nil,                                     // 197: easylab.v1.SyncMirrorRequest.BodyEntry
-	nil,                                     // 198: easylab.v1.LaunchSandboxRequest.EnvEntry
-	nil,                                     // 199: easylab.v1.Step.EnvEntry
-	(*v1.ExecuteRequest)(nil),               // 200: worker.v1.ExecuteRequest
-	(*v1.JobOutputRequest)(nil),             // 201: worker.v1.JobOutputRequest
-	(*v1.WatchJobRequest)(nil),              // 202: worker.v1.WatchJobRequest
-	(*v1.JobWaitRequest)(nil),               // 203: worker.v1.JobWaitRequest
-	(*v1.JobStdinRequest)(nil),              // 204: worker.v1.JobStdinRequest
-	(*v1.JobKillRequest)(nil),               // 205: worker.v1.JobKillRequest
-	(*v1.FileReadRequest)(nil),              // 206: worker.v1.FileReadRequest
-	(*v1.FileWriteRequest)(nil),             // 207: worker.v1.FileWriteRequest
-	(*v1.FileListRequest)(nil),              // 208: worker.v1.FileListRequest
-	(*v1.ExecuteResponse)(nil),              // 209: worker.v1.ExecuteResponse
-	(*v1.ListJobsResponse)(nil),             // 210: worker.v1.ListJobsResponse
-	(*v1.JobOutputResponse)(nil),            // 211: worker.v1.JobOutputResponse
-	(*v1.WatchJobResponse)(nil),             // 212: worker.v1.WatchJobResponse
-	(*v1.JobWaitResponse)(nil),              // 213: worker.v1.JobWaitResponse
-	(*v1.JobStdinResponse)(nil),             // 214: worker.v1.JobStdinResponse
-	(*v1.JobKillResponse)(nil),              // 215: worker.v1.JobKillResponse
-	(*v1.FileReadResponse)(nil),             // 216: worker.v1.FileReadResponse
-	(*v1.FileWriteResponse)(nil),            // 217: worker.v1.FileWriteResponse
-	(*v1.FileListResponse)(nil),             // 218: worker.v1.FileListResponse
+	(*RunWorkflowFileRequest)(nil),          // 194: easylab.v1.RunWorkflowFileRequest
+	(*RunWorkflowFileResponse)(nil),         // 195: easylab.v1.RunWorkflowFileResponse
+	nil,                                     // 196: easylab.v1.RepoInfo.MetaEntry
+	nil,                                     // 197: easylab.v1.LaunchServiceRequest.EnvEntry
+	nil,                                     // 198: easylab.v1.LaunchServiceRequest.AnnotationsEntry
+	nil,                                     // 199: easylab.v1.SyncMirrorRequest.BodyEntry
+	nil,                                     // 200: easylab.v1.LaunchSandboxRequest.EnvEntry
+	nil,                                     // 201: easylab.v1.Step.EnvEntry
+	nil,                                     // 202: easylab.v1.RunWorkflowFileRequest.ArgsEntry
+	(*v1.ExecuteRequest)(nil),               // 203: worker.v1.ExecuteRequest
+	(*v1.JobOutputRequest)(nil),             // 204: worker.v1.JobOutputRequest
+	(*v1.WatchJobRequest)(nil),              // 205: worker.v1.WatchJobRequest
+	(*v1.JobWaitRequest)(nil),               // 206: worker.v1.JobWaitRequest
+	(*v1.JobStdinRequest)(nil),              // 207: worker.v1.JobStdinRequest
+	(*v1.JobKillRequest)(nil),               // 208: worker.v1.JobKillRequest
+	(*v1.FileReadRequest)(nil),              // 209: worker.v1.FileReadRequest
+	(*v1.FileWriteRequest)(nil),             // 210: worker.v1.FileWriteRequest
+	(*v1.FileListRequest)(nil),              // 211: worker.v1.FileListRequest
+	(*v1.ExecuteResponse)(nil),              // 212: worker.v1.ExecuteResponse
+	(*v1.ListJobsResponse)(nil),             // 213: worker.v1.ListJobsResponse
+	(*v1.JobOutputResponse)(nil),            // 214: worker.v1.JobOutputResponse
+	(*v1.WatchJobResponse)(nil),             // 215: worker.v1.WatchJobResponse
+	(*v1.JobWaitResponse)(nil),              // 216: worker.v1.JobWaitResponse
+	(*v1.JobStdinResponse)(nil),             // 217: worker.v1.JobStdinResponse
+	(*v1.JobKillResponse)(nil),              // 218: worker.v1.JobKillResponse
+	(*v1.FileReadResponse)(nil),             // 219: worker.v1.FileReadResponse
+	(*v1.FileWriteResponse)(nil),            // 220: worker.v1.FileWriteResponse
+	(*v1.FileListResponse)(nil),             // 221: worker.v1.FileListResponse
 }
 var file_easylab_v1_easylab_proto_depIdxs = []int32{
-	194, // 0: easylab.v1.RepoInfo.meta:type_name -> easylab.v1.RepoInfo.MetaEntry
+	196, // 0: easylab.v1.RepoInfo.meta:type_name -> easylab.v1.RepoInfo.MetaEntry
 	2,   // 1: easylab.v1.ListReposResponse.repos:type_name -> easylab.v1.RepoInfo
 	4,   // 2: easylab.v1.TreeResponse.entries:type_name -> easylab.v1.FileEntry
 	6,   // 3: easylab.v1.LogResponse.commits:type_name -> easylab.v1.CommitInfo
@@ -12274,8 +12427,8 @@ var file_easylab_v1_easylab_proto_depIdxs = []int32{
 	50,  // 10: easylab.v1.GetServiceResponse.service:type_name -> easylab.v1.ServiceInfo
 	51,  // 11: easylab.v1.GetServiceResponse.pods:type_name -> easylab.v1.ServicePod
 	56,  // 12: easylab.v1.LaunchServiceRequest.ports:type_name -> easylab.v1.PortSpec
-	195, // 13: easylab.v1.LaunchServiceRequest.env:type_name -> easylab.v1.LaunchServiceRequest.EnvEntry
-	196, // 14: easylab.v1.LaunchServiceRequest.annotations:type_name -> easylab.v1.LaunchServiceRequest.AnnotationsEntry
+	197, // 13: easylab.v1.LaunchServiceRequest.env:type_name -> easylab.v1.LaunchServiceRequest.EnvEntry
+	198, // 14: easylab.v1.LaunchServiceRequest.annotations:type_name -> easylab.v1.LaunchServiceRequest.AnnotationsEntry
 	73,  // 15: easylab.v1.ListTasksResponse.tasks:type_name -> easylab.v1.TaskEntry
 	73,  // 16: easylab.v1.GetTaskResponse.task:type_name -> easylab.v1.TaskEntry
 	80,  // 17: easylab.v1.ListNamespacesResponse.namespaces:type_name -> easylab.v1.NamespaceInfo
@@ -12290,22 +12443,22 @@ var file_easylab_v1_easylab_proto_depIdxs = []int32{
 	118, // 26: easylab.v1.ReleaseView.assets:type_name -> easylab.v1.ReleaseAssetView
 	117, // 27: easylab.v1.ListReleasesResponse.releases:type_name -> easylab.v1.ReleaseView
 	125, // 28: easylab.v1.GetMirrorResponse.mirror:type_name -> easylab.v1.MirrorCfg
-	197, // 29: easylab.v1.SyncMirrorRequest.body:type_name -> easylab.v1.SyncMirrorRequest.BodyEntry
+	199, // 29: easylab.v1.SyncMirrorRequest.body:type_name -> easylab.v1.SyncMirrorRequest.BodyEntry
 	136, // 30: easylab.v1.ListSandboxesResponse.sandboxes:type_name -> easylab.v1.SandboxInfo
 	136, // 31: easylab.v1.GetSandboxResponse.sandbox:type_name -> easylab.v1.SandboxInfo
-	198, // 32: easylab.v1.LaunchSandboxRequest.env:type_name -> easylab.v1.LaunchSandboxRequest.EnvEntry
+	200, // 32: easylab.v1.LaunchSandboxRequest.env:type_name -> easylab.v1.LaunchSandboxRequest.EnvEntry
 	136, // 33: easylab.v1.LaunchSandboxResponse.sandbox:type_name -> easylab.v1.SandboxInfo
-	200, // 34: easylab.v1.ExecuteRequest.req:type_name -> worker.v1.ExecuteRequest
-	201, // 35: easylab.v1.JobOutputRequest.req:type_name -> worker.v1.JobOutputRequest
-	202, // 36: easylab.v1.WatchJobRequest.req:type_name -> worker.v1.WatchJobRequest
-	203, // 37: easylab.v1.JobWaitRequest.req:type_name -> worker.v1.JobWaitRequest
-	204, // 38: easylab.v1.JobStdinRequest.req:type_name -> worker.v1.JobStdinRequest
-	205, // 39: easylab.v1.JobKillRequest.req:type_name -> worker.v1.JobKillRequest
-	206, // 40: easylab.v1.FileReadRequest.req:type_name -> worker.v1.FileReadRequest
-	207, // 41: easylab.v1.FileWriteRequest.req:type_name -> worker.v1.FileWriteRequest
-	208, // 42: easylab.v1.FileListRequest.req:type_name -> worker.v1.FileListRequest
+	203, // 34: easylab.v1.ExecuteRequest.req:type_name -> worker.v1.ExecuteRequest
+	204, // 35: easylab.v1.JobOutputRequest.req:type_name -> worker.v1.JobOutputRequest
+	205, // 36: easylab.v1.WatchJobRequest.req:type_name -> worker.v1.WatchJobRequest
+	206, // 37: easylab.v1.JobWaitRequest.req:type_name -> worker.v1.JobWaitRequest
+	207, // 38: easylab.v1.JobStdinRequest.req:type_name -> worker.v1.JobStdinRequest
+	208, // 39: easylab.v1.JobKillRequest.req:type_name -> worker.v1.JobKillRequest
+	209, // 40: easylab.v1.FileReadRequest.req:type_name -> worker.v1.FileReadRequest
+	210, // 41: easylab.v1.FileWriteRequest.req:type_name -> worker.v1.FileWriteRequest
+	211, // 42: easylab.v1.FileListRequest.req:type_name -> worker.v1.FileListRequest
 	162, // 43: easylab.v1.ListExternalSandboxesResponse.sandboxes:type_name -> easylab.v1.ExternalSandbox
-	199, // 44: easylab.v1.Step.env:type_name -> easylab.v1.Step.EnvEntry
+	201, // 44: easylab.v1.Step.env:type_name -> easylab.v1.Step.EnvEntry
 	168, // 45: easylab.v1.JobDef.steps:type_name -> easylab.v1.Step
 	169, // 46: easylab.v1.JobDef.produce:type_name -> easylab.v1.Produce
 	167, // 47: easylab.v1.Workflow.on:type_name -> easylab.v1.Trigger
@@ -12320,179 +12473,183 @@ var file_easylab_v1_easylab_proto_depIdxs = []int32{
 	173, // 56: easylab.v1.ListRunsResponse.runs:type_name -> easylab.v1.Run
 	166, // 57: easylab.v1.RegisterRunnerRequest.runner:type_name -> easylab.v1.Runner
 	166, // 58: easylab.v1.ListRunnersResponse.runners:type_name -> easylab.v1.Runner
-	99,  // 59: easylab.v1.LabService.Health:input_type -> easylab.v1.HealthRequest
-	101, // 60: easylab.v1.LabService.Status:input_type -> easylab.v1.StatusRequest
-	12,  // 61: easylab.v1.LabService.ListRepos:input_type -> easylab.v1.ListReposRequest
-	14,  // 62: easylab.v1.LabService.CreateRepo:input_type -> easylab.v1.CreateRepoRequest
-	16,  // 63: easylab.v1.LabService.DeleteRepo:input_type -> easylab.v1.DeleteRepoRequest
-	18,  // 64: easylab.v1.LabService.EnsureRepo:input_type -> easylab.v1.EnsureRepoRequest
-	20,  // 65: easylab.v1.LabService.EnsureOrg:input_type -> easylab.v1.EnsureOrgRequest
-	22,  // 66: easylab.v1.LabService.ForkRepo:input_type -> easylab.v1.ForkRepoRequest
-	24,  // 67: easylab.v1.LabService.CloneRepo:input_type -> easylab.v1.CloneRepoRequest
-	26,  // 68: easylab.v1.LabService.Tree:input_type -> easylab.v1.TreeRequest
-	28,  // 69: easylab.v1.LabService.ReadBlob:input_type -> easylab.v1.ReadBlobRequest
-	30,  // 70: easylab.v1.LabService.WriteBlob:input_type -> easylab.v1.WriteBlobRequest
-	32,  // 71: easylab.v1.LabService.Log:input_type -> easylab.v1.LogRequest
-	34,  // 72: easylab.v1.LabService.Tags:input_type -> easylab.v1.TagsRequest
-	36,  // 73: easylab.v1.LabService.Branches:input_type -> easylab.v1.BranchesRequest
-	38,  // 74: easylab.v1.LabService.Revisions:input_type -> easylab.v1.RevisionsRequest
-	40,  // 75: easylab.v1.LabService.Diff:input_type -> easylab.v1.DiffRequest
-	42,  // 76: easylab.v1.LabService.Blame:input_type -> easylab.v1.BlameRequest
-	44,  // 77: easylab.v1.LabService.DeleteBranch:input_type -> easylab.v1.DeleteBranchRequest
-	46,  // 78: easylab.v1.LabService.CreateBranch:input_type -> easylab.v1.CreateBranchRequest
-	48,  // 79: easylab.v1.LabService.FileHistory:input_type -> easylab.v1.FileHistoryRequest
-	103, // 80: easylab.v1.LabService.Search:input_type -> easylab.v1.SearchRequest
-	105, // 81: easylab.v1.LabService.Graph:input_type -> easylab.v1.GraphRequest
-	108, // 82: easylab.v1.LabService.Compare:input_type -> easylab.v1.CompareRequest
-	110, // 83: easylab.v1.LabService.Rebase:input_type -> easylab.v1.RebaseRequest
-	115, // 84: easylab.v1.LabService.DeleteOrg:input_type -> easylab.v1.DeleteOrgRequest
-	119, // 85: easylab.v1.LabService.ListReleases:input_type -> easylab.v1.ListReleasesRequest
-	121, // 86: easylab.v1.LabService.DownloadReleaseAsset:input_type -> easylab.v1.DownloadReleaseAssetRequest
-	123, // 87: easylab.v1.LabService.Archive:input_type -> easylab.v1.ArchiveRequest
-	126, // 88: easylab.v1.LabService.GetMirror:input_type -> easylab.v1.GetMirrorRequest
-	128, // 89: easylab.v1.LabService.SetMirror:input_type -> easylab.v1.SetMirrorRequest
-	130, // 90: easylab.v1.LabService.DeleteMirror:input_type -> easylab.v1.DeleteMirrorRequest
-	132, // 91: easylab.v1.LabService.SyncMirror:input_type -> easylab.v1.SyncMirrorRequest
-	77,  // 92: easylab.v1.OpsService.OpsStatus:input_type -> easylab.v1.OpsStatusRequest
-	79,  // 93: easylab.v1.OpsService.ListNamespaces:input_type -> easylab.v1.ListNamespacesRequest
-	52,  // 94: easylab.v1.OpsService.ListServices:input_type -> easylab.v1.ListServicesRequest
-	54,  // 95: easylab.v1.OpsService.GetService:input_type -> easylab.v1.GetServiceRequest
-	57,  // 96: easylab.v1.OpsService.LaunchService:input_type -> easylab.v1.LaunchServiceRequest
-	59,  // 97: easylab.v1.OpsService.DeleteService:input_type -> easylab.v1.DeleteServiceRequest
-	61,  // 98: easylab.v1.OpsService.ScaleService:input_type -> easylab.v1.ScaleServiceRequest
-	63,  // 99: easylab.v1.OpsService.SandboxExec:input_type -> easylab.v1.SandboxExecRequest
-	65,  // 100: easylab.v1.OpsService.SandboxRead:input_type -> easylab.v1.SandboxReadRequest
-	67,  // 101: easylab.v1.OpsService.SandboxWrite:input_type -> easylab.v1.SandboxWriteRequest
-	69,  // 102: easylab.v1.OpsService.SandboxJobKill:input_type -> easylab.v1.SandboxJobKillRequest
-	72,  // 103: easylab.v1.OpsService.ListTasks:input_type -> easylab.v1.ListTasksRequest
-	75,  // 104: easylab.v1.OpsService.GetTask:input_type -> easylab.v1.GetTaskRequest
-	71,  // 105: easylab.v1.OpsService.TaskLog:input_type -> easylab.v1.TaskLogRequest
-	112, // 106: easylab.v1.OpsService.Sync:input_type -> easylab.v1.SyncRequest
-	83,  // 107: easylab.v1.RegistryService.ListPackageTypes:input_type -> easylab.v1.ListPackageTypesRequest
-	88,  // 108: easylab.v1.RegistryService.ListPackages:input_type -> easylab.v1.ListPackagesRequest
-	90,  // 109: easylab.v1.RegistryService.PackageVersions:input_type -> easylab.v1.PackageVersionsRequest
-	92,  // 110: easylab.v1.RegistryService.DeletePackage:input_type -> easylab.v1.DeletePackageRequest
-	94,  // 111: easylab.v1.RegistryService.DeletePackageVersion:input_type -> easylab.v1.DeletePackageVersionRequest
-	97,  // 112: easylab.v1.RegistryService.ListPublishSpecs:input_type -> easylab.v1.ListPublishSpecsRequest
-	134, // 113: easylab.v1.RegistryService.OCICatalog:input_type -> easylab.v1.OCICatalogRequest
-	137, // 114: easylab.v1.SandboxService.ListSandboxes:input_type -> easylab.v1.ListSandboxesRequest
-	139, // 115: easylab.v1.SandboxService.GetSandbox:input_type -> easylab.v1.GetSandboxRequest
-	141, // 116: easylab.v1.SandboxService.EnsureSandboxImage:input_type -> easylab.v1.EnsureSandboxImageRequest
-	143, // 117: easylab.v1.SandboxService.LaunchSandbox:input_type -> easylab.v1.LaunchSandboxRequest
-	145, // 118: easylab.v1.SandboxService.DeleteSandbox:input_type -> easylab.v1.DeleteSandboxRequest
-	147, // 119: easylab.v1.SandboxService.Execute:input_type -> easylab.v1.ExecuteRequest
-	148, // 120: easylab.v1.SandboxService.ListJobs:input_type -> easylab.v1.ListJobsRequest
-	149, // 121: easylab.v1.SandboxService.JobOutput:input_type -> easylab.v1.JobOutputRequest
-	150, // 122: easylab.v1.SandboxService.WatchJob:input_type -> easylab.v1.WatchJobRequest
-	151, // 123: easylab.v1.SandboxService.JobWait:input_type -> easylab.v1.JobWaitRequest
-	152, // 124: easylab.v1.SandboxService.JobStdin:input_type -> easylab.v1.JobStdinRequest
-	153, // 125: easylab.v1.SandboxService.JobKill:input_type -> easylab.v1.JobKillRequest
-	154, // 126: easylab.v1.SandboxService.FileRead:input_type -> easylab.v1.FileReadRequest
-	155, // 127: easylab.v1.SandboxService.SyncWorkspace:input_type -> easylab.v1.SyncWorkspaceRequest
-	157, // 128: easylab.v1.SandboxService.FileWrite:input_type -> easylab.v1.FileWriteRequest
-	158, // 129: easylab.v1.SandboxService.FileList:input_type -> easylab.v1.FileListRequest
-	159, // 130: easylab.v1.SandboxService.RegisterExternalSandbox:input_type -> easylab.v1.RegisterExternalSandboxRequest
-	161, // 131: easylab.v1.SandboxService.ListExternalSandboxes:input_type -> easylab.v1.ListExternalSandboxesRequest
-	164, // 132: easylab.v1.SandboxService.ReleaseExternalSandbox:input_type -> easylab.v1.ReleaseExternalSandboxRequest
-	176, // 133: easylab.v1.WorkflowService.CreateWorkflow:input_type -> easylab.v1.CreateWorkflowRequest
-	174, // 134: easylab.v1.WorkflowService.GetWorkflow:input_type -> easylab.v1.GetWorkflowRequest
-	178, // 135: easylab.v1.WorkflowService.ListWorkflows:input_type -> easylab.v1.ListWorkflowsRequest
-	180, // 136: easylab.v1.WorkflowService.TriggerRun:input_type -> easylab.v1.TriggerRunRequest
-	182, // 137: easylab.v1.WorkflowService.GetRun:input_type -> easylab.v1.GetRunRequest
-	184, // 138: easylab.v1.WorkflowService.ListRuns:input_type -> easylab.v1.ListRunsRequest
-	186, // 139: easylab.v1.WorkflowService.RunJobLog:input_type -> easylab.v1.RunJobLogRequest
-	188, // 140: easylab.v1.WorkflowService.CancelRun:input_type -> easylab.v1.CancelRunRequest
-	190, // 141: easylab.v1.WorkflowService.RegisterRunner:input_type -> easylab.v1.RegisterRunnerRequest
-	192, // 142: easylab.v1.WorkflowService.ListRunners:input_type -> easylab.v1.ListRunnersRequest
-	100, // 143: easylab.v1.LabService.Health:output_type -> easylab.v1.HealthResponse
-	102, // 144: easylab.v1.LabService.Status:output_type -> easylab.v1.StatusResponse
-	13,  // 145: easylab.v1.LabService.ListRepos:output_type -> easylab.v1.ListReposResponse
-	15,  // 146: easylab.v1.LabService.CreateRepo:output_type -> easylab.v1.CreateRepoResponse
-	17,  // 147: easylab.v1.LabService.DeleteRepo:output_type -> easylab.v1.DeleteRepoResponse
-	19,  // 148: easylab.v1.LabService.EnsureRepo:output_type -> easylab.v1.EnsureRepoResponse
-	21,  // 149: easylab.v1.LabService.EnsureOrg:output_type -> easylab.v1.EnsureOrgResponse
-	23,  // 150: easylab.v1.LabService.ForkRepo:output_type -> easylab.v1.ForkRepoResponse
-	25,  // 151: easylab.v1.LabService.CloneRepo:output_type -> easylab.v1.CloneRepoResponse
-	27,  // 152: easylab.v1.LabService.Tree:output_type -> easylab.v1.TreeResponse
-	29,  // 153: easylab.v1.LabService.ReadBlob:output_type -> easylab.v1.ReadBlobResponse
-	31,  // 154: easylab.v1.LabService.WriteBlob:output_type -> easylab.v1.WriteBlobResponse
-	33,  // 155: easylab.v1.LabService.Log:output_type -> easylab.v1.LogResponse
-	35,  // 156: easylab.v1.LabService.Tags:output_type -> easylab.v1.TagsResponse
-	37,  // 157: easylab.v1.LabService.Branches:output_type -> easylab.v1.BranchesResponse
-	39,  // 158: easylab.v1.LabService.Revisions:output_type -> easylab.v1.RevisionsResponse
-	41,  // 159: easylab.v1.LabService.Diff:output_type -> easylab.v1.DiffResponse
-	43,  // 160: easylab.v1.LabService.Blame:output_type -> easylab.v1.BlameResponse
-	45,  // 161: easylab.v1.LabService.DeleteBranch:output_type -> easylab.v1.DeleteBranchResponse
-	47,  // 162: easylab.v1.LabService.CreateBranch:output_type -> easylab.v1.CreateBranchResponse
-	49,  // 163: easylab.v1.LabService.FileHistory:output_type -> easylab.v1.FileHistoryResponse
-	104, // 164: easylab.v1.LabService.Search:output_type -> easylab.v1.SearchResponse
-	107, // 165: easylab.v1.LabService.Graph:output_type -> easylab.v1.GraphResponse
-	109, // 166: easylab.v1.LabService.Compare:output_type -> easylab.v1.CompareResponse
-	111, // 167: easylab.v1.LabService.Rebase:output_type -> easylab.v1.RebaseResponse
-	116, // 168: easylab.v1.LabService.DeleteOrg:output_type -> easylab.v1.DeleteOrgResponse
-	120, // 169: easylab.v1.LabService.ListReleases:output_type -> easylab.v1.ListReleasesResponse
-	122, // 170: easylab.v1.LabService.DownloadReleaseAsset:output_type -> easylab.v1.DownloadReleaseAssetResponse
-	124, // 171: easylab.v1.LabService.Archive:output_type -> easylab.v1.ArchiveResponse
-	127, // 172: easylab.v1.LabService.GetMirror:output_type -> easylab.v1.GetMirrorResponse
-	129, // 173: easylab.v1.LabService.SetMirror:output_type -> easylab.v1.SetMirrorResponse
-	131, // 174: easylab.v1.LabService.DeleteMirror:output_type -> easylab.v1.DeleteMirrorResponse
-	133, // 175: easylab.v1.LabService.SyncMirror:output_type -> easylab.v1.SyncMirrorResponse
-	78,  // 176: easylab.v1.OpsService.OpsStatus:output_type -> easylab.v1.OpsStatusResponse
-	81,  // 177: easylab.v1.OpsService.ListNamespaces:output_type -> easylab.v1.ListNamespacesResponse
-	53,  // 178: easylab.v1.OpsService.ListServices:output_type -> easylab.v1.ListServicesResponse
-	55,  // 179: easylab.v1.OpsService.GetService:output_type -> easylab.v1.GetServiceResponse
-	58,  // 180: easylab.v1.OpsService.LaunchService:output_type -> easylab.v1.LaunchServiceResponse
-	60,  // 181: easylab.v1.OpsService.DeleteService:output_type -> easylab.v1.DeleteServiceResponse
-	62,  // 182: easylab.v1.OpsService.ScaleService:output_type -> easylab.v1.ScaleServiceResponse
-	64,  // 183: easylab.v1.OpsService.SandboxExec:output_type -> easylab.v1.SandboxExecResponse
-	66,  // 184: easylab.v1.OpsService.SandboxRead:output_type -> easylab.v1.SandboxReadResponse
-	68,  // 185: easylab.v1.OpsService.SandboxWrite:output_type -> easylab.v1.SandboxWriteResponse
-	70,  // 186: easylab.v1.OpsService.SandboxJobKill:output_type -> easylab.v1.SandboxJobKillResponse
-	74,  // 187: easylab.v1.OpsService.ListTasks:output_type -> easylab.v1.ListTasksResponse
-	76,  // 188: easylab.v1.OpsService.GetTask:output_type -> easylab.v1.GetTaskResponse
-	114, // 189: easylab.v1.OpsService.TaskLog:output_type -> easylab.v1.TaskLogResponse
-	113, // 190: easylab.v1.OpsService.Sync:output_type -> easylab.v1.SyncResponse
-	84,  // 191: easylab.v1.RegistryService.ListPackageTypes:output_type -> easylab.v1.ListPackageTypesResponse
-	89,  // 192: easylab.v1.RegistryService.ListPackages:output_type -> easylab.v1.ListPackagesResponse
-	91,  // 193: easylab.v1.RegistryService.PackageVersions:output_type -> easylab.v1.PackageVersionsResponse
-	93,  // 194: easylab.v1.RegistryService.DeletePackage:output_type -> easylab.v1.DeletePackageResponse
-	95,  // 195: easylab.v1.RegistryService.DeletePackageVersion:output_type -> easylab.v1.DeletePackageVersionResponse
-	98,  // 196: easylab.v1.RegistryService.ListPublishSpecs:output_type -> easylab.v1.ListPublishSpecsResponse
-	135, // 197: easylab.v1.RegistryService.OCICatalog:output_type -> easylab.v1.OCICatalogResponse
-	138, // 198: easylab.v1.SandboxService.ListSandboxes:output_type -> easylab.v1.ListSandboxesResponse
-	140, // 199: easylab.v1.SandboxService.GetSandbox:output_type -> easylab.v1.GetSandboxResponse
-	142, // 200: easylab.v1.SandboxService.EnsureSandboxImage:output_type -> easylab.v1.EnsureSandboxImageResponse
-	144, // 201: easylab.v1.SandboxService.LaunchSandbox:output_type -> easylab.v1.LaunchSandboxResponse
-	146, // 202: easylab.v1.SandboxService.DeleteSandbox:output_type -> easylab.v1.DeleteSandboxResponse
-	209, // 203: easylab.v1.SandboxService.Execute:output_type -> worker.v1.ExecuteResponse
-	210, // 204: easylab.v1.SandboxService.ListJobs:output_type -> worker.v1.ListJobsResponse
-	211, // 205: easylab.v1.SandboxService.JobOutput:output_type -> worker.v1.JobOutputResponse
-	212, // 206: easylab.v1.SandboxService.WatchJob:output_type -> worker.v1.WatchJobResponse
-	213, // 207: easylab.v1.SandboxService.JobWait:output_type -> worker.v1.JobWaitResponse
-	214, // 208: easylab.v1.SandboxService.JobStdin:output_type -> worker.v1.JobStdinResponse
-	215, // 209: easylab.v1.SandboxService.JobKill:output_type -> worker.v1.JobKillResponse
-	216, // 210: easylab.v1.SandboxService.FileRead:output_type -> worker.v1.FileReadResponse
-	156, // 211: easylab.v1.SandboxService.SyncWorkspace:output_type -> easylab.v1.SyncWorkspaceResponse
-	217, // 212: easylab.v1.SandboxService.FileWrite:output_type -> worker.v1.FileWriteResponse
-	218, // 213: easylab.v1.SandboxService.FileList:output_type -> worker.v1.FileListResponse
-	160, // 214: easylab.v1.SandboxService.RegisterExternalSandbox:output_type -> easylab.v1.RegisterExternalSandboxResponse
-	163, // 215: easylab.v1.SandboxService.ListExternalSandboxes:output_type -> easylab.v1.ListExternalSandboxesResponse
-	165, // 216: easylab.v1.SandboxService.ReleaseExternalSandbox:output_type -> easylab.v1.ReleaseExternalSandboxResponse
-	177, // 217: easylab.v1.WorkflowService.CreateWorkflow:output_type -> easylab.v1.CreateWorkflowResponse
-	175, // 218: easylab.v1.WorkflowService.GetWorkflow:output_type -> easylab.v1.GetWorkflowResponse
-	179, // 219: easylab.v1.WorkflowService.ListWorkflows:output_type -> easylab.v1.ListWorkflowsResponse
-	181, // 220: easylab.v1.WorkflowService.TriggerRun:output_type -> easylab.v1.TriggerRunResponse
-	183, // 221: easylab.v1.WorkflowService.GetRun:output_type -> easylab.v1.GetRunResponse
-	185, // 222: easylab.v1.WorkflowService.ListRuns:output_type -> easylab.v1.ListRunsResponse
-	187, // 223: easylab.v1.WorkflowService.RunJobLog:output_type -> easylab.v1.RunJobLogResponse
-	189, // 224: easylab.v1.WorkflowService.CancelRun:output_type -> easylab.v1.CancelRunResponse
-	191, // 225: easylab.v1.WorkflowService.RegisterRunner:output_type -> easylab.v1.RegisterRunnerResponse
-	193, // 226: easylab.v1.WorkflowService.ListRunners:output_type -> easylab.v1.ListRunnersResponse
-	143, // [143:227] is the sub-list for method output_type
-	59,  // [59:143] is the sub-list for method input_type
-	59,  // [59:59] is the sub-list for extension type_name
-	59,  // [59:59] is the sub-list for extension extendee
-	0,   // [0:59] is the sub-list for field type_name
+	202, // 59: easylab.v1.RunWorkflowFileRequest.args:type_name -> easylab.v1.RunWorkflowFileRequest.ArgsEntry
+	173, // 60: easylab.v1.RunWorkflowFileResponse.runs:type_name -> easylab.v1.Run
+	99,  // 61: easylab.v1.LabService.Health:input_type -> easylab.v1.HealthRequest
+	101, // 62: easylab.v1.LabService.Status:input_type -> easylab.v1.StatusRequest
+	12,  // 63: easylab.v1.LabService.ListRepos:input_type -> easylab.v1.ListReposRequest
+	14,  // 64: easylab.v1.LabService.CreateRepo:input_type -> easylab.v1.CreateRepoRequest
+	16,  // 65: easylab.v1.LabService.DeleteRepo:input_type -> easylab.v1.DeleteRepoRequest
+	18,  // 66: easylab.v1.LabService.EnsureRepo:input_type -> easylab.v1.EnsureRepoRequest
+	20,  // 67: easylab.v1.LabService.EnsureOrg:input_type -> easylab.v1.EnsureOrgRequest
+	22,  // 68: easylab.v1.LabService.ForkRepo:input_type -> easylab.v1.ForkRepoRequest
+	24,  // 69: easylab.v1.LabService.CloneRepo:input_type -> easylab.v1.CloneRepoRequest
+	26,  // 70: easylab.v1.LabService.Tree:input_type -> easylab.v1.TreeRequest
+	28,  // 71: easylab.v1.LabService.ReadBlob:input_type -> easylab.v1.ReadBlobRequest
+	30,  // 72: easylab.v1.LabService.WriteBlob:input_type -> easylab.v1.WriteBlobRequest
+	32,  // 73: easylab.v1.LabService.Log:input_type -> easylab.v1.LogRequest
+	34,  // 74: easylab.v1.LabService.Tags:input_type -> easylab.v1.TagsRequest
+	36,  // 75: easylab.v1.LabService.Branches:input_type -> easylab.v1.BranchesRequest
+	38,  // 76: easylab.v1.LabService.Revisions:input_type -> easylab.v1.RevisionsRequest
+	40,  // 77: easylab.v1.LabService.Diff:input_type -> easylab.v1.DiffRequest
+	42,  // 78: easylab.v1.LabService.Blame:input_type -> easylab.v1.BlameRequest
+	44,  // 79: easylab.v1.LabService.DeleteBranch:input_type -> easylab.v1.DeleteBranchRequest
+	46,  // 80: easylab.v1.LabService.CreateBranch:input_type -> easylab.v1.CreateBranchRequest
+	48,  // 81: easylab.v1.LabService.FileHistory:input_type -> easylab.v1.FileHistoryRequest
+	103, // 82: easylab.v1.LabService.Search:input_type -> easylab.v1.SearchRequest
+	105, // 83: easylab.v1.LabService.Graph:input_type -> easylab.v1.GraphRequest
+	108, // 84: easylab.v1.LabService.Compare:input_type -> easylab.v1.CompareRequest
+	110, // 85: easylab.v1.LabService.Rebase:input_type -> easylab.v1.RebaseRequest
+	115, // 86: easylab.v1.LabService.DeleteOrg:input_type -> easylab.v1.DeleteOrgRequest
+	119, // 87: easylab.v1.LabService.ListReleases:input_type -> easylab.v1.ListReleasesRequest
+	121, // 88: easylab.v1.LabService.DownloadReleaseAsset:input_type -> easylab.v1.DownloadReleaseAssetRequest
+	123, // 89: easylab.v1.LabService.Archive:input_type -> easylab.v1.ArchiveRequest
+	126, // 90: easylab.v1.LabService.GetMirror:input_type -> easylab.v1.GetMirrorRequest
+	128, // 91: easylab.v1.LabService.SetMirror:input_type -> easylab.v1.SetMirrorRequest
+	130, // 92: easylab.v1.LabService.DeleteMirror:input_type -> easylab.v1.DeleteMirrorRequest
+	132, // 93: easylab.v1.LabService.SyncMirror:input_type -> easylab.v1.SyncMirrorRequest
+	77,  // 94: easylab.v1.OpsService.OpsStatus:input_type -> easylab.v1.OpsStatusRequest
+	79,  // 95: easylab.v1.OpsService.ListNamespaces:input_type -> easylab.v1.ListNamespacesRequest
+	52,  // 96: easylab.v1.OpsService.ListServices:input_type -> easylab.v1.ListServicesRequest
+	54,  // 97: easylab.v1.OpsService.GetService:input_type -> easylab.v1.GetServiceRequest
+	57,  // 98: easylab.v1.OpsService.LaunchService:input_type -> easylab.v1.LaunchServiceRequest
+	59,  // 99: easylab.v1.OpsService.DeleteService:input_type -> easylab.v1.DeleteServiceRequest
+	61,  // 100: easylab.v1.OpsService.ScaleService:input_type -> easylab.v1.ScaleServiceRequest
+	63,  // 101: easylab.v1.OpsService.SandboxExec:input_type -> easylab.v1.SandboxExecRequest
+	65,  // 102: easylab.v1.OpsService.SandboxRead:input_type -> easylab.v1.SandboxReadRequest
+	67,  // 103: easylab.v1.OpsService.SandboxWrite:input_type -> easylab.v1.SandboxWriteRequest
+	69,  // 104: easylab.v1.OpsService.SandboxJobKill:input_type -> easylab.v1.SandboxJobKillRequest
+	72,  // 105: easylab.v1.OpsService.ListTasks:input_type -> easylab.v1.ListTasksRequest
+	75,  // 106: easylab.v1.OpsService.GetTask:input_type -> easylab.v1.GetTaskRequest
+	71,  // 107: easylab.v1.OpsService.TaskLog:input_type -> easylab.v1.TaskLogRequest
+	112, // 108: easylab.v1.OpsService.Sync:input_type -> easylab.v1.SyncRequest
+	83,  // 109: easylab.v1.RegistryService.ListPackageTypes:input_type -> easylab.v1.ListPackageTypesRequest
+	88,  // 110: easylab.v1.RegistryService.ListPackages:input_type -> easylab.v1.ListPackagesRequest
+	90,  // 111: easylab.v1.RegistryService.PackageVersions:input_type -> easylab.v1.PackageVersionsRequest
+	92,  // 112: easylab.v1.RegistryService.DeletePackage:input_type -> easylab.v1.DeletePackageRequest
+	94,  // 113: easylab.v1.RegistryService.DeletePackageVersion:input_type -> easylab.v1.DeletePackageVersionRequest
+	97,  // 114: easylab.v1.RegistryService.ListPublishSpecs:input_type -> easylab.v1.ListPublishSpecsRequest
+	134, // 115: easylab.v1.RegistryService.OCICatalog:input_type -> easylab.v1.OCICatalogRequest
+	137, // 116: easylab.v1.SandboxService.ListSandboxes:input_type -> easylab.v1.ListSandboxesRequest
+	139, // 117: easylab.v1.SandboxService.GetSandbox:input_type -> easylab.v1.GetSandboxRequest
+	141, // 118: easylab.v1.SandboxService.EnsureSandboxImage:input_type -> easylab.v1.EnsureSandboxImageRequest
+	143, // 119: easylab.v1.SandboxService.LaunchSandbox:input_type -> easylab.v1.LaunchSandboxRequest
+	145, // 120: easylab.v1.SandboxService.DeleteSandbox:input_type -> easylab.v1.DeleteSandboxRequest
+	147, // 121: easylab.v1.SandboxService.Execute:input_type -> easylab.v1.ExecuteRequest
+	148, // 122: easylab.v1.SandboxService.ListJobs:input_type -> easylab.v1.ListJobsRequest
+	149, // 123: easylab.v1.SandboxService.JobOutput:input_type -> easylab.v1.JobOutputRequest
+	150, // 124: easylab.v1.SandboxService.WatchJob:input_type -> easylab.v1.WatchJobRequest
+	151, // 125: easylab.v1.SandboxService.JobWait:input_type -> easylab.v1.JobWaitRequest
+	152, // 126: easylab.v1.SandboxService.JobStdin:input_type -> easylab.v1.JobStdinRequest
+	153, // 127: easylab.v1.SandboxService.JobKill:input_type -> easylab.v1.JobKillRequest
+	154, // 128: easylab.v1.SandboxService.FileRead:input_type -> easylab.v1.FileReadRequest
+	155, // 129: easylab.v1.SandboxService.SyncWorkspace:input_type -> easylab.v1.SyncWorkspaceRequest
+	157, // 130: easylab.v1.SandboxService.FileWrite:input_type -> easylab.v1.FileWriteRequest
+	158, // 131: easylab.v1.SandboxService.FileList:input_type -> easylab.v1.FileListRequest
+	159, // 132: easylab.v1.SandboxService.RegisterExternalSandbox:input_type -> easylab.v1.RegisterExternalSandboxRequest
+	161, // 133: easylab.v1.SandboxService.ListExternalSandboxes:input_type -> easylab.v1.ListExternalSandboxesRequest
+	164, // 134: easylab.v1.SandboxService.ReleaseExternalSandbox:input_type -> easylab.v1.ReleaseExternalSandboxRequest
+	176, // 135: easylab.v1.WorkflowService.CreateWorkflow:input_type -> easylab.v1.CreateWorkflowRequest
+	174, // 136: easylab.v1.WorkflowService.GetWorkflow:input_type -> easylab.v1.GetWorkflowRequest
+	178, // 137: easylab.v1.WorkflowService.ListWorkflows:input_type -> easylab.v1.ListWorkflowsRequest
+	180, // 138: easylab.v1.WorkflowService.TriggerRun:input_type -> easylab.v1.TriggerRunRequest
+	182, // 139: easylab.v1.WorkflowService.GetRun:input_type -> easylab.v1.GetRunRequest
+	184, // 140: easylab.v1.WorkflowService.ListRuns:input_type -> easylab.v1.ListRunsRequest
+	186, // 141: easylab.v1.WorkflowService.RunJobLog:input_type -> easylab.v1.RunJobLogRequest
+	188, // 142: easylab.v1.WorkflowService.CancelRun:input_type -> easylab.v1.CancelRunRequest
+	190, // 143: easylab.v1.WorkflowService.RegisterRunner:input_type -> easylab.v1.RegisterRunnerRequest
+	192, // 144: easylab.v1.WorkflowService.ListRunners:input_type -> easylab.v1.ListRunnersRequest
+	194, // 145: easylab.v1.WorkflowService.RunWorkflowFile:input_type -> easylab.v1.RunWorkflowFileRequest
+	100, // 146: easylab.v1.LabService.Health:output_type -> easylab.v1.HealthResponse
+	102, // 147: easylab.v1.LabService.Status:output_type -> easylab.v1.StatusResponse
+	13,  // 148: easylab.v1.LabService.ListRepos:output_type -> easylab.v1.ListReposResponse
+	15,  // 149: easylab.v1.LabService.CreateRepo:output_type -> easylab.v1.CreateRepoResponse
+	17,  // 150: easylab.v1.LabService.DeleteRepo:output_type -> easylab.v1.DeleteRepoResponse
+	19,  // 151: easylab.v1.LabService.EnsureRepo:output_type -> easylab.v1.EnsureRepoResponse
+	21,  // 152: easylab.v1.LabService.EnsureOrg:output_type -> easylab.v1.EnsureOrgResponse
+	23,  // 153: easylab.v1.LabService.ForkRepo:output_type -> easylab.v1.ForkRepoResponse
+	25,  // 154: easylab.v1.LabService.CloneRepo:output_type -> easylab.v1.CloneRepoResponse
+	27,  // 155: easylab.v1.LabService.Tree:output_type -> easylab.v1.TreeResponse
+	29,  // 156: easylab.v1.LabService.ReadBlob:output_type -> easylab.v1.ReadBlobResponse
+	31,  // 157: easylab.v1.LabService.WriteBlob:output_type -> easylab.v1.WriteBlobResponse
+	33,  // 158: easylab.v1.LabService.Log:output_type -> easylab.v1.LogResponse
+	35,  // 159: easylab.v1.LabService.Tags:output_type -> easylab.v1.TagsResponse
+	37,  // 160: easylab.v1.LabService.Branches:output_type -> easylab.v1.BranchesResponse
+	39,  // 161: easylab.v1.LabService.Revisions:output_type -> easylab.v1.RevisionsResponse
+	41,  // 162: easylab.v1.LabService.Diff:output_type -> easylab.v1.DiffResponse
+	43,  // 163: easylab.v1.LabService.Blame:output_type -> easylab.v1.BlameResponse
+	45,  // 164: easylab.v1.LabService.DeleteBranch:output_type -> easylab.v1.DeleteBranchResponse
+	47,  // 165: easylab.v1.LabService.CreateBranch:output_type -> easylab.v1.CreateBranchResponse
+	49,  // 166: easylab.v1.LabService.FileHistory:output_type -> easylab.v1.FileHistoryResponse
+	104, // 167: easylab.v1.LabService.Search:output_type -> easylab.v1.SearchResponse
+	107, // 168: easylab.v1.LabService.Graph:output_type -> easylab.v1.GraphResponse
+	109, // 169: easylab.v1.LabService.Compare:output_type -> easylab.v1.CompareResponse
+	111, // 170: easylab.v1.LabService.Rebase:output_type -> easylab.v1.RebaseResponse
+	116, // 171: easylab.v1.LabService.DeleteOrg:output_type -> easylab.v1.DeleteOrgResponse
+	120, // 172: easylab.v1.LabService.ListReleases:output_type -> easylab.v1.ListReleasesResponse
+	122, // 173: easylab.v1.LabService.DownloadReleaseAsset:output_type -> easylab.v1.DownloadReleaseAssetResponse
+	124, // 174: easylab.v1.LabService.Archive:output_type -> easylab.v1.ArchiveResponse
+	127, // 175: easylab.v1.LabService.GetMirror:output_type -> easylab.v1.GetMirrorResponse
+	129, // 176: easylab.v1.LabService.SetMirror:output_type -> easylab.v1.SetMirrorResponse
+	131, // 177: easylab.v1.LabService.DeleteMirror:output_type -> easylab.v1.DeleteMirrorResponse
+	133, // 178: easylab.v1.LabService.SyncMirror:output_type -> easylab.v1.SyncMirrorResponse
+	78,  // 179: easylab.v1.OpsService.OpsStatus:output_type -> easylab.v1.OpsStatusResponse
+	81,  // 180: easylab.v1.OpsService.ListNamespaces:output_type -> easylab.v1.ListNamespacesResponse
+	53,  // 181: easylab.v1.OpsService.ListServices:output_type -> easylab.v1.ListServicesResponse
+	55,  // 182: easylab.v1.OpsService.GetService:output_type -> easylab.v1.GetServiceResponse
+	58,  // 183: easylab.v1.OpsService.LaunchService:output_type -> easylab.v1.LaunchServiceResponse
+	60,  // 184: easylab.v1.OpsService.DeleteService:output_type -> easylab.v1.DeleteServiceResponse
+	62,  // 185: easylab.v1.OpsService.ScaleService:output_type -> easylab.v1.ScaleServiceResponse
+	64,  // 186: easylab.v1.OpsService.SandboxExec:output_type -> easylab.v1.SandboxExecResponse
+	66,  // 187: easylab.v1.OpsService.SandboxRead:output_type -> easylab.v1.SandboxReadResponse
+	68,  // 188: easylab.v1.OpsService.SandboxWrite:output_type -> easylab.v1.SandboxWriteResponse
+	70,  // 189: easylab.v1.OpsService.SandboxJobKill:output_type -> easylab.v1.SandboxJobKillResponse
+	74,  // 190: easylab.v1.OpsService.ListTasks:output_type -> easylab.v1.ListTasksResponse
+	76,  // 191: easylab.v1.OpsService.GetTask:output_type -> easylab.v1.GetTaskResponse
+	114, // 192: easylab.v1.OpsService.TaskLog:output_type -> easylab.v1.TaskLogResponse
+	113, // 193: easylab.v1.OpsService.Sync:output_type -> easylab.v1.SyncResponse
+	84,  // 194: easylab.v1.RegistryService.ListPackageTypes:output_type -> easylab.v1.ListPackageTypesResponse
+	89,  // 195: easylab.v1.RegistryService.ListPackages:output_type -> easylab.v1.ListPackagesResponse
+	91,  // 196: easylab.v1.RegistryService.PackageVersions:output_type -> easylab.v1.PackageVersionsResponse
+	93,  // 197: easylab.v1.RegistryService.DeletePackage:output_type -> easylab.v1.DeletePackageResponse
+	95,  // 198: easylab.v1.RegistryService.DeletePackageVersion:output_type -> easylab.v1.DeletePackageVersionResponse
+	98,  // 199: easylab.v1.RegistryService.ListPublishSpecs:output_type -> easylab.v1.ListPublishSpecsResponse
+	135, // 200: easylab.v1.RegistryService.OCICatalog:output_type -> easylab.v1.OCICatalogResponse
+	138, // 201: easylab.v1.SandboxService.ListSandboxes:output_type -> easylab.v1.ListSandboxesResponse
+	140, // 202: easylab.v1.SandboxService.GetSandbox:output_type -> easylab.v1.GetSandboxResponse
+	142, // 203: easylab.v1.SandboxService.EnsureSandboxImage:output_type -> easylab.v1.EnsureSandboxImageResponse
+	144, // 204: easylab.v1.SandboxService.LaunchSandbox:output_type -> easylab.v1.LaunchSandboxResponse
+	146, // 205: easylab.v1.SandboxService.DeleteSandbox:output_type -> easylab.v1.DeleteSandboxResponse
+	212, // 206: easylab.v1.SandboxService.Execute:output_type -> worker.v1.ExecuteResponse
+	213, // 207: easylab.v1.SandboxService.ListJobs:output_type -> worker.v1.ListJobsResponse
+	214, // 208: easylab.v1.SandboxService.JobOutput:output_type -> worker.v1.JobOutputResponse
+	215, // 209: easylab.v1.SandboxService.WatchJob:output_type -> worker.v1.WatchJobResponse
+	216, // 210: easylab.v1.SandboxService.JobWait:output_type -> worker.v1.JobWaitResponse
+	217, // 211: easylab.v1.SandboxService.JobStdin:output_type -> worker.v1.JobStdinResponse
+	218, // 212: easylab.v1.SandboxService.JobKill:output_type -> worker.v1.JobKillResponse
+	219, // 213: easylab.v1.SandboxService.FileRead:output_type -> worker.v1.FileReadResponse
+	156, // 214: easylab.v1.SandboxService.SyncWorkspace:output_type -> easylab.v1.SyncWorkspaceResponse
+	220, // 215: easylab.v1.SandboxService.FileWrite:output_type -> worker.v1.FileWriteResponse
+	221, // 216: easylab.v1.SandboxService.FileList:output_type -> worker.v1.FileListResponse
+	160, // 217: easylab.v1.SandboxService.RegisterExternalSandbox:output_type -> easylab.v1.RegisterExternalSandboxResponse
+	163, // 218: easylab.v1.SandboxService.ListExternalSandboxes:output_type -> easylab.v1.ListExternalSandboxesResponse
+	165, // 219: easylab.v1.SandboxService.ReleaseExternalSandbox:output_type -> easylab.v1.ReleaseExternalSandboxResponse
+	177, // 220: easylab.v1.WorkflowService.CreateWorkflow:output_type -> easylab.v1.CreateWorkflowResponse
+	175, // 221: easylab.v1.WorkflowService.GetWorkflow:output_type -> easylab.v1.GetWorkflowResponse
+	179, // 222: easylab.v1.WorkflowService.ListWorkflows:output_type -> easylab.v1.ListWorkflowsResponse
+	181, // 223: easylab.v1.WorkflowService.TriggerRun:output_type -> easylab.v1.TriggerRunResponse
+	183, // 224: easylab.v1.WorkflowService.GetRun:output_type -> easylab.v1.GetRunResponse
+	185, // 225: easylab.v1.WorkflowService.ListRuns:output_type -> easylab.v1.ListRunsResponse
+	187, // 226: easylab.v1.WorkflowService.RunJobLog:output_type -> easylab.v1.RunJobLogResponse
+	189, // 227: easylab.v1.WorkflowService.CancelRun:output_type -> easylab.v1.CancelRunResponse
+	191, // 228: easylab.v1.WorkflowService.RegisterRunner:output_type -> easylab.v1.RegisterRunnerResponse
+	193, // 229: easylab.v1.WorkflowService.ListRunners:output_type -> easylab.v1.ListRunnersResponse
+	195, // 230: easylab.v1.WorkflowService.RunWorkflowFile:output_type -> easylab.v1.RunWorkflowFileResponse
+	146, // [146:231] is the sub-list for method output_type
+	61,  // [61:146] is the sub-list for method input_type
+	61,  // [61:61] is the sub-list for extension type_name
+	61,  // [61:61] is the sub-list for extension extendee
+	0,   // [0:61] is the sub-list for field type_name
 }
 
 func init() { file_easylab_v1_easylab_proto_init() }
@@ -12506,7 +12663,7 @@ func file_easylab_v1_easylab_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_easylab_v1_easylab_proto_rawDesc), len(file_easylab_v1_easylab_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   199,
+			NumMessages:   202,
 			NumExtensions: 0,
 			NumServices:   5,
 		},
