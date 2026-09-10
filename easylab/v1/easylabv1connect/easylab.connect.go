@@ -207,6 +207,9 @@ const (
 	SandboxServiceFileWriteProcedure = "/easylab.v1.SandboxService/FileWrite"
 	// SandboxServiceFileListProcedure is the fully-qualified name of the SandboxService's FileList RPC.
 	SandboxServiceFileListProcedure = "/easylab.v1.SandboxService/FileList"
+	// SandboxServiceRegisterExternalSandboxProcedure is the fully-qualified name of the
+	// SandboxService's RegisterExternalSandbox RPC.
+	SandboxServiceRegisterExternalSandboxProcedure = "/easylab.v1.SandboxService/RegisterExternalSandbox"
 	// WorkflowServiceCreateWorkflowProcedure is the fully-qualified name of the WorkflowService's
 	// CreateWorkflow RPC.
 	WorkflowServiceCreateWorkflowProcedure = "/easylab.v1.WorkflowService/CreateWorkflow"
@@ -1830,6 +1833,12 @@ type SandboxServiceClient interface {
 	SyncWorkspace(context.Context, *connect.Request[v1.SyncWorkspaceRequest]) (*connect.Response[v1.SyncWorkspaceResponse], error)
 	FileWrite(context.Context, *connect.Request[v1.FileWriteRequest]) (*connect.Response[v11.FileWriteResponse], error)
 	FileList(context.Context, *connect.Request[v1.FileListRequest]) (*connect.Response[v11.FileListResponse], error)
+	// RegisterExternalSandbox adopts an externally-run worker (not launched by
+	// easylab). It either claims the worker with its one-time enrollment code
+	// (exclusive; the worker then issues a bearer token), or accepts a token
+	// already provisioned on the worker. easylab persists the token + address so
+	// its worker passthroughs keep working across restarts.
+	RegisterExternalSandbox(context.Context, *connect.Request[v1.RegisterExternalSandboxRequest]) (*connect.Response[v1.RegisterExternalSandboxResponse], error)
 }
 
 // NewSandboxServiceClient constructs a client for the easylab.v1.SandboxService service. By
@@ -1939,27 +1948,34 @@ func NewSandboxServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 			connect.WithSchema(sandboxServiceMethods.ByName("FileList")),
 			connect.WithClientOptions(opts...),
 		),
+		registerExternalSandbox: connect.NewClient[v1.RegisterExternalSandboxRequest, v1.RegisterExternalSandboxResponse](
+			httpClient,
+			baseURL+SandboxServiceRegisterExternalSandboxProcedure,
+			connect.WithSchema(sandboxServiceMethods.ByName("RegisterExternalSandbox")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // sandboxServiceClient implements SandboxServiceClient.
 type sandboxServiceClient struct {
-	listSandboxes      *connect.Client[v1.ListSandboxesRequest, v1.ListSandboxesResponse]
-	getSandbox         *connect.Client[v1.GetSandboxRequest, v1.GetSandboxResponse]
-	ensureSandboxImage *connect.Client[v1.EnsureSandboxImageRequest, v1.EnsureSandboxImageResponse]
-	launchSandbox      *connect.Client[v1.LaunchSandboxRequest, v1.LaunchSandboxResponse]
-	deleteSandbox      *connect.Client[v1.DeleteSandboxRequest, v1.DeleteSandboxResponse]
-	execute            *connect.Client[v1.ExecuteRequest, v11.ExecuteResponse]
-	listJobs           *connect.Client[v1.ListJobsRequest, v11.ListJobsResponse]
-	jobOutput          *connect.Client[v1.JobOutputRequest, v11.JobOutputResponse]
-	watchJob           *connect.Client[v1.WatchJobRequest, v11.WatchJobResponse]
-	jobWait            *connect.Client[v1.JobWaitRequest, v11.JobWaitResponse]
-	jobStdin           *connect.Client[v1.JobStdinRequest, v11.JobStdinResponse]
-	jobKill            *connect.Client[v1.JobKillRequest, v11.JobKillResponse]
-	fileRead           *connect.Client[v1.FileReadRequest, v11.FileReadResponse]
-	syncWorkspace      *connect.Client[v1.SyncWorkspaceRequest, v1.SyncWorkspaceResponse]
-	fileWrite          *connect.Client[v1.FileWriteRequest, v11.FileWriteResponse]
-	fileList           *connect.Client[v1.FileListRequest, v11.FileListResponse]
+	listSandboxes           *connect.Client[v1.ListSandboxesRequest, v1.ListSandboxesResponse]
+	getSandbox              *connect.Client[v1.GetSandboxRequest, v1.GetSandboxResponse]
+	ensureSandboxImage      *connect.Client[v1.EnsureSandboxImageRequest, v1.EnsureSandboxImageResponse]
+	launchSandbox           *connect.Client[v1.LaunchSandboxRequest, v1.LaunchSandboxResponse]
+	deleteSandbox           *connect.Client[v1.DeleteSandboxRequest, v1.DeleteSandboxResponse]
+	execute                 *connect.Client[v1.ExecuteRequest, v11.ExecuteResponse]
+	listJobs                *connect.Client[v1.ListJobsRequest, v11.ListJobsResponse]
+	jobOutput               *connect.Client[v1.JobOutputRequest, v11.JobOutputResponse]
+	watchJob                *connect.Client[v1.WatchJobRequest, v11.WatchJobResponse]
+	jobWait                 *connect.Client[v1.JobWaitRequest, v11.JobWaitResponse]
+	jobStdin                *connect.Client[v1.JobStdinRequest, v11.JobStdinResponse]
+	jobKill                 *connect.Client[v1.JobKillRequest, v11.JobKillResponse]
+	fileRead                *connect.Client[v1.FileReadRequest, v11.FileReadResponse]
+	syncWorkspace           *connect.Client[v1.SyncWorkspaceRequest, v1.SyncWorkspaceResponse]
+	fileWrite               *connect.Client[v1.FileWriteRequest, v11.FileWriteResponse]
+	fileList                *connect.Client[v1.FileListRequest, v11.FileListResponse]
+	registerExternalSandbox *connect.Client[v1.RegisterExternalSandboxRequest, v1.RegisterExternalSandboxResponse]
 }
 
 // ListSandboxes calls easylab.v1.SandboxService.ListSandboxes.
@@ -2042,6 +2058,11 @@ func (c *sandboxServiceClient) FileList(ctx context.Context, req *connect.Reques
 	return c.fileList.CallUnary(ctx, req)
 }
 
+// RegisterExternalSandbox calls easylab.v1.SandboxService.RegisterExternalSandbox.
+func (c *sandboxServiceClient) RegisterExternalSandbox(ctx context.Context, req *connect.Request[v1.RegisterExternalSandboxRequest]) (*connect.Response[v1.RegisterExternalSandboxResponse], error) {
+	return c.registerExternalSandbox.CallUnary(ctx, req)
+}
+
 // SandboxServiceHandler is an implementation of the easylab.v1.SandboxService service.
 type SandboxServiceHandler interface {
 	// lifecycle
@@ -2064,6 +2085,12 @@ type SandboxServiceHandler interface {
 	SyncWorkspace(context.Context, *connect.Request[v1.SyncWorkspaceRequest]) (*connect.Response[v1.SyncWorkspaceResponse], error)
 	FileWrite(context.Context, *connect.Request[v1.FileWriteRequest]) (*connect.Response[v11.FileWriteResponse], error)
 	FileList(context.Context, *connect.Request[v1.FileListRequest]) (*connect.Response[v11.FileListResponse], error)
+	// RegisterExternalSandbox adopts an externally-run worker (not launched by
+	// easylab). It either claims the worker with its one-time enrollment code
+	// (exclusive; the worker then issues a bearer token), or accepts a token
+	// already provisioned on the worker. easylab persists the token + address so
+	// its worker passthroughs keep working across restarts.
+	RegisterExternalSandbox(context.Context, *connect.Request[v1.RegisterExternalSandboxRequest]) (*connect.Response[v1.RegisterExternalSandboxResponse], error)
 }
 
 // NewSandboxServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -2169,6 +2196,12 @@ func NewSandboxServiceHandler(svc SandboxServiceHandler, opts ...connect.Handler
 		connect.WithSchema(sandboxServiceMethods.ByName("FileList")),
 		connect.WithHandlerOptions(opts...),
 	)
+	sandboxServiceRegisterExternalSandboxHandler := connect.NewUnaryHandler(
+		SandboxServiceRegisterExternalSandboxProcedure,
+		svc.RegisterExternalSandbox,
+		connect.WithSchema(sandboxServiceMethods.ByName("RegisterExternalSandbox")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/easylab.v1.SandboxService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case SandboxServiceListSandboxesProcedure:
@@ -2203,6 +2236,8 @@ func NewSandboxServiceHandler(svc SandboxServiceHandler, opts ...connect.Handler
 			sandboxServiceFileWriteHandler.ServeHTTP(w, r)
 		case SandboxServiceFileListProcedure:
 			sandboxServiceFileListHandler.ServeHTTP(w, r)
+		case SandboxServiceRegisterExternalSandboxProcedure:
+			sandboxServiceRegisterExternalSandboxHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -2274,6 +2309,10 @@ func (UnimplementedSandboxServiceHandler) FileWrite(context.Context, *connect.Re
 
 func (UnimplementedSandboxServiceHandler) FileList(context.Context, *connect.Request[v1.FileListRequest]) (*connect.Response[v11.FileListResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.FileList is not implemented"))
+}
+
+func (UnimplementedSandboxServiceHandler) RegisterExternalSandbox(context.Context, *connect.Request[v1.RegisterExternalSandboxRequest]) (*connect.Response[v1.RegisterExternalSandboxResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.RegisterExternalSandbox is not implemented"))
 }
 
 // WorkflowServiceClient is a client for the easylab.v1.WorkflowService service.
