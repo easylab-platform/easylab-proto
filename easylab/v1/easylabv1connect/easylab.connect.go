@@ -210,6 +210,12 @@ const (
 	// SandboxServiceRegisterExternalSandboxProcedure is the fully-qualified name of the
 	// SandboxService's RegisterExternalSandbox RPC.
 	SandboxServiceRegisterExternalSandboxProcedure = "/easylab.v1.SandboxService/RegisterExternalSandbox"
+	// SandboxServiceListExternalSandboxesProcedure is the fully-qualified name of the SandboxService's
+	// ListExternalSandboxes RPC.
+	SandboxServiceListExternalSandboxesProcedure = "/easylab.v1.SandboxService/ListExternalSandboxes"
+	// SandboxServiceReleaseExternalSandboxProcedure is the fully-qualified name of the SandboxService's
+	// ReleaseExternalSandbox RPC.
+	SandboxServiceReleaseExternalSandboxProcedure = "/easylab.v1.SandboxService/ReleaseExternalSandbox"
 	// WorkflowServiceCreateWorkflowProcedure is the fully-qualified name of the WorkflowService's
 	// CreateWorkflow RPC.
 	WorkflowServiceCreateWorkflowProcedure = "/easylab.v1.WorkflowService/CreateWorkflow"
@@ -1839,6 +1845,14 @@ type SandboxServiceClient interface {
 	// already provisioned on the worker. easylab persists the token + address so
 	// its worker passthroughs keep working across restarts.
 	RegisterExternalSandbox(context.Context, *connect.Request[v1.RegisterExternalSandboxRequest]) (*connect.Response[v1.RegisterExternalSandboxResponse], error)
+	// ListExternalSandboxes returns the externally-registered workers (mode =
+	// external), including address and owner — managed sandboxes are excluded.
+	ListExternalSandboxes(context.Context, *connect.Request[v1.ListExternalSandboxesRequest]) (*connect.Response[v1.ListExternalSandboxesResponse], error)
+	// ReleaseExternalSandbox revokes easylab's token on the worker and returns
+	// the worker to the claimable state with a fresh one-time code. After a
+	// release any caller presenting the new code may claim it. Managed sandboxes
+	// cannot be released.
+	ReleaseExternalSandbox(context.Context, *connect.Request[v1.ReleaseExternalSandboxRequest]) (*connect.Response[v1.ReleaseExternalSandboxResponse], error)
 }
 
 // NewSandboxServiceClient constructs a client for the easylab.v1.SandboxService service. By
@@ -1954,6 +1968,18 @@ func NewSandboxServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 			connect.WithSchema(sandboxServiceMethods.ByName("RegisterExternalSandbox")),
 			connect.WithClientOptions(opts...),
 		),
+		listExternalSandboxes: connect.NewClient[v1.ListExternalSandboxesRequest, v1.ListExternalSandboxesResponse](
+			httpClient,
+			baseURL+SandboxServiceListExternalSandboxesProcedure,
+			connect.WithSchema(sandboxServiceMethods.ByName("ListExternalSandboxes")),
+			connect.WithClientOptions(opts...),
+		),
+		releaseExternalSandbox: connect.NewClient[v1.ReleaseExternalSandboxRequest, v1.ReleaseExternalSandboxResponse](
+			httpClient,
+			baseURL+SandboxServiceReleaseExternalSandboxProcedure,
+			connect.WithSchema(sandboxServiceMethods.ByName("ReleaseExternalSandbox")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -1976,6 +2002,8 @@ type sandboxServiceClient struct {
 	fileWrite               *connect.Client[v1.FileWriteRequest, v11.FileWriteResponse]
 	fileList                *connect.Client[v1.FileListRequest, v11.FileListResponse]
 	registerExternalSandbox *connect.Client[v1.RegisterExternalSandboxRequest, v1.RegisterExternalSandboxResponse]
+	listExternalSandboxes   *connect.Client[v1.ListExternalSandboxesRequest, v1.ListExternalSandboxesResponse]
+	releaseExternalSandbox  *connect.Client[v1.ReleaseExternalSandboxRequest, v1.ReleaseExternalSandboxResponse]
 }
 
 // ListSandboxes calls easylab.v1.SandboxService.ListSandboxes.
@@ -2063,6 +2091,16 @@ func (c *sandboxServiceClient) RegisterExternalSandbox(ctx context.Context, req 
 	return c.registerExternalSandbox.CallUnary(ctx, req)
 }
 
+// ListExternalSandboxes calls easylab.v1.SandboxService.ListExternalSandboxes.
+func (c *sandboxServiceClient) ListExternalSandboxes(ctx context.Context, req *connect.Request[v1.ListExternalSandboxesRequest]) (*connect.Response[v1.ListExternalSandboxesResponse], error) {
+	return c.listExternalSandboxes.CallUnary(ctx, req)
+}
+
+// ReleaseExternalSandbox calls easylab.v1.SandboxService.ReleaseExternalSandbox.
+func (c *sandboxServiceClient) ReleaseExternalSandbox(ctx context.Context, req *connect.Request[v1.ReleaseExternalSandboxRequest]) (*connect.Response[v1.ReleaseExternalSandboxResponse], error) {
+	return c.releaseExternalSandbox.CallUnary(ctx, req)
+}
+
 // SandboxServiceHandler is an implementation of the easylab.v1.SandboxService service.
 type SandboxServiceHandler interface {
 	// lifecycle
@@ -2091,6 +2129,14 @@ type SandboxServiceHandler interface {
 	// already provisioned on the worker. easylab persists the token + address so
 	// its worker passthroughs keep working across restarts.
 	RegisterExternalSandbox(context.Context, *connect.Request[v1.RegisterExternalSandboxRequest]) (*connect.Response[v1.RegisterExternalSandboxResponse], error)
+	// ListExternalSandboxes returns the externally-registered workers (mode =
+	// external), including address and owner — managed sandboxes are excluded.
+	ListExternalSandboxes(context.Context, *connect.Request[v1.ListExternalSandboxesRequest]) (*connect.Response[v1.ListExternalSandboxesResponse], error)
+	// ReleaseExternalSandbox revokes easylab's token on the worker and returns
+	// the worker to the claimable state with a fresh one-time code. After a
+	// release any caller presenting the new code may claim it. Managed sandboxes
+	// cannot be released.
+	ReleaseExternalSandbox(context.Context, *connect.Request[v1.ReleaseExternalSandboxRequest]) (*connect.Response[v1.ReleaseExternalSandboxResponse], error)
 }
 
 // NewSandboxServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -2202,6 +2248,18 @@ func NewSandboxServiceHandler(svc SandboxServiceHandler, opts ...connect.Handler
 		connect.WithSchema(sandboxServiceMethods.ByName("RegisterExternalSandbox")),
 		connect.WithHandlerOptions(opts...),
 	)
+	sandboxServiceListExternalSandboxesHandler := connect.NewUnaryHandler(
+		SandboxServiceListExternalSandboxesProcedure,
+		svc.ListExternalSandboxes,
+		connect.WithSchema(sandboxServiceMethods.ByName("ListExternalSandboxes")),
+		connect.WithHandlerOptions(opts...),
+	)
+	sandboxServiceReleaseExternalSandboxHandler := connect.NewUnaryHandler(
+		SandboxServiceReleaseExternalSandboxProcedure,
+		svc.ReleaseExternalSandbox,
+		connect.WithSchema(sandboxServiceMethods.ByName("ReleaseExternalSandbox")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/easylab.v1.SandboxService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case SandboxServiceListSandboxesProcedure:
@@ -2238,6 +2296,10 @@ func NewSandboxServiceHandler(svc SandboxServiceHandler, opts ...connect.Handler
 			sandboxServiceFileListHandler.ServeHTTP(w, r)
 		case SandboxServiceRegisterExternalSandboxProcedure:
 			sandboxServiceRegisterExternalSandboxHandler.ServeHTTP(w, r)
+		case SandboxServiceListExternalSandboxesProcedure:
+			sandboxServiceListExternalSandboxesHandler.ServeHTTP(w, r)
+		case SandboxServiceReleaseExternalSandboxProcedure:
+			sandboxServiceReleaseExternalSandboxHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -2313,6 +2375,14 @@ func (UnimplementedSandboxServiceHandler) FileList(context.Context, *connect.Req
 
 func (UnimplementedSandboxServiceHandler) RegisterExternalSandbox(context.Context, *connect.Request[v1.RegisterExternalSandboxRequest]) (*connect.Response[v1.RegisterExternalSandboxResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.RegisterExternalSandbox is not implemented"))
+}
+
+func (UnimplementedSandboxServiceHandler) ListExternalSandboxes(context.Context, *connect.Request[v1.ListExternalSandboxesRequest]) (*connect.Response[v1.ListExternalSandboxesResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.ListExternalSandboxes is not implemented"))
+}
+
+func (UnimplementedSandboxServiceHandler) ReleaseExternalSandbox(context.Context, *connect.Request[v1.ReleaseExternalSandboxRequest]) (*connect.Response[v1.ReleaseExternalSandboxResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.SandboxService.ReleaseExternalSandbox is not implemented"))
 }
 
 // WorkflowServiceClient is a client for the easylab.v1.WorkflowService service.
