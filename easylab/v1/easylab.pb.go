@@ -7832,7 +7832,8 @@ type SandboxInfo struct {
 	TotalJobs     int32                  `protobuf:"varint,12,opt,name=total_jobs,json=totalJobs,proto3" json:"total_jobs,omitempty"` // worker window (24h retention)
 	SyncedRev     string                 `protobuf:"bytes,13,opt,name=synced_rev,json=syncedRev,proto3" json:"synced_rev,omitempty"`  // easylab rev-coherence metadata
 	SyncedBootId  string                 `protobuf:"bytes,14,opt,name=synced_boot_id,json=syncedBootId,proto3" json:"synced_boot_id,omitempty"`
-	Error         string                 `protobuf:"bytes,15,opt,name=error,proto3" json:"error,omitempty"` // aggregation note (worker unreachable etc.)
+	Error         string                 `protobuf:"bytes,15,opt,name=error,proto3" json:"error,omitempty"`     // aggregation note (worker unreachable etc.)
+	Runtime       string                 `protobuf:"bytes,16,opt,name=runtime,proto3" json:"runtime,omitempty"` // resolved runtime/profile (linux/windows/macos)
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -7968,6 +7969,13 @@ func (x *SandboxInfo) GetSyncedBootId() string {
 func (x *SandboxInfo) GetError() string {
 	if x != nil {
 		return x.Error
+	}
+	return ""
+}
+
+func (x *SandboxInfo) GetRuntime() string {
+	if x != nil {
+		return x.Runtime
 	}
 	return ""
 }
@@ -8143,6 +8151,7 @@ func (x *GetSandboxResponse) GetSandbox() *SandboxInfo {
 type EnsureSandboxImageRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	BaseImage     string                 `protobuf:"bytes,1,opt,name=base_image,json=baseImage,proto3" json:"base_image,omitempty"`
+	Runtime       string                 `protobuf:"bytes,2,opt,name=runtime,proto3" json:"runtime,omitempty"` // "" / "linux" (derive base+worker) or "windows"/"macos"
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -8180,6 +8189,13 @@ func (*EnsureSandboxImageRequest) Descriptor() ([]byte, []int) {
 func (x *EnsureSandboxImageRequest) GetBaseImage() string {
 	if x != nil {
 		return x.BaseImage
+	}
+	return ""
+}
+
+func (x *EnsureSandboxImageRequest) GetRuntime() string {
+	if x != nil {
+		return x.Runtime
 	}
 	return ""
 }
@@ -8237,16 +8253,19 @@ func (x *EnsureSandboxImageResponse) GetBuilt() bool {
 }
 
 type LaunchSandboxRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	BaseImage     string                 `protobuf:"bytes,2,opt,name=base_image,json=baseImage,proto3" json:"base_image,omitempty"`
-	Org           string                 `protobuf:"bytes,3,opt,name=org,proto3" json:"org,omitempty"` // '' = standalone (independent sandbox, never synced)
-	Repo          string                 `protobuf:"bytes,4,opt,name=repo,proto3" json:"repo,omitempty"`
-	Branch        string                 `protobuf:"bytes,5,opt,name=branch,proto3" json:"branch,omitempty"`
-	Workspace     string                 `protobuf:"bytes,6,opt,name=workspace,proto3" json:"workspace,omitempty"` // default /workspace
-	Env           map[string]string      `protobuf:"bytes,7,rep,name=env,proto3" json:"env,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	Cpus          string                 `protobuf:"bytes,8,opt,name=cpus,proto3" json:"cpus,omitempty"`
-	MemoryBytes   uint64                 `protobuf:"varint,9,opt,name=memory_bytes,json=memoryBytes,proto3" json:"memory_bytes,omitempty"`
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	Name        string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	BaseImage   string                 `protobuf:"bytes,2,opt,name=base_image,json=baseImage,proto3" json:"base_image,omitempty"`
+	Org         string                 `protobuf:"bytes,3,opt,name=org,proto3" json:"org,omitempty"` // '' = standalone (independent sandbox, never synced)
+	Repo        string                 `protobuf:"bytes,4,opt,name=repo,proto3" json:"repo,omitempty"`
+	Branch      string                 `protobuf:"bytes,5,opt,name=branch,proto3" json:"branch,omitempty"`
+	Workspace   string                 `protobuf:"bytes,6,opt,name=workspace,proto3" json:"workspace,omitempty"` // default /workspace
+	Env         map[string]string      `protobuf:"bytes,7,rep,name=env,proto3" json:"env,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Cpus        string                 `protobuf:"bytes,8,opt,name=cpus,proto3" json:"cpus,omitempty"`
+	MemoryBytes uint64                 `protobuf:"varint,9,opt,name=memory_bytes,json=memoryBytes,proto3" json:"memory_bytes,omitempty"`
+	// Execution runtime/profile: "" or "linux" (default; base image + injected
+	// worker), "windows"/"macos" (a VM-backed worker image served by easylab).
+	Runtime       string `protobuf:"bytes,10,opt,name=runtime,proto3" json:"runtime,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -8342,6 +8361,13 @@ func (x *LaunchSandboxRequest) GetMemoryBytes() uint64 {
 		return x.MemoryBytes
 	}
 	return 0
+}
+
+func (x *LaunchSandboxRequest) GetRuntime() string {
+	if x != nil {
+		return x.Runtime
+	}
+	return ""
 }
 
 type LaunchSandboxResponse struct {
@@ -11819,7 +11845,7 @@ const file_easylab_v1_easylab_proto_rawDesc = "" +
 	"\x05error\x18\x03 \x01(\tR\x05error\"\x13\n" +
 	"\x11OCICatalogRequest\"8\n" +
 	"\x12OCICatalogResponse\x12\"\n" +
-	"\frepositories\x18\x01 \x03(\tR\frepositories\"\xa4\x03\n" +
+	"\frepositories\x18\x01 \x03(\tR\frepositories\"\xbe\x03\n" +
 	"\vSandboxInfo\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x10\n" +
 	"\x03org\x18\x02 \x01(\tR\x03org\x12\x12\n" +
@@ -11839,20 +11865,22 @@ const file_easylab_v1_easylab_proto_rawDesc = "" +
 	"\n" +
 	"synced_rev\x18\r \x01(\tR\tsyncedRev\x12$\n" +
 	"\x0esynced_boot_id\x18\x0e \x01(\tR\fsyncedBootId\x12\x14\n" +
-	"\x05error\x18\x0f \x01(\tR\x05error\"\x16\n" +
+	"\x05error\x18\x0f \x01(\tR\x05error\x12\x18\n" +
+	"\aruntime\x18\x10 \x01(\tR\aruntime\"\x16\n" +
 	"\x14ListSandboxesRequest\"N\n" +
 	"\x15ListSandboxesResponse\x125\n" +
 	"\tsandboxes\x18\x01 \x03(\v2\x17.easylab.v1.SandboxInfoR\tsandboxes\"'\n" +
 	"\x11GetSandboxRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\"G\n" +
 	"\x12GetSandboxResponse\x121\n" +
-	"\asandbox\x18\x01 \x01(\v2\x17.easylab.v1.SandboxInfoR\asandbox\":\n" +
+	"\asandbox\x18\x01 \x01(\v2\x17.easylab.v1.SandboxInfoR\asandbox\"T\n" +
 	"\x19EnsureSandboxImageRequest\x12\x1d\n" +
 	"\n" +
-	"base_image\x18\x01 \x01(\tR\tbaseImage\"W\n" +
+	"base_image\x18\x01 \x01(\tR\tbaseImage\x12\x18\n" +
+	"\aruntime\x18\x02 \x01(\tR\aruntime\"W\n" +
 	"\x1aEnsureSandboxImageResponse\x12#\n" +
 	"\rderived_image\x18\x01 \x01(\tR\fderivedImage\x12\x14\n" +
-	"\x05built\x18\x02 \x01(\bR\x05built\"\xd1\x02\n" +
+	"\x05built\x18\x02 \x01(\bR\x05built\"\xeb\x02\n" +
 	"\x14LaunchSandboxRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1d\n" +
 	"\n" +
@@ -11863,7 +11891,9 @@ const file_easylab_v1_easylab_proto_rawDesc = "" +
 	"\tworkspace\x18\x06 \x01(\tR\tworkspace\x12;\n" +
 	"\x03env\x18\a \x03(\v2).easylab.v1.LaunchSandboxRequest.EnvEntryR\x03env\x12\x12\n" +
 	"\x04cpus\x18\b \x01(\tR\x04cpus\x12!\n" +
-	"\fmemory_bytes\x18\t \x01(\x04R\vmemoryBytes\x1a6\n" +
+	"\fmemory_bytes\x18\t \x01(\x04R\vmemoryBytes\x12\x18\n" +
+	"\aruntime\x18\n" +
+	" \x01(\tR\aruntime\x1a6\n" +
 	"\bEnvEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"J\n" +
