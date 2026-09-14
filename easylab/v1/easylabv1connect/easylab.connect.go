@@ -199,16 +199,8 @@ const (
 	// OpsServiceSandboxJobKillProcedure is the fully-qualified name of the OpsService's SandboxJobKill
 	// RPC.
 	OpsServiceSandboxJobKillProcedure = "/easylab.v1.OpsService/SandboxJobKill"
-	// OpsServiceListTasksProcedure is the fully-qualified name of the OpsService's ListTasks RPC.
-	OpsServiceListTasksProcedure = "/easylab.v1.OpsService/ListTasks"
-	// OpsServiceGetTaskProcedure is the fully-qualified name of the OpsService's GetTask RPC.
-	OpsServiceGetTaskProcedure = "/easylab.v1.OpsService/GetTask"
-	// OpsServiceTaskLogProcedure is the fully-qualified name of the OpsService's TaskLog RPC.
-	OpsServiceTaskLogProcedure = "/easylab.v1.OpsService/TaskLog"
 	// OpsServiceSyncProcedure is the fully-qualified name of the OpsService's Sync RPC.
 	OpsServiceSyncProcedure = "/easylab.v1.OpsService/Sync"
-	// OpsServiceBuildProcedure is the fully-qualified name of the OpsService's Build RPC.
-	OpsServiceBuildProcedure = "/easylab.v1.OpsService/Build"
 	// RegistryServiceListPackageTypesProcedure is the fully-qualified name of the RegistryService's
 	// ListPackageTypes RPC.
 	RegistryServiceListPackageTypesProcedure = "/easylab.v1.RegistryService/ListPackageTypes"
@@ -1886,13 +1878,7 @@ type OpsServiceClient interface {
 	SandboxRead(context.Context, *connect.Request[v1.SandboxReadRequest]) (*connect.Response[v1.SandboxReadResponse], error)
 	SandboxWrite(context.Context, *connect.Request[v1.SandboxWriteRequest]) (*connect.Response[v1.SandboxWriteResponse], error)
 	SandboxJobKill(context.Context, *connect.Request[v1.SandboxJobKillRequest]) (*connect.Response[v1.SandboxJobKillResponse], error)
-	ListTasks(context.Context, *connect.Request[v1.ListTasksRequest]) (*connect.Response[v1.ListTasksResponse], error)
-	GetTask(context.Context, *connect.Request[v1.GetTaskRequest]) (*connect.Response[v1.GetTaskResponse], error)
-	TaskLog(context.Context, *connect.Request[v1.TaskLogRequest]) (*connect.ServerStreamForClient[v1.TaskLogResponse], error)
 	Sync(context.Context, *connect.Request[v1.SyncRequest]) (*connect.Response[v1.SyncResponse], error)
-	// Build launches a container image build asynchronously; poll GetTask(id) /
-	// stream TaskLog(id) for progress (REST /ops/builds RPC form).
-	Build(context.Context, *connect.Request[v1.BuildRequest]) (*connect.Response[v1.BuildResponse], error)
 }
 
 // NewOpsServiceClient constructs a client for the easylab.v1.OpsService service. By default, it
@@ -1972,34 +1958,10 @@ func NewOpsServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(opsServiceMethods.ByName("SandboxJobKill")),
 			connect.WithClientOptions(opts...),
 		),
-		listTasks: connect.NewClient[v1.ListTasksRequest, v1.ListTasksResponse](
-			httpClient,
-			baseURL+OpsServiceListTasksProcedure,
-			connect.WithSchema(opsServiceMethods.ByName("ListTasks")),
-			connect.WithClientOptions(opts...),
-		),
-		getTask: connect.NewClient[v1.GetTaskRequest, v1.GetTaskResponse](
-			httpClient,
-			baseURL+OpsServiceGetTaskProcedure,
-			connect.WithSchema(opsServiceMethods.ByName("GetTask")),
-			connect.WithClientOptions(opts...),
-		),
-		taskLog: connect.NewClient[v1.TaskLogRequest, v1.TaskLogResponse](
-			httpClient,
-			baseURL+OpsServiceTaskLogProcedure,
-			connect.WithSchema(opsServiceMethods.ByName("TaskLog")),
-			connect.WithClientOptions(opts...),
-		),
 		sync: connect.NewClient[v1.SyncRequest, v1.SyncResponse](
 			httpClient,
 			baseURL+OpsServiceSyncProcedure,
 			connect.WithSchema(opsServiceMethods.ByName("Sync")),
-			connect.WithClientOptions(opts...),
-		),
-		build: connect.NewClient[v1.BuildRequest, v1.BuildResponse](
-			httpClient,
-			baseURL+OpsServiceBuildProcedure,
-			connect.WithSchema(opsServiceMethods.ByName("Build")),
 			connect.WithClientOptions(opts...),
 		),
 	}
@@ -2018,11 +1980,7 @@ type opsServiceClient struct {
 	sandboxRead    *connect.Client[v1.SandboxReadRequest, v1.SandboxReadResponse]
 	sandboxWrite   *connect.Client[v1.SandboxWriteRequest, v1.SandboxWriteResponse]
 	sandboxJobKill *connect.Client[v1.SandboxJobKillRequest, v1.SandboxJobKillResponse]
-	listTasks      *connect.Client[v1.ListTasksRequest, v1.ListTasksResponse]
-	getTask        *connect.Client[v1.GetTaskRequest, v1.GetTaskResponse]
-	taskLog        *connect.Client[v1.TaskLogRequest, v1.TaskLogResponse]
 	sync           *connect.Client[v1.SyncRequest, v1.SyncResponse]
-	build          *connect.Client[v1.BuildRequest, v1.BuildResponse]
 }
 
 // OpsStatus calls easylab.v1.OpsService.OpsStatus.
@@ -2080,29 +2038,9 @@ func (c *opsServiceClient) SandboxJobKill(ctx context.Context, req *connect.Requ
 	return c.sandboxJobKill.CallUnary(ctx, req)
 }
 
-// ListTasks calls easylab.v1.OpsService.ListTasks.
-func (c *opsServiceClient) ListTasks(ctx context.Context, req *connect.Request[v1.ListTasksRequest]) (*connect.Response[v1.ListTasksResponse], error) {
-	return c.listTasks.CallUnary(ctx, req)
-}
-
-// GetTask calls easylab.v1.OpsService.GetTask.
-func (c *opsServiceClient) GetTask(ctx context.Context, req *connect.Request[v1.GetTaskRequest]) (*connect.Response[v1.GetTaskResponse], error) {
-	return c.getTask.CallUnary(ctx, req)
-}
-
-// TaskLog calls easylab.v1.OpsService.TaskLog.
-func (c *opsServiceClient) TaskLog(ctx context.Context, req *connect.Request[v1.TaskLogRequest]) (*connect.ServerStreamForClient[v1.TaskLogResponse], error) {
-	return c.taskLog.CallServerStream(ctx, req)
-}
-
 // Sync calls easylab.v1.OpsService.Sync.
 func (c *opsServiceClient) Sync(ctx context.Context, req *connect.Request[v1.SyncRequest]) (*connect.Response[v1.SyncResponse], error) {
 	return c.sync.CallUnary(ctx, req)
-}
-
-// Build calls easylab.v1.OpsService.Build.
-func (c *opsServiceClient) Build(ctx context.Context, req *connect.Request[v1.BuildRequest]) (*connect.Response[v1.BuildResponse], error) {
-	return c.build.CallUnary(ctx, req)
 }
 
 // OpsServiceHandler is an implementation of the easylab.v1.OpsService service.
@@ -2118,13 +2056,7 @@ type OpsServiceHandler interface {
 	SandboxRead(context.Context, *connect.Request[v1.SandboxReadRequest]) (*connect.Response[v1.SandboxReadResponse], error)
 	SandboxWrite(context.Context, *connect.Request[v1.SandboxWriteRequest]) (*connect.Response[v1.SandboxWriteResponse], error)
 	SandboxJobKill(context.Context, *connect.Request[v1.SandboxJobKillRequest]) (*connect.Response[v1.SandboxJobKillResponse], error)
-	ListTasks(context.Context, *connect.Request[v1.ListTasksRequest]) (*connect.Response[v1.ListTasksResponse], error)
-	GetTask(context.Context, *connect.Request[v1.GetTaskRequest]) (*connect.Response[v1.GetTaskResponse], error)
-	TaskLog(context.Context, *connect.Request[v1.TaskLogRequest], *connect.ServerStream[v1.TaskLogResponse]) error
 	Sync(context.Context, *connect.Request[v1.SyncRequest]) (*connect.Response[v1.SyncResponse], error)
-	// Build launches a container image build asynchronously; poll GetTask(id) /
-	// stream TaskLog(id) for progress (REST /ops/builds RPC form).
-	Build(context.Context, *connect.Request[v1.BuildRequest]) (*connect.Response[v1.BuildResponse], error)
 }
 
 // NewOpsServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -2200,34 +2132,10 @@ func NewOpsServiceHandler(svc OpsServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(opsServiceMethods.ByName("SandboxJobKill")),
 		connect.WithHandlerOptions(opts...),
 	)
-	opsServiceListTasksHandler := connect.NewUnaryHandler(
-		OpsServiceListTasksProcedure,
-		svc.ListTasks,
-		connect.WithSchema(opsServiceMethods.ByName("ListTasks")),
-		connect.WithHandlerOptions(opts...),
-	)
-	opsServiceGetTaskHandler := connect.NewUnaryHandler(
-		OpsServiceGetTaskProcedure,
-		svc.GetTask,
-		connect.WithSchema(opsServiceMethods.ByName("GetTask")),
-		connect.WithHandlerOptions(opts...),
-	)
-	opsServiceTaskLogHandler := connect.NewServerStreamHandler(
-		OpsServiceTaskLogProcedure,
-		svc.TaskLog,
-		connect.WithSchema(opsServiceMethods.ByName("TaskLog")),
-		connect.WithHandlerOptions(opts...),
-	)
 	opsServiceSyncHandler := connect.NewUnaryHandler(
 		OpsServiceSyncProcedure,
 		svc.Sync,
 		connect.WithSchema(opsServiceMethods.ByName("Sync")),
-		connect.WithHandlerOptions(opts...),
-	)
-	opsServiceBuildHandler := connect.NewUnaryHandler(
-		OpsServiceBuildProcedure,
-		svc.Build,
-		connect.WithSchema(opsServiceMethods.ByName("Build")),
 		connect.WithHandlerOptions(opts...),
 	)
 	return "/easylab.v1.OpsService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -2254,16 +2162,8 @@ func NewOpsServiceHandler(svc OpsServiceHandler, opts ...connect.HandlerOption) 
 			opsServiceSandboxWriteHandler.ServeHTTP(w, r)
 		case OpsServiceSandboxJobKillProcedure:
 			opsServiceSandboxJobKillHandler.ServeHTTP(w, r)
-		case OpsServiceListTasksProcedure:
-			opsServiceListTasksHandler.ServeHTTP(w, r)
-		case OpsServiceGetTaskProcedure:
-			opsServiceGetTaskHandler.ServeHTTP(w, r)
-		case OpsServiceTaskLogProcedure:
-			opsServiceTaskLogHandler.ServeHTTP(w, r)
 		case OpsServiceSyncProcedure:
 			opsServiceSyncHandler.ServeHTTP(w, r)
-		case OpsServiceBuildProcedure:
-			opsServiceBuildHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -2317,24 +2217,8 @@ func (UnimplementedOpsServiceHandler) SandboxJobKill(context.Context, *connect.R
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.OpsService.SandboxJobKill is not implemented"))
 }
 
-func (UnimplementedOpsServiceHandler) ListTasks(context.Context, *connect.Request[v1.ListTasksRequest]) (*connect.Response[v1.ListTasksResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.OpsService.ListTasks is not implemented"))
-}
-
-func (UnimplementedOpsServiceHandler) GetTask(context.Context, *connect.Request[v1.GetTaskRequest]) (*connect.Response[v1.GetTaskResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.OpsService.GetTask is not implemented"))
-}
-
-func (UnimplementedOpsServiceHandler) TaskLog(context.Context, *connect.Request[v1.TaskLogRequest], *connect.ServerStream[v1.TaskLogResponse]) error {
-	return connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.OpsService.TaskLog is not implemented"))
-}
-
 func (UnimplementedOpsServiceHandler) Sync(context.Context, *connect.Request[v1.SyncRequest]) (*connect.Response[v1.SyncResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.OpsService.Sync is not implemented"))
-}
-
-func (UnimplementedOpsServiceHandler) Build(context.Context, *connect.Request[v1.BuildRequest]) (*connect.Response[v1.BuildResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.OpsService.Build is not implemented"))
 }
 
 // RegistryServiceClient is a client for the easylab.v1.RegistryService service.
