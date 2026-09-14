@@ -261,6 +261,9 @@ const (
 	// TenantServiceUpdateTenantProcedure is the fully-qualified name of the TenantService's
 	// UpdateTenant RPC.
 	TenantServiceUpdateTenantProcedure = "/easylab.v1.TenantService/UpdateTenant"
+	// TenantServiceDeleteTenantProcedure is the fully-qualified name of the TenantService's
+	// DeleteTenant RPC.
+	TenantServiceDeleteTenantProcedure = "/easylab.v1.TenantService/DeleteTenant"
 	// TenantServiceListTenantMembersProcedure is the fully-qualified name of the TenantService's
 	// ListTenantMembers RPC.
 	TenantServiceListTenantMembersProcedure = "/easylab.v1.TenantService/ListTenantMembers"
@@ -2749,6 +2752,7 @@ type TenantServiceClient interface {
 	GetTenant(context.Context, *connect.Request[v1.GetTenantRequest]) (*connect.Response[v1.GetTenantResponse], error)
 	ListTenants(context.Context, *connect.Request[v1.ListTenantsRequest]) (*connect.Response[v1.ListTenantsResponse], error)
 	UpdateTenant(context.Context, *connect.Request[v1.UpdateTenantRequest]) (*connect.Response[v1.UpdateTenantResponse], error)
+	DeleteTenant(context.Context, *connect.Request[v1.DeleteTenantRequest]) (*connect.Response[v1.DeleteTenantResponse], error)
 	ListTenantMembers(context.Context, *connect.Request[v1.ListTenantMembersRequest]) (*connect.Response[v1.ListTenantMembersResponse], error)
 	AddTenantMember(context.Context, *connect.Request[v1.AddTenantMemberRequest]) (*connect.Response[v1.AddTenantMemberResponse], error)
 }
@@ -2788,6 +2792,12 @@ func NewTenantServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(tenantServiceMethods.ByName("UpdateTenant")),
 			connect.WithClientOptions(opts...),
 		),
+		deleteTenant: connect.NewClient[v1.DeleteTenantRequest, v1.DeleteTenantResponse](
+			httpClient,
+			baseURL+TenantServiceDeleteTenantProcedure,
+			connect.WithSchema(tenantServiceMethods.ByName("DeleteTenant")),
+			connect.WithClientOptions(opts...),
+		),
 		listTenantMembers: connect.NewClient[v1.ListTenantMembersRequest, v1.ListTenantMembersResponse](
 			httpClient,
 			baseURL+TenantServiceListTenantMembersProcedure,
@@ -2809,6 +2819,7 @@ type tenantServiceClient struct {
 	getTenant         *connect.Client[v1.GetTenantRequest, v1.GetTenantResponse]
 	listTenants       *connect.Client[v1.ListTenantsRequest, v1.ListTenantsResponse]
 	updateTenant      *connect.Client[v1.UpdateTenantRequest, v1.UpdateTenantResponse]
+	deleteTenant      *connect.Client[v1.DeleteTenantRequest, v1.DeleteTenantResponse]
 	listTenantMembers *connect.Client[v1.ListTenantMembersRequest, v1.ListTenantMembersResponse]
 	addTenantMember   *connect.Client[v1.AddTenantMemberRequest, v1.AddTenantMemberResponse]
 }
@@ -2833,6 +2844,11 @@ func (c *tenantServiceClient) UpdateTenant(ctx context.Context, req *connect.Req
 	return c.updateTenant.CallUnary(ctx, req)
 }
 
+// DeleteTenant calls easylab.v1.TenantService.DeleteTenant.
+func (c *tenantServiceClient) DeleteTenant(ctx context.Context, req *connect.Request[v1.DeleteTenantRequest]) (*connect.Response[v1.DeleteTenantResponse], error) {
+	return c.deleteTenant.CallUnary(ctx, req)
+}
+
 // ListTenantMembers calls easylab.v1.TenantService.ListTenantMembers.
 func (c *tenantServiceClient) ListTenantMembers(ctx context.Context, req *connect.Request[v1.ListTenantMembersRequest]) (*connect.Response[v1.ListTenantMembersResponse], error) {
 	return c.listTenantMembers.CallUnary(ctx, req)
@@ -2849,6 +2865,7 @@ type TenantServiceHandler interface {
 	GetTenant(context.Context, *connect.Request[v1.GetTenantRequest]) (*connect.Response[v1.GetTenantResponse], error)
 	ListTenants(context.Context, *connect.Request[v1.ListTenantsRequest]) (*connect.Response[v1.ListTenantsResponse], error)
 	UpdateTenant(context.Context, *connect.Request[v1.UpdateTenantRequest]) (*connect.Response[v1.UpdateTenantResponse], error)
+	DeleteTenant(context.Context, *connect.Request[v1.DeleteTenantRequest]) (*connect.Response[v1.DeleteTenantResponse], error)
 	ListTenantMembers(context.Context, *connect.Request[v1.ListTenantMembersRequest]) (*connect.Response[v1.ListTenantMembersResponse], error)
 	AddTenantMember(context.Context, *connect.Request[v1.AddTenantMemberRequest]) (*connect.Response[v1.AddTenantMemberResponse], error)
 }
@@ -2884,6 +2901,12 @@ func NewTenantServiceHandler(svc TenantServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(tenantServiceMethods.ByName("UpdateTenant")),
 		connect.WithHandlerOptions(opts...),
 	)
+	tenantServiceDeleteTenantHandler := connect.NewUnaryHandler(
+		TenantServiceDeleteTenantProcedure,
+		svc.DeleteTenant,
+		connect.WithSchema(tenantServiceMethods.ByName("DeleteTenant")),
+		connect.WithHandlerOptions(opts...),
+	)
 	tenantServiceListTenantMembersHandler := connect.NewUnaryHandler(
 		TenantServiceListTenantMembersProcedure,
 		svc.ListTenantMembers,
@@ -2906,6 +2929,8 @@ func NewTenantServiceHandler(svc TenantServiceHandler, opts ...connect.HandlerOp
 			tenantServiceListTenantsHandler.ServeHTTP(w, r)
 		case TenantServiceUpdateTenantProcedure:
 			tenantServiceUpdateTenantHandler.ServeHTTP(w, r)
+		case TenantServiceDeleteTenantProcedure:
+			tenantServiceDeleteTenantHandler.ServeHTTP(w, r)
 		case TenantServiceListTenantMembersProcedure:
 			tenantServiceListTenantMembersHandler.ServeHTTP(w, r)
 		case TenantServiceAddTenantMemberProcedure:
@@ -2933,6 +2958,10 @@ func (UnimplementedTenantServiceHandler) ListTenants(context.Context, *connect.R
 
 func (UnimplementedTenantServiceHandler) UpdateTenant(context.Context, *connect.Request[v1.UpdateTenantRequest]) (*connect.Response[v1.UpdateTenantResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.TenantService.UpdateTenant is not implemented"))
+}
+
+func (UnimplementedTenantServiceHandler) DeleteTenant(context.Context, *connect.Request[v1.DeleteTenantRequest]) (*connect.Response[v1.DeleteTenantResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.TenantService.DeleteTenant is not implemented"))
 }
 
 func (UnimplementedTenantServiceHandler) ListTenantMembers(context.Context, *connect.Request[v1.ListTenantMembersRequest]) (*connect.Response[v1.ListTenantMembersResponse], error) {
