@@ -169,6 +169,9 @@ const (
 	// RegistryServiceOCICatalogProcedure is the fully-qualified name of the RegistryService's
 	// OCICatalog RPC.
 	RegistryServiceOCICatalogProcedure = "/easylab.v1.RegistryService/OCICatalog"
+	// RegistryServiceSetPackageVisibilityProcedure is the fully-qualified name of the RegistryService's
+	// SetPackageVisibility RPC.
+	RegistryServiceSetPackageVisibilityProcedure = "/easylab.v1.RegistryService/SetPackageVisibility"
 	// SandboxServiceListSandboxesProcedure is the fully-qualified name of the SandboxService's
 	// ListSandboxes RPC.
 	SandboxServiceListSandboxesProcedure = "/easylab.v1.SandboxService/ListSandboxes"
@@ -1624,6 +1627,9 @@ type RegistryServiceClient interface {
 	DeletePackageVersion(context.Context, *connect.Request[v1.DeletePackageVersionRequest]) (*connect.Response[v1.DeletePackageVersionResponse], error)
 	ListPublishSpecs(context.Context, *connect.Request[v1.ListPublishSpecsRequest]) (*connect.Response[v1.ListPublishSpecsResponse], error)
 	OCICatalog(context.Context, *connect.Request[v1.OCICatalogRequest]) (*connect.Response[v1.OCICatalogResponse], error)
+	// SetPackageVisibility flips a package's visibility (public|private). Requires
+	// maintainer+ on the package's scope (mapped repository, else owning user).
+	SetPackageVisibility(context.Context, *connect.Request[v1.SetPackageVisibilityRequest]) (*connect.Response[v1.SetPackageVisibilityResponse], error)
 }
 
 // NewRegistryServiceClient constructs a client for the easylab.v1.RegistryService service. By
@@ -1679,6 +1685,12 @@ func NewRegistryServiceClient(httpClient connect.HTTPClient, baseURL string, opt
 			connect.WithSchema(registryServiceMethods.ByName("OCICatalog")),
 			connect.WithClientOptions(opts...),
 		),
+		setPackageVisibility: connect.NewClient[v1.SetPackageVisibilityRequest, v1.SetPackageVisibilityResponse](
+			httpClient,
+			baseURL+RegistryServiceSetPackageVisibilityProcedure,
+			connect.WithSchema(registryServiceMethods.ByName("SetPackageVisibility")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -1691,6 +1703,7 @@ type registryServiceClient struct {
 	deletePackageVersion *connect.Client[v1.DeletePackageVersionRequest, v1.DeletePackageVersionResponse]
 	listPublishSpecs     *connect.Client[v1.ListPublishSpecsRequest, v1.ListPublishSpecsResponse]
 	oCICatalog           *connect.Client[v1.OCICatalogRequest, v1.OCICatalogResponse]
+	setPackageVisibility *connect.Client[v1.SetPackageVisibilityRequest, v1.SetPackageVisibilityResponse]
 }
 
 // ListPackageTypes calls easylab.v1.RegistryService.ListPackageTypes.
@@ -1728,6 +1741,11 @@ func (c *registryServiceClient) OCICatalog(ctx context.Context, req *connect.Req
 	return c.oCICatalog.CallUnary(ctx, req)
 }
 
+// SetPackageVisibility calls easylab.v1.RegistryService.SetPackageVisibility.
+func (c *registryServiceClient) SetPackageVisibility(ctx context.Context, req *connect.Request[v1.SetPackageVisibilityRequest]) (*connect.Response[v1.SetPackageVisibilityResponse], error) {
+	return c.setPackageVisibility.CallUnary(ctx, req)
+}
+
 // RegistryServiceHandler is an implementation of the easylab.v1.RegistryService service.
 type RegistryServiceHandler interface {
 	ListPackageTypes(context.Context, *connect.Request[v1.ListPackageTypesRequest]) (*connect.Response[v1.ListPackageTypesResponse], error)
@@ -1737,6 +1755,9 @@ type RegistryServiceHandler interface {
 	DeletePackageVersion(context.Context, *connect.Request[v1.DeletePackageVersionRequest]) (*connect.Response[v1.DeletePackageVersionResponse], error)
 	ListPublishSpecs(context.Context, *connect.Request[v1.ListPublishSpecsRequest]) (*connect.Response[v1.ListPublishSpecsResponse], error)
 	OCICatalog(context.Context, *connect.Request[v1.OCICatalogRequest]) (*connect.Response[v1.OCICatalogResponse], error)
+	// SetPackageVisibility flips a package's visibility (public|private). Requires
+	// maintainer+ on the package's scope (mapped repository, else owning user).
+	SetPackageVisibility(context.Context, *connect.Request[v1.SetPackageVisibilityRequest]) (*connect.Response[v1.SetPackageVisibilityResponse], error)
 }
 
 // NewRegistryServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -1788,6 +1809,12 @@ func NewRegistryServiceHandler(svc RegistryServiceHandler, opts ...connect.Handl
 		connect.WithSchema(registryServiceMethods.ByName("OCICatalog")),
 		connect.WithHandlerOptions(opts...),
 	)
+	registryServiceSetPackageVisibilityHandler := connect.NewUnaryHandler(
+		RegistryServiceSetPackageVisibilityProcedure,
+		svc.SetPackageVisibility,
+		connect.WithSchema(registryServiceMethods.ByName("SetPackageVisibility")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/easylab.v1.RegistryService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case RegistryServiceListPackageTypesProcedure:
@@ -1804,6 +1831,8 @@ func NewRegistryServiceHandler(svc RegistryServiceHandler, opts ...connect.Handl
 			registryServiceListPublishSpecsHandler.ServeHTTP(w, r)
 		case RegistryServiceOCICatalogProcedure:
 			registryServiceOCICatalogHandler.ServeHTTP(w, r)
+		case RegistryServiceSetPackageVisibilityProcedure:
+			registryServiceSetPackageVisibilityHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -1839,6 +1868,10 @@ func (UnimplementedRegistryServiceHandler) ListPublishSpecs(context.Context, *co
 
 func (UnimplementedRegistryServiceHandler) OCICatalog(context.Context, *connect.Request[v1.OCICatalogRequest]) (*connect.Response[v1.OCICatalogResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.RegistryService.OCICatalog is not implemented"))
+}
+
+func (UnimplementedRegistryServiceHandler) SetPackageVisibility(context.Context, *connect.Request[v1.SetPackageVisibilityRequest]) (*connect.Response[v1.SetPackageVisibilityResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.RegistryService.SetPackageVisibility is not implemented"))
 }
 
 // SandboxServiceClient is a client for the easylab.v1.SandboxService service.
