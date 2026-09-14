@@ -114,6 +114,65 @@ const (
 	LabServiceDeleteMirrorProcedure = "/easylab.v1.LabService/DeleteMirror"
 	// LabServiceSyncMirrorProcedure is the fully-qualified name of the LabService's SyncMirror RPC.
 	LabServiceSyncMirrorProcedure = "/easylab.v1.LabService/SyncMirror"
+	// LabServiceUpdateRepoProcedure is the fully-qualified name of the LabService's UpdateRepo RPC.
+	LabServiceUpdateRepoProcedure = "/easylab.v1.LabService/UpdateRepo"
+	// LabServiceSetTagProcedure is the fully-qualified name of the LabService's SetTag RPC.
+	LabServiceSetTagProcedure = "/easylab.v1.LabService/SetTag"
+	// LabServiceDeleteTagProcedure is the fully-qualified name of the LabService's DeleteTag RPC.
+	LabServiceDeleteTagProcedure = "/easylab.v1.LabService/DeleteTag"
+	// LabServiceWriteFilesProcedure is the fully-qualified name of the LabService's WriteFiles RPC.
+	LabServiceWriteFilesProcedure = "/easylab.v1.LabService/WriteFiles"
+	// LabServiceDropProcedure is the fully-qualified name of the LabService's Drop RPC.
+	LabServiceDropProcedure = "/easylab.v1.LabService/Drop"
+	// LabServiceRevertProcedure is the fully-qualified name of the LabService's Revert RPC.
+	LabServiceRevertProcedure = "/easylab.v1.LabService/Revert"
+	// LabServiceResolveProcedure is the fully-qualified name of the LabService's Resolve RPC.
+	LabServiceResolveProcedure = "/easylab.v1.LabService/Resolve"
+	// LabServiceSquashProcedure is the fully-qualified name of the LabService's Squash RPC.
+	LabServiceSquashProcedure = "/easylab.v1.LabService/Squash"
+	// LabServiceRebaseManyProcedure is the fully-qualified name of the LabService's RebaseMany RPC.
+	LabServiceRebaseManyProcedure = "/easylab.v1.LabService/RebaseMany"
+	// LabServiceCreateReleaseProcedure is the fully-qualified name of the LabService's CreateRelease
+	// RPC.
+	LabServiceCreateReleaseProcedure = "/easylab.v1.LabService/CreateRelease"
+	// LabServiceDeleteReleaseProcedure is the fully-qualified name of the LabService's DeleteRelease
+	// RPC.
+	LabServiceDeleteReleaseProcedure = "/easylab.v1.LabService/DeleteRelease"
+	// LabServiceUploadReleaseAssetProcedure is the fully-qualified name of the LabService's
+	// UploadReleaseAsset RPC.
+	LabServiceUploadReleaseAssetProcedure = "/easylab.v1.LabService/UploadReleaseAsset"
+	// LabServiceListRepoMembersProcedure is the fully-qualified name of the LabService's
+	// ListRepoMembers RPC.
+	LabServiceListRepoMembersProcedure = "/easylab.v1.LabService/ListRepoMembers"
+	// LabServiceSetRepoMemberProcedure is the fully-qualified name of the LabService's SetRepoMember
+	// RPC.
+	LabServiceSetRepoMemberProcedure = "/easylab.v1.LabService/SetRepoMember"
+	// LabServiceRemoveRepoMemberProcedure is the fully-qualified name of the LabService's
+	// RemoveRepoMember RPC.
+	LabServiceRemoveRepoMemberProcedure = "/easylab.v1.LabService/RemoveRepoMember"
+	// LabServiceListMergeRequestsProcedure is the fully-qualified name of the LabService's
+	// ListMergeRequests RPC.
+	LabServiceListMergeRequestsProcedure = "/easylab.v1.LabService/ListMergeRequests"
+	// LabServiceGetMergeRequestProcedure is the fully-qualified name of the LabService's
+	// GetMergeRequest RPC.
+	LabServiceGetMergeRequestProcedure = "/easylab.v1.LabService/GetMergeRequest"
+	// LabServiceCreateMergeRequestProcedure is the fully-qualified name of the LabService's
+	// CreateMergeRequest RPC.
+	LabServiceCreateMergeRequestProcedure = "/easylab.v1.LabService/CreateMergeRequest"
+	// LabServiceUpdateMergeRequestProcedure is the fully-qualified name of the LabService's
+	// UpdateMergeRequest RPC.
+	LabServiceUpdateMergeRequestProcedure = "/easylab.v1.LabService/UpdateMergeRequest"
+	// LabServiceMergeMergeRequestProcedure is the fully-qualified name of the LabService's
+	// MergeMergeRequest RPC.
+	LabServiceMergeMergeRequestProcedure = "/easylab.v1.LabService/MergeMergeRequest"
+	// LabServiceListReviewsProcedure is the fully-qualified name of the LabService's ListReviews RPC.
+	LabServiceListReviewsProcedure = "/easylab.v1.LabService/ListReviews"
+	// LabServiceAddReviewProcedure is the fully-qualified name of the LabService's AddReview RPC.
+	LabServiceAddReviewProcedure = "/easylab.v1.LabService/AddReview"
+	// LabServiceListCommentsProcedure is the fully-qualified name of the LabService's ListComments RPC.
+	LabServiceListCommentsProcedure = "/easylab.v1.LabService/ListComments"
+	// LabServiceAddCommentProcedure is the fully-qualified name of the LabService's AddComment RPC.
+	LabServiceAddCommentProcedure = "/easylab.v1.LabService/AddComment"
 	// OpsServiceOpsStatusProcedure is the fully-qualified name of the OpsService's OpsStatus RPC.
 	OpsServiceOpsStatusProcedure = "/easylab.v1.OpsService/OpsStatus"
 	// OpsServiceListNamespacesProcedure is the fully-qualified name of the OpsService's ListNamespaces
@@ -148,6 +207,8 @@ const (
 	OpsServiceTaskLogProcedure = "/easylab.v1.OpsService/TaskLog"
 	// OpsServiceSyncProcedure is the fully-qualified name of the OpsService's Sync RPC.
 	OpsServiceSyncProcedure = "/easylab.v1.OpsService/Sync"
+	// OpsServiceBuildProcedure is the fully-qualified name of the OpsService's Build RPC.
+	OpsServiceBuildProcedure = "/easylab.v1.OpsService/Build"
 	// RegistryServiceListPackageTypesProcedure is the fully-qualified name of the RegistryService's
 	// ListPackageTypes RPC.
 	RegistryServiceListPackageTypesProcedure = "/easylab.v1.RegistryService/ListPackageTypes"
@@ -313,6 +374,32 @@ type LabServiceClient interface {
 	SetMirror(context.Context, *connect.Request[v1.SetMirrorRequest]) (*connect.Response[v1.SetMirrorResponse], error)
 	DeleteMirror(context.Context, *connect.Request[v1.DeleteMirrorRequest]) (*connect.Response[v1.DeleteMirrorResponse], error)
 	SyncMirror(context.Context, *connect.Request[v1.SyncMirrorRequest]) (*connect.Response[v1.SyncMirrorResponse], error)
+	// ---- repo metadata / refs / members (REST removal) ----
+	UpdateRepo(context.Context, *connect.Request[v1.UpdateRepoRequest]) (*connect.Response[v1.UpdateRepoResponse], error)
+	SetTag(context.Context, *connect.Request[v1.SetTagRequest]) (*connect.Response[v1.SetTagResponse], error)
+	DeleteTag(context.Context, *connect.Request[v1.DeleteTagRequest]) (*connect.Response[v1.DeleteTagResponse], error)
+	WriteFiles(context.Context, *connect.Request[v1.WriteFilesRequest]) (*connect.Response[v1.WriteFilesResponse], error)
+	Drop(context.Context, *connect.Request[v1.DropRequest]) (*connect.Response[v1.DropResponse], error)
+	Revert(context.Context, *connect.Request[v1.RevertRequest]) (*connect.Response[v1.RevertResponse], error)
+	Resolve(context.Context, *connect.Request[v1.ResolveRequest]) (*connect.Response[v1.ResolveResponse], error)
+	Squash(context.Context, *connect.Request[v1.SquashRequest]) (*connect.Response[v1.SquashResponse], error)
+	RebaseMany(context.Context, *connect.Request[v1.RebaseManyRequest]) (*connect.Response[v1.RebaseManyResponse], error)
+	CreateRelease(context.Context, *connect.Request[v1.CreateReleaseRequest]) (*connect.Response[v1.CreateReleaseResponse], error)
+	DeleteRelease(context.Context, *connect.Request[v1.DeleteReleaseRequest]) (*connect.Response[v1.DeleteReleaseResponse], error)
+	UploadReleaseAsset(context.Context, *connect.Request[v1.UploadReleaseAssetRequest]) (*connect.Response[v1.UploadReleaseAssetResponse], error)
+	ListRepoMembers(context.Context, *connect.Request[v1.ListRepoMembersRequest]) (*connect.Response[v1.ListRepoMembersResponse], error)
+	SetRepoMember(context.Context, *connect.Request[v1.SetRepoMemberRequest]) (*connect.Response[v1.SetRepoMemberResponse], error)
+	RemoveRepoMember(context.Context, *connect.Request[v1.RemoveRepoMemberRequest]) (*connect.Response[v1.RemoveRepoMemberResponse], error)
+	// ---- merge requests (fork→upstream change requests) ----
+	ListMergeRequests(context.Context, *connect.Request[v1.ListMergeRequestsRequest]) (*connect.Response[v1.ListMergeRequestsResponse], error)
+	GetMergeRequest(context.Context, *connect.Request[v1.GetMergeRequestRequest]) (*connect.Response[v1.GetMergeRequestResponse], error)
+	CreateMergeRequest(context.Context, *connect.Request[v1.CreateMergeRequestRequest]) (*connect.Response[v1.CreateMergeRequestResponse], error)
+	UpdateMergeRequest(context.Context, *connect.Request[v1.UpdateMergeRequestRequest]) (*connect.Response[v1.UpdateMergeRequestResponse], error)
+	MergeMergeRequest(context.Context, *connect.Request[v1.MergeMergeRequestRequest]) (*connect.Response[v1.MergeMergeRequestResponse], error)
+	ListReviews(context.Context, *connect.Request[v1.ListReviewsRequest]) (*connect.Response[v1.ListReviewsResponse], error)
+	AddReview(context.Context, *connect.Request[v1.AddReviewRequest]) (*connect.Response[v1.AddReviewResponse], error)
+	ListComments(context.Context, *connect.Request[v1.ListCommentsRequest]) (*connect.Response[v1.ListCommentsResponse], error)
+	AddComment(context.Context, *connect.Request[v1.AddCommentRequest]) (*connect.Response[v1.AddCommentResponse], error)
 }
 
 // NewLabServiceClient constructs a client for the easylab.v1.LabService service. By default, it
@@ -524,6 +611,150 @@ func NewLabServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(labServiceMethods.ByName("SyncMirror")),
 			connect.WithClientOptions(opts...),
 		),
+		updateRepo: connect.NewClient[v1.UpdateRepoRequest, v1.UpdateRepoResponse](
+			httpClient,
+			baseURL+LabServiceUpdateRepoProcedure,
+			connect.WithSchema(labServiceMethods.ByName("UpdateRepo")),
+			connect.WithClientOptions(opts...),
+		),
+		setTag: connect.NewClient[v1.SetTagRequest, v1.SetTagResponse](
+			httpClient,
+			baseURL+LabServiceSetTagProcedure,
+			connect.WithSchema(labServiceMethods.ByName("SetTag")),
+			connect.WithClientOptions(opts...),
+		),
+		deleteTag: connect.NewClient[v1.DeleteTagRequest, v1.DeleteTagResponse](
+			httpClient,
+			baseURL+LabServiceDeleteTagProcedure,
+			connect.WithSchema(labServiceMethods.ByName("DeleteTag")),
+			connect.WithClientOptions(opts...),
+		),
+		writeFiles: connect.NewClient[v1.WriteFilesRequest, v1.WriteFilesResponse](
+			httpClient,
+			baseURL+LabServiceWriteFilesProcedure,
+			connect.WithSchema(labServiceMethods.ByName("WriteFiles")),
+			connect.WithClientOptions(opts...),
+		),
+		drop: connect.NewClient[v1.DropRequest, v1.DropResponse](
+			httpClient,
+			baseURL+LabServiceDropProcedure,
+			connect.WithSchema(labServiceMethods.ByName("Drop")),
+			connect.WithClientOptions(opts...),
+		),
+		revert: connect.NewClient[v1.RevertRequest, v1.RevertResponse](
+			httpClient,
+			baseURL+LabServiceRevertProcedure,
+			connect.WithSchema(labServiceMethods.ByName("Revert")),
+			connect.WithClientOptions(opts...),
+		),
+		resolve: connect.NewClient[v1.ResolveRequest, v1.ResolveResponse](
+			httpClient,
+			baseURL+LabServiceResolveProcedure,
+			connect.WithSchema(labServiceMethods.ByName("Resolve")),
+			connect.WithClientOptions(opts...),
+		),
+		squash: connect.NewClient[v1.SquashRequest, v1.SquashResponse](
+			httpClient,
+			baseURL+LabServiceSquashProcedure,
+			connect.WithSchema(labServiceMethods.ByName("Squash")),
+			connect.WithClientOptions(opts...),
+		),
+		rebaseMany: connect.NewClient[v1.RebaseManyRequest, v1.RebaseManyResponse](
+			httpClient,
+			baseURL+LabServiceRebaseManyProcedure,
+			connect.WithSchema(labServiceMethods.ByName("RebaseMany")),
+			connect.WithClientOptions(opts...),
+		),
+		createRelease: connect.NewClient[v1.CreateReleaseRequest, v1.CreateReleaseResponse](
+			httpClient,
+			baseURL+LabServiceCreateReleaseProcedure,
+			connect.WithSchema(labServiceMethods.ByName("CreateRelease")),
+			connect.WithClientOptions(opts...),
+		),
+		deleteRelease: connect.NewClient[v1.DeleteReleaseRequest, v1.DeleteReleaseResponse](
+			httpClient,
+			baseURL+LabServiceDeleteReleaseProcedure,
+			connect.WithSchema(labServiceMethods.ByName("DeleteRelease")),
+			connect.WithClientOptions(opts...),
+		),
+		uploadReleaseAsset: connect.NewClient[v1.UploadReleaseAssetRequest, v1.UploadReleaseAssetResponse](
+			httpClient,
+			baseURL+LabServiceUploadReleaseAssetProcedure,
+			connect.WithSchema(labServiceMethods.ByName("UploadReleaseAsset")),
+			connect.WithClientOptions(opts...),
+		),
+		listRepoMembers: connect.NewClient[v1.ListRepoMembersRequest, v1.ListRepoMembersResponse](
+			httpClient,
+			baseURL+LabServiceListRepoMembersProcedure,
+			connect.WithSchema(labServiceMethods.ByName("ListRepoMembers")),
+			connect.WithClientOptions(opts...),
+		),
+		setRepoMember: connect.NewClient[v1.SetRepoMemberRequest, v1.SetRepoMemberResponse](
+			httpClient,
+			baseURL+LabServiceSetRepoMemberProcedure,
+			connect.WithSchema(labServiceMethods.ByName("SetRepoMember")),
+			connect.WithClientOptions(opts...),
+		),
+		removeRepoMember: connect.NewClient[v1.RemoveRepoMemberRequest, v1.RemoveRepoMemberResponse](
+			httpClient,
+			baseURL+LabServiceRemoveRepoMemberProcedure,
+			connect.WithSchema(labServiceMethods.ByName("RemoveRepoMember")),
+			connect.WithClientOptions(opts...),
+		),
+		listMergeRequests: connect.NewClient[v1.ListMergeRequestsRequest, v1.ListMergeRequestsResponse](
+			httpClient,
+			baseURL+LabServiceListMergeRequestsProcedure,
+			connect.WithSchema(labServiceMethods.ByName("ListMergeRequests")),
+			connect.WithClientOptions(opts...),
+		),
+		getMergeRequest: connect.NewClient[v1.GetMergeRequestRequest, v1.GetMergeRequestResponse](
+			httpClient,
+			baseURL+LabServiceGetMergeRequestProcedure,
+			connect.WithSchema(labServiceMethods.ByName("GetMergeRequest")),
+			connect.WithClientOptions(opts...),
+		),
+		createMergeRequest: connect.NewClient[v1.CreateMergeRequestRequest, v1.CreateMergeRequestResponse](
+			httpClient,
+			baseURL+LabServiceCreateMergeRequestProcedure,
+			connect.WithSchema(labServiceMethods.ByName("CreateMergeRequest")),
+			connect.WithClientOptions(opts...),
+		),
+		updateMergeRequest: connect.NewClient[v1.UpdateMergeRequestRequest, v1.UpdateMergeRequestResponse](
+			httpClient,
+			baseURL+LabServiceUpdateMergeRequestProcedure,
+			connect.WithSchema(labServiceMethods.ByName("UpdateMergeRequest")),
+			connect.WithClientOptions(opts...),
+		),
+		mergeMergeRequest: connect.NewClient[v1.MergeMergeRequestRequest, v1.MergeMergeRequestResponse](
+			httpClient,
+			baseURL+LabServiceMergeMergeRequestProcedure,
+			connect.WithSchema(labServiceMethods.ByName("MergeMergeRequest")),
+			connect.WithClientOptions(opts...),
+		),
+		listReviews: connect.NewClient[v1.ListReviewsRequest, v1.ListReviewsResponse](
+			httpClient,
+			baseURL+LabServiceListReviewsProcedure,
+			connect.WithSchema(labServiceMethods.ByName("ListReviews")),
+			connect.WithClientOptions(opts...),
+		),
+		addReview: connect.NewClient[v1.AddReviewRequest, v1.AddReviewResponse](
+			httpClient,
+			baseURL+LabServiceAddReviewProcedure,
+			connect.WithSchema(labServiceMethods.ByName("AddReview")),
+			connect.WithClientOptions(opts...),
+		),
+		listComments: connect.NewClient[v1.ListCommentsRequest, v1.ListCommentsResponse](
+			httpClient,
+			baseURL+LabServiceListCommentsProcedure,
+			connect.WithSchema(labServiceMethods.ByName("ListComments")),
+			connect.WithClientOptions(opts...),
+		),
+		addComment: connect.NewClient[v1.AddCommentRequest, v1.AddCommentResponse](
+			httpClient,
+			baseURL+LabServiceAddCommentProcedure,
+			connect.WithSchema(labServiceMethods.ByName("AddComment")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -562,6 +793,30 @@ type labServiceClient struct {
 	setMirror            *connect.Client[v1.SetMirrorRequest, v1.SetMirrorResponse]
 	deleteMirror         *connect.Client[v1.DeleteMirrorRequest, v1.DeleteMirrorResponse]
 	syncMirror           *connect.Client[v1.SyncMirrorRequest, v1.SyncMirrorResponse]
+	updateRepo           *connect.Client[v1.UpdateRepoRequest, v1.UpdateRepoResponse]
+	setTag               *connect.Client[v1.SetTagRequest, v1.SetTagResponse]
+	deleteTag            *connect.Client[v1.DeleteTagRequest, v1.DeleteTagResponse]
+	writeFiles           *connect.Client[v1.WriteFilesRequest, v1.WriteFilesResponse]
+	drop                 *connect.Client[v1.DropRequest, v1.DropResponse]
+	revert               *connect.Client[v1.RevertRequest, v1.RevertResponse]
+	resolve              *connect.Client[v1.ResolveRequest, v1.ResolveResponse]
+	squash               *connect.Client[v1.SquashRequest, v1.SquashResponse]
+	rebaseMany           *connect.Client[v1.RebaseManyRequest, v1.RebaseManyResponse]
+	createRelease        *connect.Client[v1.CreateReleaseRequest, v1.CreateReleaseResponse]
+	deleteRelease        *connect.Client[v1.DeleteReleaseRequest, v1.DeleteReleaseResponse]
+	uploadReleaseAsset   *connect.Client[v1.UploadReleaseAssetRequest, v1.UploadReleaseAssetResponse]
+	listRepoMembers      *connect.Client[v1.ListRepoMembersRequest, v1.ListRepoMembersResponse]
+	setRepoMember        *connect.Client[v1.SetRepoMemberRequest, v1.SetRepoMemberResponse]
+	removeRepoMember     *connect.Client[v1.RemoveRepoMemberRequest, v1.RemoveRepoMemberResponse]
+	listMergeRequests    *connect.Client[v1.ListMergeRequestsRequest, v1.ListMergeRequestsResponse]
+	getMergeRequest      *connect.Client[v1.GetMergeRequestRequest, v1.GetMergeRequestResponse]
+	createMergeRequest   *connect.Client[v1.CreateMergeRequestRequest, v1.CreateMergeRequestResponse]
+	updateMergeRequest   *connect.Client[v1.UpdateMergeRequestRequest, v1.UpdateMergeRequestResponse]
+	mergeMergeRequest    *connect.Client[v1.MergeMergeRequestRequest, v1.MergeMergeRequestResponse]
+	listReviews          *connect.Client[v1.ListReviewsRequest, v1.ListReviewsResponse]
+	addReview            *connect.Client[v1.AddReviewRequest, v1.AddReviewResponse]
+	listComments         *connect.Client[v1.ListCommentsRequest, v1.ListCommentsResponse]
+	addComment           *connect.Client[v1.AddCommentRequest, v1.AddCommentResponse]
 }
 
 // Health calls easylab.v1.LabService.Health.
@@ -729,6 +984,126 @@ func (c *labServiceClient) SyncMirror(ctx context.Context, req *connect.Request[
 	return c.syncMirror.CallUnary(ctx, req)
 }
 
+// UpdateRepo calls easylab.v1.LabService.UpdateRepo.
+func (c *labServiceClient) UpdateRepo(ctx context.Context, req *connect.Request[v1.UpdateRepoRequest]) (*connect.Response[v1.UpdateRepoResponse], error) {
+	return c.updateRepo.CallUnary(ctx, req)
+}
+
+// SetTag calls easylab.v1.LabService.SetTag.
+func (c *labServiceClient) SetTag(ctx context.Context, req *connect.Request[v1.SetTagRequest]) (*connect.Response[v1.SetTagResponse], error) {
+	return c.setTag.CallUnary(ctx, req)
+}
+
+// DeleteTag calls easylab.v1.LabService.DeleteTag.
+func (c *labServiceClient) DeleteTag(ctx context.Context, req *connect.Request[v1.DeleteTagRequest]) (*connect.Response[v1.DeleteTagResponse], error) {
+	return c.deleteTag.CallUnary(ctx, req)
+}
+
+// WriteFiles calls easylab.v1.LabService.WriteFiles.
+func (c *labServiceClient) WriteFiles(ctx context.Context, req *connect.Request[v1.WriteFilesRequest]) (*connect.Response[v1.WriteFilesResponse], error) {
+	return c.writeFiles.CallUnary(ctx, req)
+}
+
+// Drop calls easylab.v1.LabService.Drop.
+func (c *labServiceClient) Drop(ctx context.Context, req *connect.Request[v1.DropRequest]) (*connect.Response[v1.DropResponse], error) {
+	return c.drop.CallUnary(ctx, req)
+}
+
+// Revert calls easylab.v1.LabService.Revert.
+func (c *labServiceClient) Revert(ctx context.Context, req *connect.Request[v1.RevertRequest]) (*connect.Response[v1.RevertResponse], error) {
+	return c.revert.CallUnary(ctx, req)
+}
+
+// Resolve calls easylab.v1.LabService.Resolve.
+func (c *labServiceClient) Resolve(ctx context.Context, req *connect.Request[v1.ResolveRequest]) (*connect.Response[v1.ResolveResponse], error) {
+	return c.resolve.CallUnary(ctx, req)
+}
+
+// Squash calls easylab.v1.LabService.Squash.
+func (c *labServiceClient) Squash(ctx context.Context, req *connect.Request[v1.SquashRequest]) (*connect.Response[v1.SquashResponse], error) {
+	return c.squash.CallUnary(ctx, req)
+}
+
+// RebaseMany calls easylab.v1.LabService.RebaseMany.
+func (c *labServiceClient) RebaseMany(ctx context.Context, req *connect.Request[v1.RebaseManyRequest]) (*connect.Response[v1.RebaseManyResponse], error) {
+	return c.rebaseMany.CallUnary(ctx, req)
+}
+
+// CreateRelease calls easylab.v1.LabService.CreateRelease.
+func (c *labServiceClient) CreateRelease(ctx context.Context, req *connect.Request[v1.CreateReleaseRequest]) (*connect.Response[v1.CreateReleaseResponse], error) {
+	return c.createRelease.CallUnary(ctx, req)
+}
+
+// DeleteRelease calls easylab.v1.LabService.DeleteRelease.
+func (c *labServiceClient) DeleteRelease(ctx context.Context, req *connect.Request[v1.DeleteReleaseRequest]) (*connect.Response[v1.DeleteReleaseResponse], error) {
+	return c.deleteRelease.CallUnary(ctx, req)
+}
+
+// UploadReleaseAsset calls easylab.v1.LabService.UploadReleaseAsset.
+func (c *labServiceClient) UploadReleaseAsset(ctx context.Context, req *connect.Request[v1.UploadReleaseAssetRequest]) (*connect.Response[v1.UploadReleaseAssetResponse], error) {
+	return c.uploadReleaseAsset.CallUnary(ctx, req)
+}
+
+// ListRepoMembers calls easylab.v1.LabService.ListRepoMembers.
+func (c *labServiceClient) ListRepoMembers(ctx context.Context, req *connect.Request[v1.ListRepoMembersRequest]) (*connect.Response[v1.ListRepoMembersResponse], error) {
+	return c.listRepoMembers.CallUnary(ctx, req)
+}
+
+// SetRepoMember calls easylab.v1.LabService.SetRepoMember.
+func (c *labServiceClient) SetRepoMember(ctx context.Context, req *connect.Request[v1.SetRepoMemberRequest]) (*connect.Response[v1.SetRepoMemberResponse], error) {
+	return c.setRepoMember.CallUnary(ctx, req)
+}
+
+// RemoveRepoMember calls easylab.v1.LabService.RemoveRepoMember.
+func (c *labServiceClient) RemoveRepoMember(ctx context.Context, req *connect.Request[v1.RemoveRepoMemberRequest]) (*connect.Response[v1.RemoveRepoMemberResponse], error) {
+	return c.removeRepoMember.CallUnary(ctx, req)
+}
+
+// ListMergeRequests calls easylab.v1.LabService.ListMergeRequests.
+func (c *labServiceClient) ListMergeRequests(ctx context.Context, req *connect.Request[v1.ListMergeRequestsRequest]) (*connect.Response[v1.ListMergeRequestsResponse], error) {
+	return c.listMergeRequests.CallUnary(ctx, req)
+}
+
+// GetMergeRequest calls easylab.v1.LabService.GetMergeRequest.
+func (c *labServiceClient) GetMergeRequest(ctx context.Context, req *connect.Request[v1.GetMergeRequestRequest]) (*connect.Response[v1.GetMergeRequestResponse], error) {
+	return c.getMergeRequest.CallUnary(ctx, req)
+}
+
+// CreateMergeRequest calls easylab.v1.LabService.CreateMergeRequest.
+func (c *labServiceClient) CreateMergeRequest(ctx context.Context, req *connect.Request[v1.CreateMergeRequestRequest]) (*connect.Response[v1.CreateMergeRequestResponse], error) {
+	return c.createMergeRequest.CallUnary(ctx, req)
+}
+
+// UpdateMergeRequest calls easylab.v1.LabService.UpdateMergeRequest.
+func (c *labServiceClient) UpdateMergeRequest(ctx context.Context, req *connect.Request[v1.UpdateMergeRequestRequest]) (*connect.Response[v1.UpdateMergeRequestResponse], error) {
+	return c.updateMergeRequest.CallUnary(ctx, req)
+}
+
+// MergeMergeRequest calls easylab.v1.LabService.MergeMergeRequest.
+func (c *labServiceClient) MergeMergeRequest(ctx context.Context, req *connect.Request[v1.MergeMergeRequestRequest]) (*connect.Response[v1.MergeMergeRequestResponse], error) {
+	return c.mergeMergeRequest.CallUnary(ctx, req)
+}
+
+// ListReviews calls easylab.v1.LabService.ListReviews.
+func (c *labServiceClient) ListReviews(ctx context.Context, req *connect.Request[v1.ListReviewsRequest]) (*connect.Response[v1.ListReviewsResponse], error) {
+	return c.listReviews.CallUnary(ctx, req)
+}
+
+// AddReview calls easylab.v1.LabService.AddReview.
+func (c *labServiceClient) AddReview(ctx context.Context, req *connect.Request[v1.AddReviewRequest]) (*connect.Response[v1.AddReviewResponse], error) {
+	return c.addReview.CallUnary(ctx, req)
+}
+
+// ListComments calls easylab.v1.LabService.ListComments.
+func (c *labServiceClient) ListComments(ctx context.Context, req *connect.Request[v1.ListCommentsRequest]) (*connect.Response[v1.ListCommentsResponse], error) {
+	return c.listComments.CallUnary(ctx, req)
+}
+
+// AddComment calls easylab.v1.LabService.AddComment.
+func (c *labServiceClient) AddComment(ctx context.Context, req *connect.Request[v1.AddCommentRequest]) (*connect.Response[v1.AddCommentResponse], error) {
+	return c.addComment.CallUnary(ctx, req)
+}
+
 // LabServiceHandler is an implementation of the easylab.v1.LabService service.
 type LabServiceHandler interface {
 	Health(context.Context, *connect.Request[v1.HealthRequest]) (*connect.Response[v1.HealthResponse], error)
@@ -768,6 +1143,32 @@ type LabServiceHandler interface {
 	SetMirror(context.Context, *connect.Request[v1.SetMirrorRequest]) (*connect.Response[v1.SetMirrorResponse], error)
 	DeleteMirror(context.Context, *connect.Request[v1.DeleteMirrorRequest]) (*connect.Response[v1.DeleteMirrorResponse], error)
 	SyncMirror(context.Context, *connect.Request[v1.SyncMirrorRequest]) (*connect.Response[v1.SyncMirrorResponse], error)
+	// ---- repo metadata / refs / members (REST removal) ----
+	UpdateRepo(context.Context, *connect.Request[v1.UpdateRepoRequest]) (*connect.Response[v1.UpdateRepoResponse], error)
+	SetTag(context.Context, *connect.Request[v1.SetTagRequest]) (*connect.Response[v1.SetTagResponse], error)
+	DeleteTag(context.Context, *connect.Request[v1.DeleteTagRequest]) (*connect.Response[v1.DeleteTagResponse], error)
+	WriteFiles(context.Context, *connect.Request[v1.WriteFilesRequest]) (*connect.Response[v1.WriteFilesResponse], error)
+	Drop(context.Context, *connect.Request[v1.DropRequest]) (*connect.Response[v1.DropResponse], error)
+	Revert(context.Context, *connect.Request[v1.RevertRequest]) (*connect.Response[v1.RevertResponse], error)
+	Resolve(context.Context, *connect.Request[v1.ResolveRequest]) (*connect.Response[v1.ResolveResponse], error)
+	Squash(context.Context, *connect.Request[v1.SquashRequest]) (*connect.Response[v1.SquashResponse], error)
+	RebaseMany(context.Context, *connect.Request[v1.RebaseManyRequest]) (*connect.Response[v1.RebaseManyResponse], error)
+	CreateRelease(context.Context, *connect.Request[v1.CreateReleaseRequest]) (*connect.Response[v1.CreateReleaseResponse], error)
+	DeleteRelease(context.Context, *connect.Request[v1.DeleteReleaseRequest]) (*connect.Response[v1.DeleteReleaseResponse], error)
+	UploadReleaseAsset(context.Context, *connect.Request[v1.UploadReleaseAssetRequest]) (*connect.Response[v1.UploadReleaseAssetResponse], error)
+	ListRepoMembers(context.Context, *connect.Request[v1.ListRepoMembersRequest]) (*connect.Response[v1.ListRepoMembersResponse], error)
+	SetRepoMember(context.Context, *connect.Request[v1.SetRepoMemberRequest]) (*connect.Response[v1.SetRepoMemberResponse], error)
+	RemoveRepoMember(context.Context, *connect.Request[v1.RemoveRepoMemberRequest]) (*connect.Response[v1.RemoveRepoMemberResponse], error)
+	// ---- merge requests (fork→upstream change requests) ----
+	ListMergeRequests(context.Context, *connect.Request[v1.ListMergeRequestsRequest]) (*connect.Response[v1.ListMergeRequestsResponse], error)
+	GetMergeRequest(context.Context, *connect.Request[v1.GetMergeRequestRequest]) (*connect.Response[v1.GetMergeRequestResponse], error)
+	CreateMergeRequest(context.Context, *connect.Request[v1.CreateMergeRequestRequest]) (*connect.Response[v1.CreateMergeRequestResponse], error)
+	UpdateMergeRequest(context.Context, *connect.Request[v1.UpdateMergeRequestRequest]) (*connect.Response[v1.UpdateMergeRequestResponse], error)
+	MergeMergeRequest(context.Context, *connect.Request[v1.MergeMergeRequestRequest]) (*connect.Response[v1.MergeMergeRequestResponse], error)
+	ListReviews(context.Context, *connect.Request[v1.ListReviewsRequest]) (*connect.Response[v1.ListReviewsResponse], error)
+	AddReview(context.Context, *connect.Request[v1.AddReviewRequest]) (*connect.Response[v1.AddReviewResponse], error)
+	ListComments(context.Context, *connect.Request[v1.ListCommentsRequest]) (*connect.Response[v1.ListCommentsResponse], error)
+	AddComment(context.Context, *connect.Request[v1.AddCommentRequest]) (*connect.Response[v1.AddCommentResponse], error)
 }
 
 // NewLabServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -975,6 +1376,150 @@ func NewLabServiceHandler(svc LabServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(labServiceMethods.ByName("SyncMirror")),
 		connect.WithHandlerOptions(opts...),
 	)
+	labServiceUpdateRepoHandler := connect.NewUnaryHandler(
+		LabServiceUpdateRepoProcedure,
+		svc.UpdateRepo,
+		connect.WithSchema(labServiceMethods.ByName("UpdateRepo")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceSetTagHandler := connect.NewUnaryHandler(
+		LabServiceSetTagProcedure,
+		svc.SetTag,
+		connect.WithSchema(labServiceMethods.ByName("SetTag")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceDeleteTagHandler := connect.NewUnaryHandler(
+		LabServiceDeleteTagProcedure,
+		svc.DeleteTag,
+		connect.WithSchema(labServiceMethods.ByName("DeleteTag")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceWriteFilesHandler := connect.NewUnaryHandler(
+		LabServiceWriteFilesProcedure,
+		svc.WriteFiles,
+		connect.WithSchema(labServiceMethods.ByName("WriteFiles")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceDropHandler := connect.NewUnaryHandler(
+		LabServiceDropProcedure,
+		svc.Drop,
+		connect.WithSchema(labServiceMethods.ByName("Drop")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceRevertHandler := connect.NewUnaryHandler(
+		LabServiceRevertProcedure,
+		svc.Revert,
+		connect.WithSchema(labServiceMethods.ByName("Revert")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceResolveHandler := connect.NewUnaryHandler(
+		LabServiceResolveProcedure,
+		svc.Resolve,
+		connect.WithSchema(labServiceMethods.ByName("Resolve")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceSquashHandler := connect.NewUnaryHandler(
+		LabServiceSquashProcedure,
+		svc.Squash,
+		connect.WithSchema(labServiceMethods.ByName("Squash")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceRebaseManyHandler := connect.NewUnaryHandler(
+		LabServiceRebaseManyProcedure,
+		svc.RebaseMany,
+		connect.WithSchema(labServiceMethods.ByName("RebaseMany")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceCreateReleaseHandler := connect.NewUnaryHandler(
+		LabServiceCreateReleaseProcedure,
+		svc.CreateRelease,
+		connect.WithSchema(labServiceMethods.ByName("CreateRelease")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceDeleteReleaseHandler := connect.NewUnaryHandler(
+		LabServiceDeleteReleaseProcedure,
+		svc.DeleteRelease,
+		connect.WithSchema(labServiceMethods.ByName("DeleteRelease")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceUploadReleaseAssetHandler := connect.NewUnaryHandler(
+		LabServiceUploadReleaseAssetProcedure,
+		svc.UploadReleaseAsset,
+		connect.WithSchema(labServiceMethods.ByName("UploadReleaseAsset")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceListRepoMembersHandler := connect.NewUnaryHandler(
+		LabServiceListRepoMembersProcedure,
+		svc.ListRepoMembers,
+		connect.WithSchema(labServiceMethods.ByName("ListRepoMembers")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceSetRepoMemberHandler := connect.NewUnaryHandler(
+		LabServiceSetRepoMemberProcedure,
+		svc.SetRepoMember,
+		connect.WithSchema(labServiceMethods.ByName("SetRepoMember")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceRemoveRepoMemberHandler := connect.NewUnaryHandler(
+		LabServiceRemoveRepoMemberProcedure,
+		svc.RemoveRepoMember,
+		connect.WithSchema(labServiceMethods.ByName("RemoveRepoMember")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceListMergeRequestsHandler := connect.NewUnaryHandler(
+		LabServiceListMergeRequestsProcedure,
+		svc.ListMergeRequests,
+		connect.WithSchema(labServiceMethods.ByName("ListMergeRequests")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceGetMergeRequestHandler := connect.NewUnaryHandler(
+		LabServiceGetMergeRequestProcedure,
+		svc.GetMergeRequest,
+		connect.WithSchema(labServiceMethods.ByName("GetMergeRequest")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceCreateMergeRequestHandler := connect.NewUnaryHandler(
+		LabServiceCreateMergeRequestProcedure,
+		svc.CreateMergeRequest,
+		connect.WithSchema(labServiceMethods.ByName("CreateMergeRequest")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceUpdateMergeRequestHandler := connect.NewUnaryHandler(
+		LabServiceUpdateMergeRequestProcedure,
+		svc.UpdateMergeRequest,
+		connect.WithSchema(labServiceMethods.ByName("UpdateMergeRequest")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceMergeMergeRequestHandler := connect.NewUnaryHandler(
+		LabServiceMergeMergeRequestProcedure,
+		svc.MergeMergeRequest,
+		connect.WithSchema(labServiceMethods.ByName("MergeMergeRequest")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceListReviewsHandler := connect.NewUnaryHandler(
+		LabServiceListReviewsProcedure,
+		svc.ListReviews,
+		connect.WithSchema(labServiceMethods.ByName("ListReviews")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceAddReviewHandler := connect.NewUnaryHandler(
+		LabServiceAddReviewProcedure,
+		svc.AddReview,
+		connect.WithSchema(labServiceMethods.ByName("AddReview")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceListCommentsHandler := connect.NewUnaryHandler(
+		LabServiceListCommentsProcedure,
+		svc.ListComments,
+		connect.WithSchema(labServiceMethods.ByName("ListComments")),
+		connect.WithHandlerOptions(opts...),
+	)
+	labServiceAddCommentHandler := connect.NewUnaryHandler(
+		LabServiceAddCommentProcedure,
+		svc.AddComment,
+		connect.WithSchema(labServiceMethods.ByName("AddComment")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/easylab.v1.LabService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case LabServiceHealthProcedure:
@@ -1043,6 +1588,54 @@ func NewLabServiceHandler(svc LabServiceHandler, opts ...connect.HandlerOption) 
 			labServiceDeleteMirrorHandler.ServeHTTP(w, r)
 		case LabServiceSyncMirrorProcedure:
 			labServiceSyncMirrorHandler.ServeHTTP(w, r)
+		case LabServiceUpdateRepoProcedure:
+			labServiceUpdateRepoHandler.ServeHTTP(w, r)
+		case LabServiceSetTagProcedure:
+			labServiceSetTagHandler.ServeHTTP(w, r)
+		case LabServiceDeleteTagProcedure:
+			labServiceDeleteTagHandler.ServeHTTP(w, r)
+		case LabServiceWriteFilesProcedure:
+			labServiceWriteFilesHandler.ServeHTTP(w, r)
+		case LabServiceDropProcedure:
+			labServiceDropHandler.ServeHTTP(w, r)
+		case LabServiceRevertProcedure:
+			labServiceRevertHandler.ServeHTTP(w, r)
+		case LabServiceResolveProcedure:
+			labServiceResolveHandler.ServeHTTP(w, r)
+		case LabServiceSquashProcedure:
+			labServiceSquashHandler.ServeHTTP(w, r)
+		case LabServiceRebaseManyProcedure:
+			labServiceRebaseManyHandler.ServeHTTP(w, r)
+		case LabServiceCreateReleaseProcedure:
+			labServiceCreateReleaseHandler.ServeHTTP(w, r)
+		case LabServiceDeleteReleaseProcedure:
+			labServiceDeleteReleaseHandler.ServeHTTP(w, r)
+		case LabServiceUploadReleaseAssetProcedure:
+			labServiceUploadReleaseAssetHandler.ServeHTTP(w, r)
+		case LabServiceListRepoMembersProcedure:
+			labServiceListRepoMembersHandler.ServeHTTP(w, r)
+		case LabServiceSetRepoMemberProcedure:
+			labServiceSetRepoMemberHandler.ServeHTTP(w, r)
+		case LabServiceRemoveRepoMemberProcedure:
+			labServiceRemoveRepoMemberHandler.ServeHTTP(w, r)
+		case LabServiceListMergeRequestsProcedure:
+			labServiceListMergeRequestsHandler.ServeHTTP(w, r)
+		case LabServiceGetMergeRequestProcedure:
+			labServiceGetMergeRequestHandler.ServeHTTP(w, r)
+		case LabServiceCreateMergeRequestProcedure:
+			labServiceCreateMergeRequestHandler.ServeHTTP(w, r)
+		case LabServiceUpdateMergeRequestProcedure:
+			labServiceUpdateMergeRequestHandler.ServeHTTP(w, r)
+		case LabServiceMergeMergeRequestProcedure:
+			labServiceMergeMergeRequestHandler.ServeHTTP(w, r)
+		case LabServiceListReviewsProcedure:
+			labServiceListReviewsHandler.ServeHTTP(w, r)
+		case LabServiceAddReviewProcedure:
+			labServiceAddReviewHandler.ServeHTTP(w, r)
+		case LabServiceListCommentsProcedure:
+			labServiceListCommentsHandler.ServeHTTP(w, r)
+		case LabServiceAddCommentProcedure:
+			labServiceAddCommentHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -1184,6 +1777,102 @@ func (UnimplementedLabServiceHandler) SyncMirror(context.Context, *connect.Reque
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.SyncMirror is not implemented"))
 }
 
+func (UnimplementedLabServiceHandler) UpdateRepo(context.Context, *connect.Request[v1.UpdateRepoRequest]) (*connect.Response[v1.UpdateRepoResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.UpdateRepo is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) SetTag(context.Context, *connect.Request[v1.SetTagRequest]) (*connect.Response[v1.SetTagResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.SetTag is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) DeleteTag(context.Context, *connect.Request[v1.DeleteTagRequest]) (*connect.Response[v1.DeleteTagResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.DeleteTag is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) WriteFiles(context.Context, *connect.Request[v1.WriteFilesRequest]) (*connect.Response[v1.WriteFilesResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.WriteFiles is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) Drop(context.Context, *connect.Request[v1.DropRequest]) (*connect.Response[v1.DropResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.Drop is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) Revert(context.Context, *connect.Request[v1.RevertRequest]) (*connect.Response[v1.RevertResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.Revert is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) Resolve(context.Context, *connect.Request[v1.ResolveRequest]) (*connect.Response[v1.ResolveResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.Resolve is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) Squash(context.Context, *connect.Request[v1.SquashRequest]) (*connect.Response[v1.SquashResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.Squash is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) RebaseMany(context.Context, *connect.Request[v1.RebaseManyRequest]) (*connect.Response[v1.RebaseManyResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.RebaseMany is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) CreateRelease(context.Context, *connect.Request[v1.CreateReleaseRequest]) (*connect.Response[v1.CreateReleaseResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.CreateRelease is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) DeleteRelease(context.Context, *connect.Request[v1.DeleteReleaseRequest]) (*connect.Response[v1.DeleteReleaseResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.DeleteRelease is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) UploadReleaseAsset(context.Context, *connect.Request[v1.UploadReleaseAssetRequest]) (*connect.Response[v1.UploadReleaseAssetResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.UploadReleaseAsset is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) ListRepoMembers(context.Context, *connect.Request[v1.ListRepoMembersRequest]) (*connect.Response[v1.ListRepoMembersResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.ListRepoMembers is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) SetRepoMember(context.Context, *connect.Request[v1.SetRepoMemberRequest]) (*connect.Response[v1.SetRepoMemberResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.SetRepoMember is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) RemoveRepoMember(context.Context, *connect.Request[v1.RemoveRepoMemberRequest]) (*connect.Response[v1.RemoveRepoMemberResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.RemoveRepoMember is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) ListMergeRequests(context.Context, *connect.Request[v1.ListMergeRequestsRequest]) (*connect.Response[v1.ListMergeRequestsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.ListMergeRequests is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) GetMergeRequest(context.Context, *connect.Request[v1.GetMergeRequestRequest]) (*connect.Response[v1.GetMergeRequestResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.GetMergeRequest is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) CreateMergeRequest(context.Context, *connect.Request[v1.CreateMergeRequestRequest]) (*connect.Response[v1.CreateMergeRequestResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.CreateMergeRequest is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) UpdateMergeRequest(context.Context, *connect.Request[v1.UpdateMergeRequestRequest]) (*connect.Response[v1.UpdateMergeRequestResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.UpdateMergeRequest is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) MergeMergeRequest(context.Context, *connect.Request[v1.MergeMergeRequestRequest]) (*connect.Response[v1.MergeMergeRequestResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.MergeMergeRequest is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) ListReviews(context.Context, *connect.Request[v1.ListReviewsRequest]) (*connect.Response[v1.ListReviewsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.ListReviews is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) AddReview(context.Context, *connect.Request[v1.AddReviewRequest]) (*connect.Response[v1.AddReviewResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.AddReview is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) ListComments(context.Context, *connect.Request[v1.ListCommentsRequest]) (*connect.Response[v1.ListCommentsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.ListComments is not implemented"))
+}
+
+func (UnimplementedLabServiceHandler) AddComment(context.Context, *connect.Request[v1.AddCommentRequest]) (*connect.Response[v1.AddCommentResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.LabService.AddComment is not implemented"))
+}
+
 // OpsServiceClient is a client for the easylab.v1.OpsService service.
 type OpsServiceClient interface {
 	OpsStatus(context.Context, *connect.Request[v1.OpsStatusRequest]) (*connect.Response[v1.OpsStatusResponse], error)
@@ -1201,6 +1890,9 @@ type OpsServiceClient interface {
 	GetTask(context.Context, *connect.Request[v1.GetTaskRequest]) (*connect.Response[v1.GetTaskResponse], error)
 	TaskLog(context.Context, *connect.Request[v1.TaskLogRequest]) (*connect.ServerStreamForClient[v1.TaskLogResponse], error)
 	Sync(context.Context, *connect.Request[v1.SyncRequest]) (*connect.Response[v1.SyncResponse], error)
+	// Build launches a container image build asynchronously; poll GetTask(id) /
+	// stream TaskLog(id) for progress (REST /ops/builds RPC form).
+	Build(context.Context, *connect.Request[v1.BuildRequest]) (*connect.Response[v1.BuildResponse], error)
 }
 
 // NewOpsServiceClient constructs a client for the easylab.v1.OpsService service. By default, it
@@ -1304,6 +1996,12 @@ func NewOpsServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...
 			connect.WithSchema(opsServiceMethods.ByName("Sync")),
 			connect.WithClientOptions(opts...),
 		),
+		build: connect.NewClient[v1.BuildRequest, v1.BuildResponse](
+			httpClient,
+			baseURL+OpsServiceBuildProcedure,
+			connect.WithSchema(opsServiceMethods.ByName("Build")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -1324,6 +2022,7 @@ type opsServiceClient struct {
 	getTask        *connect.Client[v1.GetTaskRequest, v1.GetTaskResponse]
 	taskLog        *connect.Client[v1.TaskLogRequest, v1.TaskLogResponse]
 	sync           *connect.Client[v1.SyncRequest, v1.SyncResponse]
+	build          *connect.Client[v1.BuildRequest, v1.BuildResponse]
 }
 
 // OpsStatus calls easylab.v1.OpsService.OpsStatus.
@@ -1401,6 +2100,11 @@ func (c *opsServiceClient) Sync(ctx context.Context, req *connect.Request[v1.Syn
 	return c.sync.CallUnary(ctx, req)
 }
 
+// Build calls easylab.v1.OpsService.Build.
+func (c *opsServiceClient) Build(ctx context.Context, req *connect.Request[v1.BuildRequest]) (*connect.Response[v1.BuildResponse], error) {
+	return c.build.CallUnary(ctx, req)
+}
+
 // OpsServiceHandler is an implementation of the easylab.v1.OpsService service.
 type OpsServiceHandler interface {
 	OpsStatus(context.Context, *connect.Request[v1.OpsStatusRequest]) (*connect.Response[v1.OpsStatusResponse], error)
@@ -1418,6 +2122,9 @@ type OpsServiceHandler interface {
 	GetTask(context.Context, *connect.Request[v1.GetTaskRequest]) (*connect.Response[v1.GetTaskResponse], error)
 	TaskLog(context.Context, *connect.Request[v1.TaskLogRequest], *connect.ServerStream[v1.TaskLogResponse]) error
 	Sync(context.Context, *connect.Request[v1.SyncRequest]) (*connect.Response[v1.SyncResponse], error)
+	// Build launches a container image build asynchronously; poll GetTask(id) /
+	// stream TaskLog(id) for progress (REST /ops/builds RPC form).
+	Build(context.Context, *connect.Request[v1.BuildRequest]) (*connect.Response[v1.BuildResponse], error)
 }
 
 // NewOpsServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -1517,6 +2224,12 @@ func NewOpsServiceHandler(svc OpsServiceHandler, opts ...connect.HandlerOption) 
 		connect.WithSchema(opsServiceMethods.ByName("Sync")),
 		connect.WithHandlerOptions(opts...),
 	)
+	opsServiceBuildHandler := connect.NewUnaryHandler(
+		OpsServiceBuildProcedure,
+		svc.Build,
+		connect.WithSchema(opsServiceMethods.ByName("Build")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/easylab.v1.OpsService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case OpsServiceOpsStatusProcedure:
@@ -1549,6 +2262,8 @@ func NewOpsServiceHandler(svc OpsServiceHandler, opts ...connect.HandlerOption) 
 			opsServiceTaskLogHandler.ServeHTTP(w, r)
 		case OpsServiceSyncProcedure:
 			opsServiceSyncHandler.ServeHTTP(w, r)
+		case OpsServiceBuildProcedure:
+			opsServiceBuildHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -1616,6 +2331,10 @@ func (UnimplementedOpsServiceHandler) TaskLog(context.Context, *connect.Request[
 
 func (UnimplementedOpsServiceHandler) Sync(context.Context, *connect.Request[v1.SyncRequest]) (*connect.Response[v1.SyncResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.OpsService.Sync is not implemented"))
+}
+
+func (UnimplementedOpsServiceHandler) Build(context.Context, *connect.Request[v1.BuildRequest]) (*connect.Response[v1.BuildResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.OpsService.Build is not implemented"))
 }
 
 // RegistryServiceClient is a client for the easylab.v1.RegistryService service.
