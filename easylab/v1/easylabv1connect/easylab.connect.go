@@ -35,8 +35,8 @@ const (
 	SandboxServiceName = "easylab.v1.SandboxService"
 	// WorkflowServiceName is the fully-qualified name of the WorkflowService service.
 	WorkflowServiceName = "easylab.v1.WorkflowService"
-	// TenantServiceName is the fully-qualified name of the TenantService service.
-	TenantServiceName = "easylab.v1.TenantService"
+	// UserServiceName is the fully-qualified name of the UserService service.
+	UserServiceName = "easylab.v1.UserService"
 )
 
 // These constants are the fully-qualified names of the RPCs defined in this package. They're
@@ -250,26 +250,25 @@ const (
 	// WorkflowServiceRunWorkflowFileProcedure is the fully-qualified name of the WorkflowService's
 	// RunWorkflowFile RPC.
 	WorkflowServiceRunWorkflowFileProcedure = "/easylab.v1.WorkflowService/RunWorkflowFile"
-	// TenantServiceCreateTenantProcedure is the fully-qualified name of the TenantService's
-	// CreateTenant RPC.
-	TenantServiceCreateTenantProcedure = "/easylab.v1.TenantService/CreateTenant"
-	// TenantServiceGetTenantProcedure is the fully-qualified name of the TenantService's GetTenant RPC.
-	TenantServiceGetTenantProcedure = "/easylab.v1.TenantService/GetTenant"
-	// TenantServiceListTenantsProcedure is the fully-qualified name of the TenantService's ListTenants
-	// RPC.
-	TenantServiceListTenantsProcedure = "/easylab.v1.TenantService/ListTenants"
-	// TenantServiceUpdateTenantProcedure is the fully-qualified name of the TenantService's
-	// UpdateTenant RPC.
-	TenantServiceUpdateTenantProcedure = "/easylab.v1.TenantService/UpdateTenant"
-	// TenantServiceDeleteTenantProcedure is the fully-qualified name of the TenantService's
-	// DeleteTenant RPC.
-	TenantServiceDeleteTenantProcedure = "/easylab.v1.TenantService/DeleteTenant"
-	// TenantServiceListTenantMembersProcedure is the fully-qualified name of the TenantService's
-	// ListTenantMembers RPC.
-	TenantServiceListTenantMembersProcedure = "/easylab.v1.TenantService/ListTenantMembers"
-	// TenantServiceAddTenantMemberProcedure is the fully-qualified name of the TenantService's
-	// AddTenantMember RPC.
-	TenantServiceAddTenantMemberProcedure = "/easylab.v1.TenantService/AddTenantMember"
+	// UserServiceCreateUserProcedure is the fully-qualified name of the UserService's CreateUser RPC.
+	UserServiceCreateUserProcedure = "/easylab.v1.UserService/CreateUser"
+	// UserServiceGetUserProcedure is the fully-qualified name of the UserService's GetUser RPC.
+	UserServiceGetUserProcedure = "/easylab.v1.UserService/GetUser"
+	// UserServiceListUsersProcedure is the fully-qualified name of the UserService's ListUsers RPC.
+	UserServiceListUsersProcedure = "/easylab.v1.UserService/ListUsers"
+	// UserServiceUpdateUserProcedure is the fully-qualified name of the UserService's UpdateUser RPC.
+	UserServiceUpdateUserProcedure = "/easylab.v1.UserService/UpdateUser"
+	// UserServiceDeleteUserProcedure is the fully-qualified name of the UserService's DeleteUser RPC.
+	UserServiceDeleteUserProcedure = "/easylab.v1.UserService/DeleteUser"
+	// UserServiceListUserTokensProcedure is the fully-qualified name of the UserService's
+	// ListUserTokens RPC.
+	UserServiceListUserTokensProcedure = "/easylab.v1.UserService/ListUserTokens"
+	// UserServiceCreateUserTokenProcedure is the fully-qualified name of the UserService's
+	// CreateUserToken RPC.
+	UserServiceCreateUserTokenProcedure = "/easylab.v1.UserService/CreateUserToken"
+	// UserServiceDeleteUserTokenProcedure is the fully-qualified name of the UserService's
+	// DeleteUserToken RPC.
+	UserServiceDeleteUserTokenProcedure = "/easylab.v1.UserService/DeleteUserToken"
 )
 
 // LabServiceClient is a client for the easylab.v1.LabService service.
@@ -2746,228 +2745,254 @@ func (UnimplementedWorkflowServiceHandler) RunWorkflowFile(context.Context, *con
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.WorkflowService.RunWorkflowFile is not implemented"))
 }
 
-// TenantServiceClient is a client for the easylab.v1.TenantService service.
-type TenantServiceClient interface {
-	CreateTenant(context.Context, *connect.Request[v1.CreateTenantRequest]) (*connect.Response[v1.CreateTenantResponse], error)
-	GetTenant(context.Context, *connect.Request[v1.GetTenantRequest]) (*connect.Response[v1.GetTenantResponse], error)
-	ListTenants(context.Context, *connect.Request[v1.ListTenantsRequest]) (*connect.Response[v1.ListTenantsResponse], error)
-	UpdateTenant(context.Context, *connect.Request[v1.UpdateTenantRequest]) (*connect.Response[v1.UpdateTenantResponse], error)
-	DeleteTenant(context.Context, *connect.Request[v1.DeleteTenantRequest]) (*connect.Response[v1.DeleteTenantResponse], error)
-	ListTenantMembers(context.Context, *connect.Request[v1.ListTenantMembersRequest]) (*connect.Response[v1.ListTenantMembersResponse], error)
-	AddTenantMember(context.Context, *connect.Request[v1.AddTenantMemberRequest]) (*connect.Response[v1.AddTenantMemberResponse], error)
+// UserServiceClient is a client for the easylab.v1.UserService service.
+type UserServiceClient interface {
+	CreateUser(context.Context, *connect.Request[v1.CreateUserRequest]) (*connect.Response[v1.CreateUserResponse], error)
+	GetUser(context.Context, *connect.Request[v1.GetUserRequest]) (*connect.Response[v1.GetUserResponse], error)
+	ListUsers(context.Context, *connect.Request[v1.ListUsersRequest]) (*connect.Response[v1.ListUsersResponse], error)
+	UpdateUser(context.Context, *connect.Request[v1.UpdateUserRequest]) (*connect.Response[v1.UpdateUserResponse], error)
+	DeleteUser(context.Context, *connect.Request[v1.DeleteUserRequest]) (*connect.Response[v1.DeleteUserResponse], error)
+	ListUserTokens(context.Context, *connect.Request[v1.ListUserTokensRequest]) (*connect.Response[v1.ListUserTokensResponse], error)
+	CreateUserToken(context.Context, *connect.Request[v1.CreateUserTokenRequest]) (*connect.Response[v1.CreateUserTokenResponse], error)
+	DeleteUserToken(context.Context, *connect.Request[v1.DeleteUserTokenRequest]) (*connect.Response[v1.DeleteUserTokenResponse], error)
 }
 
-// NewTenantServiceClient constructs a client for the easylab.v1.TenantService service. By default,
-// it uses the Connect protocol with the binary Protobuf Codec, asks for gzipped responses, and
-// sends uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC()
-// or connect.WithGRPCWeb() options.
+// NewUserServiceClient constructs a client for the easylab.v1.UserService service. By default, it
+// uses the Connect protocol with the binary Protobuf Codec, asks for gzipped responses, and sends
+// uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC() or
+// connect.WithGRPCWeb() options.
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewTenantServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) TenantServiceClient {
+func NewUserServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) UserServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
-	tenantServiceMethods := v1.File_easylab_v1_easylab_proto.Services().ByName("TenantService").Methods()
-	return &tenantServiceClient{
-		createTenant: connect.NewClient[v1.CreateTenantRequest, v1.CreateTenantResponse](
+	userServiceMethods := v1.File_easylab_v1_easylab_proto.Services().ByName("UserService").Methods()
+	return &userServiceClient{
+		createUser: connect.NewClient[v1.CreateUserRequest, v1.CreateUserResponse](
 			httpClient,
-			baseURL+TenantServiceCreateTenantProcedure,
-			connect.WithSchema(tenantServiceMethods.ByName("CreateTenant")),
+			baseURL+UserServiceCreateUserProcedure,
+			connect.WithSchema(userServiceMethods.ByName("CreateUser")),
 			connect.WithClientOptions(opts...),
 		),
-		getTenant: connect.NewClient[v1.GetTenantRequest, v1.GetTenantResponse](
+		getUser: connect.NewClient[v1.GetUserRequest, v1.GetUserResponse](
 			httpClient,
-			baseURL+TenantServiceGetTenantProcedure,
-			connect.WithSchema(tenantServiceMethods.ByName("GetTenant")),
+			baseURL+UserServiceGetUserProcedure,
+			connect.WithSchema(userServiceMethods.ByName("GetUser")),
 			connect.WithClientOptions(opts...),
 		),
-		listTenants: connect.NewClient[v1.ListTenantsRequest, v1.ListTenantsResponse](
+		listUsers: connect.NewClient[v1.ListUsersRequest, v1.ListUsersResponse](
 			httpClient,
-			baseURL+TenantServiceListTenantsProcedure,
-			connect.WithSchema(tenantServiceMethods.ByName("ListTenants")),
+			baseURL+UserServiceListUsersProcedure,
+			connect.WithSchema(userServiceMethods.ByName("ListUsers")),
 			connect.WithClientOptions(opts...),
 		),
-		updateTenant: connect.NewClient[v1.UpdateTenantRequest, v1.UpdateTenantResponse](
+		updateUser: connect.NewClient[v1.UpdateUserRequest, v1.UpdateUserResponse](
 			httpClient,
-			baseURL+TenantServiceUpdateTenantProcedure,
-			connect.WithSchema(tenantServiceMethods.ByName("UpdateTenant")),
+			baseURL+UserServiceUpdateUserProcedure,
+			connect.WithSchema(userServiceMethods.ByName("UpdateUser")),
 			connect.WithClientOptions(opts...),
 		),
-		deleteTenant: connect.NewClient[v1.DeleteTenantRequest, v1.DeleteTenantResponse](
+		deleteUser: connect.NewClient[v1.DeleteUserRequest, v1.DeleteUserResponse](
 			httpClient,
-			baseURL+TenantServiceDeleteTenantProcedure,
-			connect.WithSchema(tenantServiceMethods.ByName("DeleteTenant")),
+			baseURL+UserServiceDeleteUserProcedure,
+			connect.WithSchema(userServiceMethods.ByName("DeleteUser")),
 			connect.WithClientOptions(opts...),
 		),
-		listTenantMembers: connect.NewClient[v1.ListTenantMembersRequest, v1.ListTenantMembersResponse](
+		listUserTokens: connect.NewClient[v1.ListUserTokensRequest, v1.ListUserTokensResponse](
 			httpClient,
-			baseURL+TenantServiceListTenantMembersProcedure,
-			connect.WithSchema(tenantServiceMethods.ByName("ListTenantMembers")),
+			baseURL+UserServiceListUserTokensProcedure,
+			connect.WithSchema(userServiceMethods.ByName("ListUserTokens")),
 			connect.WithClientOptions(opts...),
 		),
-		addTenantMember: connect.NewClient[v1.AddTenantMemberRequest, v1.AddTenantMemberResponse](
+		createUserToken: connect.NewClient[v1.CreateUserTokenRequest, v1.CreateUserTokenResponse](
 			httpClient,
-			baseURL+TenantServiceAddTenantMemberProcedure,
-			connect.WithSchema(tenantServiceMethods.ByName("AddTenantMember")),
+			baseURL+UserServiceCreateUserTokenProcedure,
+			connect.WithSchema(userServiceMethods.ByName("CreateUserToken")),
+			connect.WithClientOptions(opts...),
+		),
+		deleteUserToken: connect.NewClient[v1.DeleteUserTokenRequest, v1.DeleteUserTokenResponse](
+			httpClient,
+			baseURL+UserServiceDeleteUserTokenProcedure,
+			connect.WithSchema(userServiceMethods.ByName("DeleteUserToken")),
 			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
-// tenantServiceClient implements TenantServiceClient.
-type tenantServiceClient struct {
-	createTenant      *connect.Client[v1.CreateTenantRequest, v1.CreateTenantResponse]
-	getTenant         *connect.Client[v1.GetTenantRequest, v1.GetTenantResponse]
-	listTenants       *connect.Client[v1.ListTenantsRequest, v1.ListTenantsResponse]
-	updateTenant      *connect.Client[v1.UpdateTenantRequest, v1.UpdateTenantResponse]
-	deleteTenant      *connect.Client[v1.DeleteTenantRequest, v1.DeleteTenantResponse]
-	listTenantMembers *connect.Client[v1.ListTenantMembersRequest, v1.ListTenantMembersResponse]
-	addTenantMember   *connect.Client[v1.AddTenantMemberRequest, v1.AddTenantMemberResponse]
+// userServiceClient implements UserServiceClient.
+type userServiceClient struct {
+	createUser      *connect.Client[v1.CreateUserRequest, v1.CreateUserResponse]
+	getUser         *connect.Client[v1.GetUserRequest, v1.GetUserResponse]
+	listUsers       *connect.Client[v1.ListUsersRequest, v1.ListUsersResponse]
+	updateUser      *connect.Client[v1.UpdateUserRequest, v1.UpdateUserResponse]
+	deleteUser      *connect.Client[v1.DeleteUserRequest, v1.DeleteUserResponse]
+	listUserTokens  *connect.Client[v1.ListUserTokensRequest, v1.ListUserTokensResponse]
+	createUserToken *connect.Client[v1.CreateUserTokenRequest, v1.CreateUserTokenResponse]
+	deleteUserToken *connect.Client[v1.DeleteUserTokenRequest, v1.DeleteUserTokenResponse]
 }
 
-// CreateTenant calls easylab.v1.TenantService.CreateTenant.
-func (c *tenantServiceClient) CreateTenant(ctx context.Context, req *connect.Request[v1.CreateTenantRequest]) (*connect.Response[v1.CreateTenantResponse], error) {
-	return c.createTenant.CallUnary(ctx, req)
+// CreateUser calls easylab.v1.UserService.CreateUser.
+func (c *userServiceClient) CreateUser(ctx context.Context, req *connect.Request[v1.CreateUserRequest]) (*connect.Response[v1.CreateUserResponse], error) {
+	return c.createUser.CallUnary(ctx, req)
 }
 
-// GetTenant calls easylab.v1.TenantService.GetTenant.
-func (c *tenantServiceClient) GetTenant(ctx context.Context, req *connect.Request[v1.GetTenantRequest]) (*connect.Response[v1.GetTenantResponse], error) {
-	return c.getTenant.CallUnary(ctx, req)
+// GetUser calls easylab.v1.UserService.GetUser.
+func (c *userServiceClient) GetUser(ctx context.Context, req *connect.Request[v1.GetUserRequest]) (*connect.Response[v1.GetUserResponse], error) {
+	return c.getUser.CallUnary(ctx, req)
 }
 
-// ListTenants calls easylab.v1.TenantService.ListTenants.
-func (c *tenantServiceClient) ListTenants(ctx context.Context, req *connect.Request[v1.ListTenantsRequest]) (*connect.Response[v1.ListTenantsResponse], error) {
-	return c.listTenants.CallUnary(ctx, req)
+// ListUsers calls easylab.v1.UserService.ListUsers.
+func (c *userServiceClient) ListUsers(ctx context.Context, req *connect.Request[v1.ListUsersRequest]) (*connect.Response[v1.ListUsersResponse], error) {
+	return c.listUsers.CallUnary(ctx, req)
 }
 
-// UpdateTenant calls easylab.v1.TenantService.UpdateTenant.
-func (c *tenantServiceClient) UpdateTenant(ctx context.Context, req *connect.Request[v1.UpdateTenantRequest]) (*connect.Response[v1.UpdateTenantResponse], error) {
-	return c.updateTenant.CallUnary(ctx, req)
+// UpdateUser calls easylab.v1.UserService.UpdateUser.
+func (c *userServiceClient) UpdateUser(ctx context.Context, req *connect.Request[v1.UpdateUserRequest]) (*connect.Response[v1.UpdateUserResponse], error) {
+	return c.updateUser.CallUnary(ctx, req)
 }
 
-// DeleteTenant calls easylab.v1.TenantService.DeleteTenant.
-func (c *tenantServiceClient) DeleteTenant(ctx context.Context, req *connect.Request[v1.DeleteTenantRequest]) (*connect.Response[v1.DeleteTenantResponse], error) {
-	return c.deleteTenant.CallUnary(ctx, req)
+// DeleteUser calls easylab.v1.UserService.DeleteUser.
+func (c *userServiceClient) DeleteUser(ctx context.Context, req *connect.Request[v1.DeleteUserRequest]) (*connect.Response[v1.DeleteUserResponse], error) {
+	return c.deleteUser.CallUnary(ctx, req)
 }
 
-// ListTenantMembers calls easylab.v1.TenantService.ListTenantMembers.
-func (c *tenantServiceClient) ListTenantMembers(ctx context.Context, req *connect.Request[v1.ListTenantMembersRequest]) (*connect.Response[v1.ListTenantMembersResponse], error) {
-	return c.listTenantMembers.CallUnary(ctx, req)
+// ListUserTokens calls easylab.v1.UserService.ListUserTokens.
+func (c *userServiceClient) ListUserTokens(ctx context.Context, req *connect.Request[v1.ListUserTokensRequest]) (*connect.Response[v1.ListUserTokensResponse], error) {
+	return c.listUserTokens.CallUnary(ctx, req)
 }
 
-// AddTenantMember calls easylab.v1.TenantService.AddTenantMember.
-func (c *tenantServiceClient) AddTenantMember(ctx context.Context, req *connect.Request[v1.AddTenantMemberRequest]) (*connect.Response[v1.AddTenantMemberResponse], error) {
-	return c.addTenantMember.CallUnary(ctx, req)
+// CreateUserToken calls easylab.v1.UserService.CreateUserToken.
+func (c *userServiceClient) CreateUserToken(ctx context.Context, req *connect.Request[v1.CreateUserTokenRequest]) (*connect.Response[v1.CreateUserTokenResponse], error) {
+	return c.createUserToken.CallUnary(ctx, req)
 }
 
-// TenantServiceHandler is an implementation of the easylab.v1.TenantService service.
-type TenantServiceHandler interface {
-	CreateTenant(context.Context, *connect.Request[v1.CreateTenantRequest]) (*connect.Response[v1.CreateTenantResponse], error)
-	GetTenant(context.Context, *connect.Request[v1.GetTenantRequest]) (*connect.Response[v1.GetTenantResponse], error)
-	ListTenants(context.Context, *connect.Request[v1.ListTenantsRequest]) (*connect.Response[v1.ListTenantsResponse], error)
-	UpdateTenant(context.Context, *connect.Request[v1.UpdateTenantRequest]) (*connect.Response[v1.UpdateTenantResponse], error)
-	DeleteTenant(context.Context, *connect.Request[v1.DeleteTenantRequest]) (*connect.Response[v1.DeleteTenantResponse], error)
-	ListTenantMembers(context.Context, *connect.Request[v1.ListTenantMembersRequest]) (*connect.Response[v1.ListTenantMembersResponse], error)
-	AddTenantMember(context.Context, *connect.Request[v1.AddTenantMemberRequest]) (*connect.Response[v1.AddTenantMemberResponse], error)
+// DeleteUserToken calls easylab.v1.UserService.DeleteUserToken.
+func (c *userServiceClient) DeleteUserToken(ctx context.Context, req *connect.Request[v1.DeleteUserTokenRequest]) (*connect.Response[v1.DeleteUserTokenResponse], error) {
+	return c.deleteUserToken.CallUnary(ctx, req)
 }
 
-// NewTenantServiceHandler builds an HTTP handler from the service implementation. It returns the
-// path on which to mount the handler and the handler itself.
+// UserServiceHandler is an implementation of the easylab.v1.UserService service.
+type UserServiceHandler interface {
+	CreateUser(context.Context, *connect.Request[v1.CreateUserRequest]) (*connect.Response[v1.CreateUserResponse], error)
+	GetUser(context.Context, *connect.Request[v1.GetUserRequest]) (*connect.Response[v1.GetUserResponse], error)
+	ListUsers(context.Context, *connect.Request[v1.ListUsersRequest]) (*connect.Response[v1.ListUsersResponse], error)
+	UpdateUser(context.Context, *connect.Request[v1.UpdateUserRequest]) (*connect.Response[v1.UpdateUserResponse], error)
+	DeleteUser(context.Context, *connect.Request[v1.DeleteUserRequest]) (*connect.Response[v1.DeleteUserResponse], error)
+	ListUserTokens(context.Context, *connect.Request[v1.ListUserTokensRequest]) (*connect.Response[v1.ListUserTokensResponse], error)
+	CreateUserToken(context.Context, *connect.Request[v1.CreateUserTokenRequest]) (*connect.Response[v1.CreateUserTokenResponse], error)
+	DeleteUserToken(context.Context, *connect.Request[v1.DeleteUserTokenRequest]) (*connect.Response[v1.DeleteUserTokenResponse], error)
+}
+
+// NewUserServiceHandler builds an HTTP handler from the service implementation. It returns the path
+// on which to mount the handler and the handler itself.
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewTenantServiceHandler(svc TenantServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
-	tenantServiceMethods := v1.File_easylab_v1_easylab_proto.Services().ByName("TenantService").Methods()
-	tenantServiceCreateTenantHandler := connect.NewUnaryHandler(
-		TenantServiceCreateTenantProcedure,
-		svc.CreateTenant,
-		connect.WithSchema(tenantServiceMethods.ByName("CreateTenant")),
+func NewUserServiceHandler(svc UserServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	userServiceMethods := v1.File_easylab_v1_easylab_proto.Services().ByName("UserService").Methods()
+	userServiceCreateUserHandler := connect.NewUnaryHandler(
+		UserServiceCreateUserProcedure,
+		svc.CreateUser,
+		connect.WithSchema(userServiceMethods.ByName("CreateUser")),
 		connect.WithHandlerOptions(opts...),
 	)
-	tenantServiceGetTenantHandler := connect.NewUnaryHandler(
-		TenantServiceGetTenantProcedure,
-		svc.GetTenant,
-		connect.WithSchema(tenantServiceMethods.ByName("GetTenant")),
+	userServiceGetUserHandler := connect.NewUnaryHandler(
+		UserServiceGetUserProcedure,
+		svc.GetUser,
+		connect.WithSchema(userServiceMethods.ByName("GetUser")),
 		connect.WithHandlerOptions(opts...),
 	)
-	tenantServiceListTenantsHandler := connect.NewUnaryHandler(
-		TenantServiceListTenantsProcedure,
-		svc.ListTenants,
-		connect.WithSchema(tenantServiceMethods.ByName("ListTenants")),
+	userServiceListUsersHandler := connect.NewUnaryHandler(
+		UserServiceListUsersProcedure,
+		svc.ListUsers,
+		connect.WithSchema(userServiceMethods.ByName("ListUsers")),
 		connect.WithHandlerOptions(opts...),
 	)
-	tenantServiceUpdateTenantHandler := connect.NewUnaryHandler(
-		TenantServiceUpdateTenantProcedure,
-		svc.UpdateTenant,
-		connect.WithSchema(tenantServiceMethods.ByName("UpdateTenant")),
+	userServiceUpdateUserHandler := connect.NewUnaryHandler(
+		UserServiceUpdateUserProcedure,
+		svc.UpdateUser,
+		connect.WithSchema(userServiceMethods.ByName("UpdateUser")),
 		connect.WithHandlerOptions(opts...),
 	)
-	tenantServiceDeleteTenantHandler := connect.NewUnaryHandler(
-		TenantServiceDeleteTenantProcedure,
-		svc.DeleteTenant,
-		connect.WithSchema(tenantServiceMethods.ByName("DeleteTenant")),
+	userServiceDeleteUserHandler := connect.NewUnaryHandler(
+		UserServiceDeleteUserProcedure,
+		svc.DeleteUser,
+		connect.WithSchema(userServiceMethods.ByName("DeleteUser")),
 		connect.WithHandlerOptions(opts...),
 	)
-	tenantServiceListTenantMembersHandler := connect.NewUnaryHandler(
-		TenantServiceListTenantMembersProcedure,
-		svc.ListTenantMembers,
-		connect.WithSchema(tenantServiceMethods.ByName("ListTenantMembers")),
+	userServiceListUserTokensHandler := connect.NewUnaryHandler(
+		UserServiceListUserTokensProcedure,
+		svc.ListUserTokens,
+		connect.WithSchema(userServiceMethods.ByName("ListUserTokens")),
 		connect.WithHandlerOptions(opts...),
 	)
-	tenantServiceAddTenantMemberHandler := connect.NewUnaryHandler(
-		TenantServiceAddTenantMemberProcedure,
-		svc.AddTenantMember,
-		connect.WithSchema(tenantServiceMethods.ByName("AddTenantMember")),
+	userServiceCreateUserTokenHandler := connect.NewUnaryHandler(
+		UserServiceCreateUserTokenProcedure,
+		svc.CreateUserToken,
+		connect.WithSchema(userServiceMethods.ByName("CreateUserToken")),
 		connect.WithHandlerOptions(opts...),
 	)
-	return "/easylab.v1.TenantService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	userServiceDeleteUserTokenHandler := connect.NewUnaryHandler(
+		UserServiceDeleteUserTokenProcedure,
+		svc.DeleteUserToken,
+		connect.WithSchema(userServiceMethods.ByName("DeleteUserToken")),
+		connect.WithHandlerOptions(opts...),
+	)
+	return "/easylab.v1.UserService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case TenantServiceCreateTenantProcedure:
-			tenantServiceCreateTenantHandler.ServeHTTP(w, r)
-		case TenantServiceGetTenantProcedure:
-			tenantServiceGetTenantHandler.ServeHTTP(w, r)
-		case TenantServiceListTenantsProcedure:
-			tenantServiceListTenantsHandler.ServeHTTP(w, r)
-		case TenantServiceUpdateTenantProcedure:
-			tenantServiceUpdateTenantHandler.ServeHTTP(w, r)
-		case TenantServiceDeleteTenantProcedure:
-			tenantServiceDeleteTenantHandler.ServeHTTP(w, r)
-		case TenantServiceListTenantMembersProcedure:
-			tenantServiceListTenantMembersHandler.ServeHTTP(w, r)
-		case TenantServiceAddTenantMemberProcedure:
-			tenantServiceAddTenantMemberHandler.ServeHTTP(w, r)
+		case UserServiceCreateUserProcedure:
+			userServiceCreateUserHandler.ServeHTTP(w, r)
+		case UserServiceGetUserProcedure:
+			userServiceGetUserHandler.ServeHTTP(w, r)
+		case UserServiceListUsersProcedure:
+			userServiceListUsersHandler.ServeHTTP(w, r)
+		case UserServiceUpdateUserProcedure:
+			userServiceUpdateUserHandler.ServeHTTP(w, r)
+		case UserServiceDeleteUserProcedure:
+			userServiceDeleteUserHandler.ServeHTTP(w, r)
+		case UserServiceListUserTokensProcedure:
+			userServiceListUserTokensHandler.ServeHTTP(w, r)
+		case UserServiceCreateUserTokenProcedure:
+			userServiceCreateUserTokenHandler.ServeHTTP(w, r)
+		case UserServiceDeleteUserTokenProcedure:
+			userServiceDeleteUserTokenHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
 	})
 }
 
-// UnimplementedTenantServiceHandler returns CodeUnimplemented from all methods.
-type UnimplementedTenantServiceHandler struct{}
+// UnimplementedUserServiceHandler returns CodeUnimplemented from all methods.
+type UnimplementedUserServiceHandler struct{}
 
-func (UnimplementedTenantServiceHandler) CreateTenant(context.Context, *connect.Request[v1.CreateTenantRequest]) (*connect.Response[v1.CreateTenantResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.TenantService.CreateTenant is not implemented"))
+func (UnimplementedUserServiceHandler) CreateUser(context.Context, *connect.Request[v1.CreateUserRequest]) (*connect.Response[v1.CreateUserResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.UserService.CreateUser is not implemented"))
 }
 
-func (UnimplementedTenantServiceHandler) GetTenant(context.Context, *connect.Request[v1.GetTenantRequest]) (*connect.Response[v1.GetTenantResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.TenantService.GetTenant is not implemented"))
+func (UnimplementedUserServiceHandler) GetUser(context.Context, *connect.Request[v1.GetUserRequest]) (*connect.Response[v1.GetUserResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.UserService.GetUser is not implemented"))
 }
 
-func (UnimplementedTenantServiceHandler) ListTenants(context.Context, *connect.Request[v1.ListTenantsRequest]) (*connect.Response[v1.ListTenantsResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.TenantService.ListTenants is not implemented"))
+func (UnimplementedUserServiceHandler) ListUsers(context.Context, *connect.Request[v1.ListUsersRequest]) (*connect.Response[v1.ListUsersResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.UserService.ListUsers is not implemented"))
 }
 
-func (UnimplementedTenantServiceHandler) UpdateTenant(context.Context, *connect.Request[v1.UpdateTenantRequest]) (*connect.Response[v1.UpdateTenantResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.TenantService.UpdateTenant is not implemented"))
+func (UnimplementedUserServiceHandler) UpdateUser(context.Context, *connect.Request[v1.UpdateUserRequest]) (*connect.Response[v1.UpdateUserResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.UserService.UpdateUser is not implemented"))
 }
 
-func (UnimplementedTenantServiceHandler) DeleteTenant(context.Context, *connect.Request[v1.DeleteTenantRequest]) (*connect.Response[v1.DeleteTenantResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.TenantService.DeleteTenant is not implemented"))
+func (UnimplementedUserServiceHandler) DeleteUser(context.Context, *connect.Request[v1.DeleteUserRequest]) (*connect.Response[v1.DeleteUserResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.UserService.DeleteUser is not implemented"))
 }
 
-func (UnimplementedTenantServiceHandler) ListTenantMembers(context.Context, *connect.Request[v1.ListTenantMembersRequest]) (*connect.Response[v1.ListTenantMembersResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.TenantService.ListTenantMembers is not implemented"))
+func (UnimplementedUserServiceHandler) ListUserTokens(context.Context, *connect.Request[v1.ListUserTokensRequest]) (*connect.Response[v1.ListUserTokensResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.UserService.ListUserTokens is not implemented"))
 }
 
-func (UnimplementedTenantServiceHandler) AddTenantMember(context.Context, *connect.Request[v1.AddTenantMemberRequest]) (*connect.Response[v1.AddTenantMemberResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.TenantService.AddTenantMember is not implemented"))
+func (UnimplementedUserServiceHandler) CreateUserToken(context.Context, *connect.Request[v1.CreateUserTokenRequest]) (*connect.Response[v1.CreateUserTokenResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.UserService.CreateUserToken is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) DeleteUserToken(context.Context, *connect.Request[v1.DeleteUserTokenRequest]) (*connect.Response[v1.DeleteUserTokenResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("easylab.v1.UserService.DeleteUserToken is not implemented"))
 }
